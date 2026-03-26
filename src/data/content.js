@@ -45,8 +45,8 @@ export const projects = [
     description:
       'Research and stakeholder-facing materials on district structure, equity, and feasibility — built to inform decisions under political and fiscal constraints.',
     tag: 'Policy & education',
-    ctaLabel: 'Read Paper',
-    href: '/rhode-island-school-consolidation-paper.pdf',
+    paperUrl: '/rhode-island-school-consolidation-paper.pdf',
+    calculatorUrl: 'https://calc.baglini.co',
   },
   {
     id: 'elc-outreach',
@@ -54,8 +54,6 @@ export const projects = [
     description:
       'Tools and messaging to expand reach for an education leadership convening — prioritizing clarity, tone, and follow-through for busy leaders.',
     tag: 'Outreach & strategy',
-    ctaLabel: 'Details',
-    href: '#',
   },
   {
     id: 'ai-web',
@@ -63,8 +61,6 @@ export const projects = [
     description:
       'Purpose-built web and AI-assisted workflows that reduce friction — from prototypes to lightweight production tools that teams can actually use.',
     tag: 'Technology',
-    ctaLabel: 'Details',
-    href: '#',
   },
   {
     id: 'strategy',
@@ -72,8 +68,6 @@ export const projects = [
     description:
       'Structured analysis and recommendations for organizations navigating growth, risk, and public accountability — emphasis on narrative, metrics, and execution.',
     tag: 'Consulting',
-    ctaLabel: 'Details',
-    href: '#',
   },
 ]
 

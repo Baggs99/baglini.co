@@ -1,6 +1,35 @@
 import { projects } from '../data/content.js'
 import { Reveal } from './Reveal.jsx'
 
+const ACTION_BUTTONS = [
+  { key: 'paperUrl',      label: 'Paper' },
+  { key: 'calculatorUrl', label: 'Calculator' },
+  { key: 'githubUrl',     label: 'GitHub' },
+  { key: 'liveUrl',       label: 'Live site' },
+]
+
+function ProjectActions({ project }) {
+  const buttons = ACTION_BUTTONS.filter(({ key }) => project[key])
+  if (buttons.length === 0) return null
+
+  return (
+    <div className="mt-8 flex flex-wrap gap-3">
+      {buttons.map(({ key, label }) => (
+        <a
+          key={key}
+          href={project[key]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.10] bg-white/[0.05] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-zinc-300 transition duration-150 hover:-translate-y-px hover:border-white/[0.18] hover:bg-white/[0.09] hover:text-zinc-100"
+        >
+          {label}
+          <span aria-hidden="true" className="text-zinc-500">↗</span>
+        </a>
+      ))}
+    </div>
+  )
+}
+
 export function FeaturedProjects() {
   return (
     <section
@@ -35,15 +64,7 @@ export function FeaturedProjects() {
                 <p className="mt-3 flex-1 text-[15px] leading-relaxed text-zinc-400">
                   {project.description}
                 </p>
-                <a
-                  href={project.href}
-                  target={project.href.startsWith('http') || project.href.endsWith('.pdf') ? '_blank' : undefined}
-                  rel={project.href.startsWith('http') || project.href.endsWith('.pdf') ? 'noreferrer noopener' : undefined}
-                  className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-zinc-200 transition group-hover:gap-3"
-                >
-                  {project.ctaLabel}
-                  <span aria-hidden="true">→</span>
-                </a>
+                <ProjectActions project={project} />
               </article>
             </Reveal>
           ))}
