@@ -3,7 +3,7 @@ import { Reveal } from './Reveal.jsx'
 
 const ACTION_BUTTONS = [
   { key: 'paperUrl',      label: 'Paper' },
-  { key: 'calculatorUrl', label: 'Calculator' },
+  { key: 'calculatorUrl', label: 'Interactive Map' },
   { key: 'githubUrl',     label: 'GitHub' },
   { key: 'liveUrl',       label: 'Live site' },
 ]
@@ -20,7 +20,7 @@ function ProjectActions({ project }) {
           href={project[key]}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.10] bg-white/[0.05] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-zinc-300 transition duration-150 hover:-translate-y-px hover:border-white/[0.18] hover:bg-white/[0.09] hover:text-zinc-100"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.10] bg-white/[0.05] px-4 py-2 text-xs font-semibold tracking-wide text-zinc-300 transition duration-150 hover:-translate-y-px hover:border-white/[0.18] hover:bg-white/[0.09] hover:text-zinc-100"
         >
           {label}
           <span aria-hidden="true" className="text-zinc-500">↗</span>
