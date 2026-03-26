@@ -156,7 +156,7 @@ export const contactLinks = [
   {
     id: 'github',
     label: 'GitHub',
-    href: 'https://github.com/your-username',
+    href: 'https://github.com/Baggs99',
     hint: 'Code & projects',
   },
 ]
