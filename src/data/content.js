@@ -45,8 +45,8 @@ export const projects = [
     description:
       'Research and stakeholder-facing materials on district structure, equity, and feasibility — built to inform decisions under political and fiscal constraints.',
     tag: 'Policy & education',
-    ctaLabel: 'Details',
-    href: '#',
+    ctaLabel: 'Read Paper',
+    href: '/rhode-island-school-consolidation-paper.pdf',
   },
   {
     id: 'elc-outreach',

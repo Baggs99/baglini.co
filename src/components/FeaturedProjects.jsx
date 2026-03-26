@@ -37,6 +37,8 @@ export function FeaturedProjects() {
                 </p>
                 <a
                   href={project.href}
+                  target={project.href.startsWith('http') || project.href.endsWith('.pdf') ? '_blank' : undefined}
+                  rel={project.href.startsWith('http') || project.href.endsWith('.pdf') ? 'noreferrer noopener' : undefined}
                   className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-zinc-200 transition group-hover:gap-3"
                 >
                   {project.ctaLabel}
