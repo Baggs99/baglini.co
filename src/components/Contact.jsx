@@ -27,8 +27,8 @@ export function Contact() {
             <Reveal key={link.id} delay={i * 0.05}>
               <a
                 href={link.href}
-                target={link.href.startsWith('http') ? '_blank' : undefined}
-                rel={link.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                target={link.href.startsWith('http') || link.href.endsWith('.pdf') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') || link.href.endsWith('.pdf') ? 'noreferrer noopener' : undefined}
                 className="group flex flex-col rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-transparent p-6 shadow-[0_20px_60px_-40px_rgba(0,0,0,0.8)] transition hover:border-white/[0.14] hover:shadow-[0_24px_70px_-36px_rgba(0,0,0,0.85)]"
               >
                 <span className="text-sm font-semibold text-zinc-200">{link.label}</span>

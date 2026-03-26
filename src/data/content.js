@@ -138,7 +138,7 @@ export const contactLinks = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://linkedin.com/in/your-profile',
+    href: 'https://www.linkedin.com/in/daniel-baglini/',
     hint: 'Professional profile',
   },
   {
@@ -150,8 +150,8 @@ export const contactLinks = [
   {
     id: 'resume',
     label: 'Resume',
-    href: '#',
-    hint: 'PDF — add your file to /public and link here',
+    href: '/Baglini Resume Yale Format.pdf',
+    hint: 'PDF download',
   },
   {
     id: 'github',
