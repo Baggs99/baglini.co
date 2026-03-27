@@ -51,8 +51,7 @@ export function FeaturedProjects() {
             Featured projects
           </h2>
           <p className="mt-4 max-w-2xl text-zinc-500">
-            Selected work spanning policy, education, technology, and advisory — each
-            built for clarity under constraint.
+            Selected work spanning policy, education, technology, and advisory.
           </p>
         </Reveal>
 
@@ -69,6 +68,9 @@ export function FeaturedProjects() {
                 <p className="mt-3 flex-1 text-[15px] leading-relaxed text-zinc-400">
                   {project.description}
                 </p>
+                {project.cardNote && (
+                  <p className="mt-4 text-xs font-medium text-zinc-600 tracking-wide">{project.cardNote}</p>
+                )}
                 <ProjectActions project={project} />
               </article>
             </Reveal>

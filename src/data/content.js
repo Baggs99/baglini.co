@@ -43,7 +43,8 @@ export const projects = [
     id: 'ri-schools',
     title: 'Rhode Island School Consolidation Project',
     description:
-      'Research and stakeholder-facing materials on district structure, equity, and feasibility, built to inform decisions under political and fiscal constraints.',
+      'Examines whether Rhode Island should consolidate its school districts, using real enrollment, budget, and geographic data to model cost savings, transportation tradeoffs, and structural feasibility across scenarios.',
+    cardNote: 'Policy paper + interactive map tool',
     tag: 'Policy & education',
     paperUrl: '/rhode-island-school-consolidation-paper.pdf',
     calculatorUrl: 'https://calc.baglini.co',
@@ -52,7 +53,7 @@ export const projects = [
     id: 'elc-outreach',
     title: 'Education Leadership Conference Outreach',
     description:
-      'Live outreach tool for generating personalized conference emails at scale, helping expand attendance while keeping messaging tailored and credible.',
+      'Built an AI-assisted system for generating personalized outreach emails at scale. Designed to drive conference attendance without sacrificing tone, relevance, or credibility.',
     tag: 'Outreach & strategy',
     liveUrl: 'https://elc.baglini.co',
     liveUrlNote: 'May take a few seconds to wake up on first load.',
@@ -62,14 +63,14 @@ export const projects = [
     id: 'ai-web',
     title: 'AI & Web Applications',
     description:
-      'Purpose-built web and AI-assisted workflows that reduce friction, from prototypes to lightweight production tools that teams can actually use.',
+      'Builds and deploys AI-powered web applications focused on practical usability. Projects include data tools, workflow automation, and lightweight production systems that solve real operational problems.',
     tag: 'Technology',
   },
   {
     id: 'strategy',
     title: 'Strategy & Advisory Work',
     description:
-      'Structured analysis and recommendations for organizations navigating growth, risk, and public accountability, with emphasis on narrative, metrics, and execution.',
+      'Structured analysis and recommendations across policy and operational challenges. Translates complex constraints, competing stakeholders, and unclear tradeoffs into decisions teams can actually execute.',
     tag: 'Consulting',
   },
 ]
