@@ -14,6 +14,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Offset anchor targets so the sticky navbar never covers a section heading */
+section[id] {
+  scroll-margin-top: 72px;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);

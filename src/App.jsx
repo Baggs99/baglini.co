@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { About } from './components/About.jsx'
 import { Contact } from './components/Contact.jsx'
 import { Experience } from './components/Experience.jsx'
@@ -12,6 +13,17 @@ import { Writing } from './components/Writing.jsx'
  * To add a section: create a component, import it here, and add a matching nav entry + id.
  */
 function App() {
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+    const el = document.getElementById(hash.slice(1))
+    if (!el) return
+    // rAF lets the layout paint first so scroll-margin-top is applied correctly
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [])
+
   return (
     <>
       <a href="#main" className="sr-only skip-link">
