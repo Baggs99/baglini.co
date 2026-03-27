@@ -41,7 +41,7 @@ export const about = {
 export const projects = [
   {
     id: 'ri-schools',
-    title: 'Rhode Island School Consolidation Project',
+    title: 'Rhode Island School District Consolidation',
     description:
       'Examines whether Rhode Island should consolidate its school districts, using real enrollment, budget, and geographic data to model cost savings, transportation tradeoffs, and structural feasibility across scenarios.',
     cardNote: 'Policy paper + interactive map tool',
