@@ -17,40 +17,47 @@ export function Experience() {
             Experience
           </h2>
           <p className="mt-4 max-w-xl text-zinc-500">
-            A concise arc: service, study, and strategy — with discipline carried
-            across each chapter.
+            Service, study, and strategy. Discipline carried across each chapter.
           </p>
         </Reveal>
 
         <div className="relative mt-16 md:mt-20">
           {/* Vertical line — desktop */}
           <div
-            className="absolute left-[11px] top-2 hidden h-[calc(100%-1rem)] w-px bg-gradient-to-b from-white/25 via-white/10 to-transparent md:block"
+            className="absolute left-[11px] top-2 hidden h-[calc(100%-1rem)] w-px bg-gradient-to-b from-white/30 via-white/15 to-transparent md:block"
             aria-hidden="true"
           />
 
-          <ol className="space-y-12 md:space-y-14">
+          <ol className="space-y-10 md:space-y-12">
             {experience.map((item, i) => (
               <Reveal key={item.id} delay={i * 0.08}>
-                <li className="relative md:pl-12">
+                <li className="group relative md:pl-12">
+                  {/* Timeline dot */}
                   <span
-                    className="absolute left-0 top-1.5 hidden h-2.5 w-2.5 rounded-full border border-white/30 bg-zinc-900 shadow-[0_0_0_4px_oklch(0.12_0.015_260)] md:block"
+                    className="absolute left-0 top-2 hidden h-[11px] w-[11px] rounded-full border border-white/40 bg-zinc-800 shadow-[0_0_0_3px_oklch(0.125_0.012_260),0_0_8px_rgba(255,255,255,0.06)] transition duration-200 group-hover:border-white/60 group-hover:shadow-[0_0_0_3px_oklch(0.125_0.012_260),0_0_12px_rgba(255,255,255,0.12)] md:block"
                     aria-hidden="true"
                   />
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                    <div>
-                      <h3 className="font-display text-lg font-medium text-zinc-100 md:text-xl">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-zinc-500">{item.subtitle}</p>
+
+                  {/* Card */}
+                  <div className="rounded-2xl border border-transparent p-5 transition duration-150 group-hover:-translate-y-px group-hover:border-white/[0.07] group-hover:bg-white/[0.02] md:p-6">
+                    <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
+                      <div>
+                        <h3 className="font-display text-lg font-medium text-zinc-100 md:text-xl">
+                          {item.title}
+                        </h3>
+                        <p className="mt-0.5 text-sm text-zinc-500">{item.subtitle}</p>
+                      </div>
+                      <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-zinc-600">
+                        {item.period}
+                      </span>
                     </div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      {item.period}
-                    </span>
+                    {item.detail && (
+                      <p className="mt-2 text-xs font-medium tracking-wide text-zinc-600">{item.detail}</p>
+                    )}
+                    <p className="mt-3 max-w-2xl text-[15px] leading-[1.75] text-zinc-400">
+                      {item.summary}
+                    </p>
                   </div>
-                  <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-zinc-400">
-                    {item.summary}
-                  </p>
                 </li>
               </Reveal>
             ))}

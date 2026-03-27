@@ -67,25 +67,27 @@ export const experience = [
     id: 'yale',
     period: 'Present',
     title: 'Yale School of Management',
-    subtitle: 'MBA candidate',
+    subtitle: 'MBA Candidate',
+    detail: 'Strategy, policy, and organizational leadership',
     summary:
-      'Rigorous training in leadership, markets, and complex decision-making, applied to organizations that operate in the public eye.',
+      'MBA candidate focused on strategy and decision-making under uncertainty, with an emphasis on public-sector and institutional challenges.',
   },
   {
     id: 'consulting',
     period: 'Ongoing',
-    title: 'Consulting & strategy direction',
+    title: 'Consulting & Strategy',
     subtitle: 'Advisory and project-based work',
+    detail: 'Policy analysis, stakeholder alignment, product strategy',
     summary:
-      'Framing problems, aligning stakeholders, and translating insight into plans that teams can run, from memos to milestones.',
+      'Advisory and project-based work focused on structuring ambiguous problems, aligning stakeholders, and translating analysis into executable plans.',
   },
   {
     id: 'army',
     period: 'Prior',
     title: 'U.S. Army: Leadership & Intelligence',
-    subtitle: 'Commissioned service',
+    subtitle: 'Platoon Leader · Intelligence Officer · 173rd Airborne Brigade',
     summary:
-      'Led teams in high-stakes environments; developed judgment under uncertainty, disciplined communication, and accountability for outcomes.',
+      'Led intelligence teams in international operations, delivering decision-critical analysis and coordinating across U.S. and allied partners in high-stakes environments.',
   },
 ]
 
