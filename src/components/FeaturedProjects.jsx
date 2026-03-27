@@ -14,6 +14,9 @@ function ProjectActions({ project }) {
 
   return (
     <div className="mt-8">
+      {project.liveUrlNote && (
+        <p className="mb-2.5 text-xs text-zinc-600 italic">{project.liveUrlNote}</p>
+      )}
       <div className="flex flex-wrap gap-3">
         {buttons.map(({ key, label }) => (
           <a
@@ -28,9 +31,6 @@ function ProjectActions({ project }) {
           </a>
         ))}
       </div>
-      {project.liveUrlNote && (
-        <p className="mt-2.5 text-xs text-zinc-600 italic">{project.liveUrlNote}</p>
-      )}
     </div>
   )
 }
