@@ -59,20 +59,6 @@ export const projects = [
     liveUrlNote: 'May take a few seconds to wake up on first load.',
     githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
   },
-  {
-    id: 'ai-web',
-    title: 'AI & Web Applications',
-    description:
-      'Builds and deploys AI-powered web applications focused on practical usability. Projects include data tools, workflow automation, and lightweight production systems that solve real operational problems.',
-    tag: 'Technology',
-  },
-  {
-    id: 'strategy',
-    title: 'Strategy & Advisory Work',
-    description:
-      'Structured analysis and recommendations across policy and operational challenges. Translates complex constraints, competing stakeholders, and unclear tradeoffs into decisions teams can actually execute.',
-    tag: 'Consulting',
-  },
 ]
 
 /** Experience — order is top-to-bottom (newest first if you prefer; reorder as needed) */
