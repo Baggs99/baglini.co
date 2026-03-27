@@ -1,4 +1,3 @@
-import { articles } from '../data/content.js'
 import { Reveal } from './Reveal.jsx'
 
 export function Writing() {
@@ -18,26 +17,14 @@ export function Writing() {
           </p>
         </Reveal>
 
-        <ul className="mt-14 grid gap-5 md:grid-cols-3">
-          {articles.map((article, i) => (
-            <Reveal key={article.id} delay={i * 0.07}>
-              <li>
-                <a
-                  href={article.href}
-                  className="block h-full rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 transition hover:border-white/[0.14] hover:bg-white/[0.04]"
-                >
-                  <h3 className="font-display text-lg font-medium leading-snug text-zinc-100">
-                    {article.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-500">{article.description}</p>
-                  <span className="mt-5 inline-block text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                    Read
-                  </span>
-                </a>
-              </li>
-            </Reveal>
-          ))}
-        </ul>
+        <Reveal delay={0.1}>
+          <div className="mt-14 rounded-2xl border border-white/[0.07] border-dashed bg-white/[0.01] px-8 py-12 text-center">
+            <p className="text-sm font-medium uppercase tracking-widest text-zinc-600">Coming soon</p>
+            <p className="mt-3 text-zinc-500 text-sm max-w-sm mx-auto">
+              Essays and ideas are in progress. Check back soon.
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

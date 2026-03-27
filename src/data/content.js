@@ -6,7 +6,7 @@
 export const siteMeta = {
   name: 'Dan Baglini',
   /** Shown in browser tab + SEO */
-  title: 'Dan Baglini — Strategy, Policy & Technology',
+  title: 'Dan Baglini: Strategy, Policy & Technology',
   description:
     'U.S. Army veteran and Yale SOM student focused on strategy, technology, education, housing, and public leadership.',
 }
@@ -23,7 +23,7 @@ export const navLinks = [
 export const hero = {
   headline: 'Dan Baglini',
   subheadline:
-    'Veteran. Builder. Yale SOM. I work at the intersection of strategy, technology, and policy — turning complex problems into clear direction.',
+    'Veteran. Builder. Yale SOM. I work at the intersection of strategy, technology, and policy, turning complex problems into clear direction.',
   /** Primary / secondary CTAs — href can be #section or external URL */
   primaryCta: { label: 'View Projects', href: '#projects' },
   secondaryCta: { label: 'Contact Me', href: '#contact' },
@@ -33,7 +33,7 @@ export const about = {
   title: 'About',
   paragraphs: [
     'I am a U.S. Army veteran and student at the Yale School of Management, driven by a belief that good institutions need both rigor and imagination. My work sits where strategy meets execution: clarifying tradeoffs, aligning stakeholders, and shipping outcomes that hold up in the real world.',
-    'I care deeply about technology, education, housing, and public leadership — not as abstractions, but as levers that shape who gets opportunity and how systems perform under pressure.',
+    'I care deeply about technology, education, housing, and public leadership: not as abstractions, but as levers that shape who gets opportunity and how systems perform under pressure.',
   ],
 }
 
@@ -43,7 +43,7 @@ export const projects = [
     id: 'ri-schools',
     title: 'Rhode Island School Consolidation Project',
     description:
-      'Research and stakeholder-facing materials on district structure, equity, and feasibility — built to inform decisions under political and fiscal constraints.',
+      'Research and stakeholder-facing materials on district structure, equity, and feasibility, built to inform decisions under political and fiscal constraints.',
     tag: 'Policy & education',
     paperUrl: '/rhode-island-school-consolidation-paper.pdf',
     calculatorUrl: 'https://calc.baglini.co',
@@ -62,14 +62,14 @@ export const projects = [
     id: 'ai-web',
     title: 'AI & Web Applications',
     description:
-      'Purpose-built web and AI-assisted workflows that reduce friction — from prototypes to lightweight production tools that teams can actually use.',
+      'Purpose-built web and AI-assisted workflows that reduce friction, from prototypes to lightweight production tools that teams can actually use.',
     tag: 'Technology',
   },
   {
     id: 'strategy',
     title: 'Strategy & Advisory Work',
     description:
-      'Structured analysis and recommendations for organizations navigating growth, risk, and public accountability — emphasis on narrative, metrics, and execution.',
+      'Structured analysis and recommendations for organizations navigating growth, risk, and public accountability, with emphasis on narrative, metrics, and execution.',
     tag: 'Consulting',
   },
 ]
@@ -82,7 +82,7 @@ export const experience = [
     title: 'Yale School of Management',
     subtitle: 'MBA candidate',
     summary:
-      'Rigorous training in leadership, markets, and complex decision-making — applied to organizations that operate in the public eye.',
+      'Rigorous training in leadership, markets, and complex decision-making, applied to organizations that operate in the public eye.',
   },
   {
     id: 'consulting',
@@ -90,12 +90,12 @@ export const experience = [
     title: 'Consulting & strategy direction',
     subtitle: 'Advisory and project-based work',
     summary:
-      'Framing problems, aligning stakeholders, and translating insight into plans that teams can run — from memos to milestones.',
+      'Framing problems, aligning stakeholders, and translating insight into plans that teams can run, from memos to milestones.',
   },
   {
     id: 'army',
     period: 'Prior',
-    title: 'U.S. Army — leadership & intelligence',
+    title: 'U.S. Army: Leadership & Intelligence',
     subtitle: 'Commissioned service',
     summary:
       'Led teams in high-stakes environments; developed judgment under uncertainty, disciplined communication, and accountability for outcomes.',
@@ -113,7 +113,7 @@ export const articles = [
   },
   {
     id: 'a2',
-    title: 'Technology as Leverage — Not Decoration',
+    title: 'Technology as Leverage, Not Decoration',
     description:
       'A short memo on where digital tools actually change outcomes — and where they only add noise.',
     href: '#',
