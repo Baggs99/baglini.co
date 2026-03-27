@@ -5,7 +5,7 @@ const ACTION_BUTTONS = [
   { key: 'paperUrl',      label: 'Paper' },
   { key: 'calculatorUrl', label: 'Interactive Map' },
   { key: 'githubUrl',     label: 'GitHub' },
-  { key: 'liveUrl',       label: 'Live site' },
+  { key: 'liveUrl',       label: 'Live App' },
 ]
 
 function ProjectActions({ project }) {

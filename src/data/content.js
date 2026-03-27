@@ -52,8 +52,10 @@ export const projects = [
     id: 'elc-outreach',
     title: 'Education Leadership Conference Outreach',
     description:
-      'Tools and messaging to expand reach for an education leadership convening — prioritizing clarity, tone, and follow-through for busy leaders.',
+      'Live outreach tool for generating personalized conference emails at scale, helping expand attendance while keeping messaging tailored and credible.',
     tag: 'Outreach & strategy',
+    liveUrl: 'https://elc.baglini.co',
+    githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
   },
   {
     id: 'ai-web',
