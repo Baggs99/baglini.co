@@ -17,8 +17,7 @@ export function Contact() {
             Contact
           </h2>
           <p className="mt-4 max-w-xl text-zinc-500">
-            If the work resonates, reach out — whether for collaboration, perspective,
-            or a conversation worth having.
+            If the work resonates, reach out: collaboration, perspective, or a conversation worth having.
           </p>
         </Reveal>
 
