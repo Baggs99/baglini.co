@@ -55,6 +55,7 @@ export const projects = [
       'Live outreach tool for generating personalized conference emails at scale, helping expand attendance while keeping messaging tailored and credible.',
     tag: 'Outreach & strategy',
     liveUrl: 'https://elc.baglini.co',
+    liveUrlNote: 'May take a few seconds to wake up on first load.',
     githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
   },
   {
