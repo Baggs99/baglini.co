@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { About } from './components/About.jsx'
 import { Contact } from './components/Contact.jsx'
 import { Experience } from './components/Experience.jsx'
@@ -7,18 +8,14 @@ import { Footer } from './components/Footer.jsx'
 import { Hero } from './components/Hero.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { Writing } from './components/Writing.jsx'
+import { Workbench } from './pages/Workbench.jsx'
 
-/**
- * Single-page layout — section order matches `navLinks` in src/data/content.js.
- * To add a section: create a component, import it here, and add a matching nav entry + id.
- */
-function App() {
+function Home() {
   useEffect(() => {
     const hash = window.location.hash
     if (!hash) return
     const el = document.getElementById(hash.slice(1))
     if (!el) return
-    // rAF lets the layout paint first so scroll-margin-top is applied correctly
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
@@ -40,6 +37,15 @@ function App() {
       </main>
       <Footer />
     </>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/workbench" element={<Workbench />} />
+    </Routes>
   )
 }
 
