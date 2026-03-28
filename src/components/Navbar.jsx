@@ -55,12 +55,6 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="/workbench"
-            className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-400"
-          >
-            Workbench
-          </a>
         </nav>
 
         {/* Mobile menu button */}
@@ -113,13 +107,6 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="/workbench"
-              className="rounded-xl px-3 py-3 text-base font-medium text-zinc-600 transition hover:bg-white/[0.05] hover:text-zinc-400"
-              onClick={() => setOpen(false)}
-            >
-              Workbench
-            </a>
           </nav>
         </div>
       )}

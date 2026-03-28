@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
 import { About } from './components/About.jsx'
 import { Contact } from './components/Contact.jsx'
 import { Experience } from './components/Experience.jsx'
@@ -8,9 +7,8 @@ import { Footer } from './components/Footer.jsx'
 import { Hero } from './components/Hero.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { Writing } from './components/Writing.jsx'
-import { Workbench } from './pages/Workbench.jsx'
 
-function Home() {
+function App() {
   useEffect(() => {
     const hash = window.location.hash
     if (!hash) return
@@ -37,15 +35,6 @@ function Home() {
       </main>
       <Footer />
     </>
-  )
-}
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/workbench" element={<Workbench />} />
-    </Routes>
   )
 }
 
