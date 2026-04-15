@@ -1,17 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-  <!-- Dark rounded background -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background -->
   <rect width="32" height="32" rx="7" fill="#0c0e13"/>
-  <!-- Subtle inner glow ring -->
-  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" stroke="white" stroke-opacity="0.08"/>
-  <!-- Fancy serif B — drawn as text with a high-quality serif stack, large and centered -->
-  <text
-    x="16"
-    y="23"
-    text-anchor="middle"
-    fill="#f4f4f5"
-    font-family="'Didot', 'Bodoni MT', 'Playfair Display', 'Times New Roman', serif"
-    font-size="22"
-    font-weight="700"
-    letter-spacing="-0.5"
-  >B</text>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" stroke="white" stroke-opacity="0.09" stroke-width="1"/>
+  <!--
+    Serif B letterform drawn as paths.
+    Even-odd fill rule cuts out the two bowl interiors.
+    Proportions tuned for 32 × 32 — upper bowl slightly smaller, lower bowl larger.
+  -->
+  <path
+    fill="#f0f0f2"
+    fill-rule="evenodd"
+    d="
+      M 8 5
+      L 8 27
+      L 17.5 27
+      C 23 27 26 24.3 26 20.8
+      C 26 18.2 24.4 16.5 21.8 15.8
+      C 23.9 15 25 13.3 25 11
+      C 25 7.5 22.5 5 17 5
+      Z
+
+      M 11 7.8
+      L 16.5 7.8
+      C 19.4 7.8 21.5 9.1 21.5 11.3
+      C 21.5 13.4 19.4 14.8 16.5 14.8
+      L 11 14.8
+      Z
+
+      M 11 17.2
+      L 17.5 17.2
+      C 20.8 17.2 22.8 18.7 22.8 21
+      C 22.8 23.3 20.8 24.8 17.5 24.8
+      L 11 24.8
+      Z
+    "
+  />
 </svg>
