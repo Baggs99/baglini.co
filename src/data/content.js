@@ -150,3 +150,10 @@ export const contactLinks = [
 export const footer = {
   line: 'Built with intention. Open to meaningful work.',
 }
+
+export const tip = {
+  heading: 'Leave a Tip',
+  body: 'If you found this helpful, feel free to support the project.',
+  ctaLabel: 'Leave a tip',
+  href: 'https://donate.stripe.com/aFa9AV0AB9gyeLGcCG24000',
+}

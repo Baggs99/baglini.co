@@ -6,6 +6,7 @@ import { FeaturedProjects } from './components/FeaturedProjects.jsx'
 import { Footer } from './components/Footer.jsx'
 import { Hero } from './components/Hero.jsx'
 import { Navbar } from './components/Navbar.jsx'
+import { TipCta } from './components/TipCta.jsx'
 import { Writing } from './components/Writing.jsx'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Writing />
         <Contact />
       </main>
+      <TipCta />
       <Footer />
     </>
   )
