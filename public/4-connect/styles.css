@@ -1,0 +1,664 @@
+/* ============================================================
+   4 Connect - styles
+   ------------------------------------------------------------
+   Sections:
+     1. Reset & base
+     2. Layout (screens)
+     3. Logo
+     4. Big "3D" buttons (the orange/blue/green/red chunky ones)
+     5. Header / icon buttons
+     6. Main menu
+     7. Player cards
+     8. Board
+     9. Settings & How to Play screens
+    10. Overlays (win / draw) + confetti
+   ============================================================ */
+
+/* ---------- 1. Reset & base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%, #1a2a52 0%, transparent 60%),
+    radial-gradient(circle at 80% 90%, #1a3055 0%, transparent 60%),
+    linear-gradient(180deg, #0a1228 0%, #0f1a36 100%);
+  color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+/* ---------- 2. Layout ---------- */
+.app {
+  position: relative;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  /* Use safe-area insets for iPhone notch / home indicator. */
+  padding:
+    calc(16px + env(safe-area-inset-top))
+    16px
+    calc(16px + env(safe-area-inset-bottom));
+}
+
+/* All screens are stacked in the same place; only one is .visible.
+   We use display:none rather than opacity so they don't intercept
+   taps when hidden. */
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-height: 100vh;
+  animation: screenIn 0.25s ease-out;
+}
+.screen.visible {
+  display: flex;
+}
+
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 3. Header title ---------- */
+.header-title {
+  margin: 0;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.35),
+    0 6px 14px rgba(59, 130, 246, 0.4);
+  white-space: nowrap;
+}
+
+/* Color the "4" red to keep a touch of game-y branding in the header. */
+.header-title .title-4 {
+  background: linear-gradient(180deg, #fca5a5 0%, #ef4444 60%, #b91c1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 #7f1d1d);
+}
+
+/* ---------- 4. Big "3D" buttons ----------
+   The classic mobile-game button look: a flat colored top with a
+   darker shadow underneath. Pressing translates the button down
+   so the shadow "compresses" - feels great to tap.
+*/
+.big-btn {
+  --btn-color: #f97316;
+  --btn-shadow: #c2410c;
+  appearance: none;
+  border: none;
+  background: var(--btn-color);
+  color: #ffffff;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  padding: 16px 24px;
+  width: 100%;
+  max-width: 280px;
+  border-radius: 16px;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 6px 0 var(--btn-shadow);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 56px;
+}
+
+.big-btn:hover  { filter: brightness(1.05); }
+.big-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--btn-shadow);
+}
+
+.big-btn-icon { width: 22px; height: 22px; }
+
+.big-btn--orange  { --btn-color: #f97316; --btn-shadow: #9a3412; }
+.big-btn--blue    { --btn-color: #2563eb; --btn-shadow: #1e3a8a; }
+.big-btn--green   { --btn-color: #16a34a; --btn-shadow: #14532d; }
+.big-btn--red     { --btn-color: #ef4444; --btn-shadow: #7f1d1d; }
+.big-btn--reset   { --btn-color: #ffffff; --btn-shadow: #94a3b8; color: #0f172a; }
+.big-btn--outline {
+  background: transparent;
+  color: #f8fafc;
+  border: 2px solid #f8fafc;
+  box-shadow: 0 6px 0 rgba(255, 255, 255, 0.2);
+}
+.big-btn--outline:active {
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- 5. Header / icon buttons ----------
+   3-column grid: [icon] [title] [icon] - keeps the title perfectly
+   centered regardless of which side icons are present.
+*/
+.game-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.game-header .header-title {
+  text-align: center;
+  justify-self: center;
+}
+
+/* Settings/HowToPlay screens still use a centered absolute title because
+   they only have ONE side icon (back button). */
+.screen-title {
+  margin: 0;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  text-align: center;
+  justify-self: center;
+}
+
+.header-btn {
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.header-btn:hover  { background: rgba(255, 255, 255, 0.16); }
+.header-btn:active { transform: scale(0.94); }
+
+.header-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Mute button: swap on/off icon based on the .muted class. */
+.mute-btn .icon--off { display: none; }
+.mute-btn.muted .icon--on  { display: none; }
+.mute-btn.muted .icon--off { display: block; color: #fca5a5; }
+
+/* ---------- 6. Mode toggle (segmented control) ---------- */
+.mode-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.mode-option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: rgba(248, 250, 252, 0.7);
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.05s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 36px;
+}
+.mode-option:hover:not(.active) { color: #f8fafc; }
+.mode-option:active             { transform: scale(0.97); }
+
+.mode-option.active {
+  background: #f8fafc;
+  color: #0f172a;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- 7. Player cards ---------- */
+.players-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.player-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 14px;
+  padding: 10px 14px 8px;
+  position: relative;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.player-card.active {
+  /* Active player gets a subtle lift + colored ring. */
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(249, 115, 22, 0.7);
+}
+
+.player-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.player-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 -3px 4px rgba(0, 0, 0, 0.25);
+}
+.player-dot--red    { background: radial-gradient(circle at 35% 30%, #fca5a5, #ef4444 60%, #b91c1c); }
+.player-dot--yellow { background: radial-gradient(circle at 35% 30%, #fde68a, #facc15 60%, #ca8a04); }
+
+/* "Turn" badge - only visible when the card is active. */
+.player-turn-badge {
+  display: none;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f97316;
+  color: #ffffff;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  box-shadow: 0 2px 0 #9a3412;
+  animation: turnBadgeIn 0.25s ease-out;
+}
+.player-card.active .player-turn-badge { display: block; }
+
+@keyframes turnBadgeIn {
+  from { transform: translate(-50%, -4px); opacity: 0; }
+  to   { transform: translate(-50%, 0);    opacity: 1; }
+}
+
+/* ---------- 8. Board ---------- */
+.board {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 10px;
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  border-radius: 18px;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.45),
+    inset 0 2px 0 rgba(255, 255, 255, 0.15);
+  aspect-ratio: 7 / 6;
+  margin-top: 16px;
+}
+
+.column {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+  Hover hint on the empty cells of the column you're pointing at.
+  IMPORTANT: we use :not(.red):not(.yellow) instead of :empty.
+  CSS :empty matches elements with no children, but our piece cells
+  also have no children (color is a class, not a child element), so
+  :empty would silently overwrite the piece gradient on hover.
+*/
+.column:hover .cell:not(.red):not(.yellow) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cell {
+  background: #0a1228;
+  border-radius: 50%;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.65);
+}
+
+.cell.red {
+  background: radial-gradient(circle at 35% 30%, #fca5a5, #ef4444 60%, #b91c1c);
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+}
+
+.cell.yellow {
+  background: radial-gradient(circle at 35% 30%, #fde68a, #facc15 60%, #ca8a04);
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Drop animation - the new piece falls from above with gravity ease.
+   IMPORTANT: keep the duration in sync with DROP_ANIM_MS in game.js. */
+.cell.dropping {
+  animation: drop 0.28s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+@keyframes drop {
+  0%   { transform: translateY(calc((var(--drop-row, 0) + 2) * -100%)); }
+  85%  { transform: translateY(0); }
+  92%  { transform: translateY(-6%); }
+  100% { transform: translateY(0); }
+}
+
+/* Winning cells: stronger glow + scale pop. */
+.cell.win {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+  box-shadow:
+    0 0 18px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+  animation: winPop 0.55s ease-out, winGlow 1.2s ease-in-out 0.55s infinite;
+}
+
+@keyframes winPop {
+  0%   { transform: scale(0.85); }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes winGlow {
+  0%, 100% { box-shadow: 0 0 14px 2px rgba(255, 255, 255, 0.5), inset 0 -3px 6px rgba(0, 0, 0, 0.35); }
+  50%      { box-shadow: 0 0 22px 6px rgba(255, 255, 255, 0.9), inset 0 -3px 6px rgba(0, 0, 0, 0.35); }
+}
+
+/* ---------- 9. Settings & How to Play ---------- */
+.settings-list,
+.how-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: inherit;
+  padding: 18px 20px;
+  border-radius: 14px;
+  font-size: 1rem;
+}
+
+.settings-row--link {
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.settings-row--link:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Stacked variant: label on top, sub-content below.
+   Used by the Difficulty section. */
+.settings-row--column {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.settings-label {
+  font-weight: 600;
+}
+
+/* ---------- Difficulty picker (radio-group list) ---------- */
+.diff-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.diff-option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: rgba(248, 250, 252, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.05s ease;
+}
+.diff-option:hover:not(.active) { background: rgba(255, 255, 255, 0.06); color: #f8fafc; }
+.diff-option:active             { transform: scale(0.98); }
+
+.diff-option.active {
+  background: rgba(249, 115, 22, 0.18);
+  color: #fdba74;
+  font-weight: 700;
+}
+
+.diff-check {
+  opacity: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: opacity 0.15s ease;
+}
+.diff-option.active .diff-check { opacity: 1; }
+
+.settings-chevron {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1;
+}
+
+/* iOS-style toggle switch. */
+.toggle {
+  appearance: none;
+  border: none;
+  width: 52px;
+  height: 30px;
+  background: #475569;
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.toggle.on {
+  background: #22c55e;
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: left 0.2s ease;
+}
+.toggle.on .toggle-thumb { left: 25px; }
+
+/* How to Play list. */
+.how-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 16px 18px;
+  border-radius: 14px;
+}
+.how-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f97316;
+  color: #ffffff;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 #9a3412;
+}
+.how-text {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  padding-top: 4px;
+}
+
+/* ---------- 10. Overlays (win / draw) + confetti ---------- */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(10, 18, 40, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  animation: overlayIn 0.3s ease-out;
+}
+.overlay.visible {
+  display: flex;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.overlay-title {
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 2.4rem;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 1px;
+  line-height: 1;
+  animation: titlePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.overlay-title--win {
+  background: linear-gradient(180deg, #fca5a5 0%, #ef4444 50%, #b91c1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 6px 0 rgba(127, 29, 29, 0.5),
+    0 12px 24px rgba(239, 68, 68, 0.45);
+  filter: drop-shadow(0 2px 0 #7f1d1d);
+}
+
+.overlay-title--draw {
+  color: #ffffff;
+  text-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.4),
+    0 12px 24px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes titlePop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.overlay-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 280px;
+  align-items: center;
+}
+
+/* --- Confetti --- */
+.confetti,
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Each particle is a small square spawned by JS at a random
+   horizontal position with random color/rotation/delay. */
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 14px;
+  opacity: 0;
+  animation:
+    confettiFall var(--fall-duration, 2.5s) linear var(--fall-delay, 0s) forwards,
+    confettiSpin var(--spin-duration, 1s) linear var(--fall-delay, 0s) infinite;
+}
+
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) translateX(0);                     opacity: 1; }
+  100% { transform: translateY(100vh) translateX(var(--drift, 0px));     opacity: 1; }
+}
+@keyframes confettiSpin {
+  0%   { background-color: var(--color); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stars (for the draw overlay) - similar but slower & sparkly. */
+.star-piece {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #fde68a;
+  /* CSS-only star shape using clip-path. */
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
+  );
+  opacity: 0;
+  animation: starTwinkle var(--twinkle-duration, 1.6s) ease-in-out var(--twinkle-delay, 0s) infinite;
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50%      { opacity: 1; transform: scale(1.1); }
+}

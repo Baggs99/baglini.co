@@ -59,6 +59,15 @@ export const projects = [
     liveUrlNote: 'May take a few seconds to wake up on first load.',
     githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
   },
+  {
+    id: '4-connect',
+    title: '4 Connect',
+    description:
+      'A polished, mobile-first take on Connect Four with two-player and four-tier AI modes (Easy, Medium, Hard, and an alpha-beta minimax "Impossible"). Built from scratch in vanilla HTML, CSS, and JavaScript — no frameworks, no build step.',
+    cardNote: 'Vanilla HTML/CSS/JS · Web Audio sound · Minimax AI',
+    tag: 'Game · Web',
+    liveUrl: '/4-connect/',
+  },
 ]
 
 /** Experience — order is top-to-bottom (newest first if you prefer; reorder as needed) */

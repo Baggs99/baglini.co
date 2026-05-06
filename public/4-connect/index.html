@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!--
+    Mobile-first viewport:
+    - width=device-width  -> use the device's real width
+    - initial-scale=1     -> no zoom on load
+    - viewport-fit=cover  -> lets us style around iPhone notches later
+    - user-scalable=no    -> stops accidental pinch-zoom while tapping the board
+  -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+  />
+  <meta name="theme-color" content="#0a1228" />
+  <title>4 Connect</title>
+
+  <!-- Display font for the chunky "game" look (logo + buttons + headers). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!--
+    Single-page app with multiple "screens." Only one screen is
+    visible at a time (controlled by the .visible class in JS).
+    Overlays (win / draw) sit ON TOP of whatever screen is showing.
+  -->
+  <main class="app">
+
+    <!-- ========================================================
+         GAME SCREEN  (this is also the entry screen)
+         ======================================================== -->
+    <section id="gameScreen" class="screen visible">
+      <header class="game-header">
+        <button id="muteBtn" class="header-btn mute-btn" type="button" aria-label="Toggle sound" aria-pressed="false">
+          <svg class="icon icon--on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/>
+            <path d="M16 8c1.5 1 2.5 2.5 2.5 4S17.5 15 16 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M19 5c2.5 1.7 4 4.2 4 7s-1.5 5.3-4 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon icon--off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/>
+            <path d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <h1 class="header-title"><span class="title-4">4</span> CONNECT</h1>
+        <button id="gameSettingsBtn" class="header-btn" type="button" aria-label="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65a.5.5 0 00.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1a7.03 7.03 0 00-1.69-.98l-.38-2.65A.5.5 0 0014 2h-4a.5.5 0 00-.49.42l-.38 2.65c-.61.25-1.17.58-1.69.98l-2.49-1a.5.5 0 00-.61.22l-2 3.46a.5.5 0 00.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65a.5.5 0 00-.12.64l2 3.46c.14.24.43.34.68.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.04.24.25.42.49.42h4c.24 0 .45-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.25.12.54.02.68-.22l2-3.46a.5.5 0 00-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="currentColor"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Mode toggle (segmented control). Switching resets the game. -->
+      <div class="mode-toggle" role="tablist" aria-label="Game mode">
+        <button id="modeCpuBtn" class="mode-option active" type="button" role="tab" aria-selected="true">
+          1 Player
+        </button>
+        <button id="modePvpBtn" class="mode-option" type="button" role="tab" aria-selected="false">
+          2 Players
+        </button>
+      </div>
+
+      <!--
+        Player cards. Each card shows the player's name + colored dot.
+        The .active class (toggled by JS) shows the orange "Turn" badge
+        and adds a subtle glow so it's obvious whose move it is.
+      -->
+      <div class="players-bar">
+        <div id="redPlayerCard" class="player-card active">
+          <div class="player-card-body">
+            <span id="redPlayerName" class="player-name">Player 1</span>
+            <span class="player-dot player-dot--red"></span>
+          </div>
+          <div class="player-turn-badge">Turn</div>
+        </div>
+        <div id="yellowPlayerCard" class="player-card">
+          <div class="player-card-body">
+            <span id="yellowPlayerName" class="player-name">Player 2</span>
+            <span class="player-dot player-dot--yellow"></span>
+          </div>
+          <div class="player-turn-badge">Turn</div>
+        </div>
+      </div>
+
+      <!-- The board. JS fills it with 7 columns of 6 cells each. -->
+      <div id="board" class="board" role="grid" aria-label="Connect 4 board"></div>
+
+      <button id="resetBtn" class="big-btn big-btn--reset" type="button">
+        RESET GAME
+      </button>
+    </section>
+
+    <!-- ========================================================
+         SETTINGS SCREEN
+         ======================================================== -->
+    <section id="settingsScreen" class="screen">
+      <header class="game-header">
+        <button id="settingsBackBtn" class="header-btn" type="button" aria-label="Back">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"/>
+          </svg>
+        </button>
+        <h2 class="screen-title">SETTINGS</h2>
+      </header>
+
+      <div class="settings-list">
+        <!--
+          Difficulty section. Only meaningful in 1 Player mode but
+          we leave it always visible so it can be configured ahead.
+        -->
+        <div class="settings-row settings-row--column">
+          <span class="settings-label">Difficulty</span>
+          <div class="diff-options" role="radiogroup" aria-label="Difficulty">
+            <button class="diff-option" data-diff="easy" type="button" role="radio">
+              <span class="diff-name">Easy</span>
+              <span class="diff-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="diff-option" data-diff="medium" type="button" role="radio">
+              <span class="diff-name">Medium</span>
+              <span class="diff-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="diff-option" data-diff="hard" type="button" role="radio">
+              <span class="diff-name">Hard</span>
+              <span class="diff-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="diff-option" data-diff="impossible" type="button" role="radio">
+              <span class="diff-name">Impossible</span>
+              <span class="diff-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <span class="settings-label">Sound Effects</span>
+          <button id="soundToggle" class="toggle" type="button" role="switch" aria-checked="true">
+            <span class="toggle-thumb"></span>
+          </button>
+        </div>
+
+        <button id="howToPlayLink" class="settings-row settings-row--link" type="button">
+          <span class="settings-label">How to Play</span>
+          <span class="settings-chevron">›</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         HOW TO PLAY SCREEN
+         ======================================================== -->
+    <section id="howToPlayScreen" class="screen">
+      <header class="game-header">
+        <button id="howToPlayBackBtn" class="header-btn" type="button" aria-label="Back">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"/>
+          </svg>
+        </button>
+        <h2 class="screen-title">HOW TO PLAY</h2>
+      </header>
+
+      <ol class="how-list">
+        <li class="how-item">
+          <span class="how-num">1</span>
+          <span class="how-text">Players take turns dropping their pieces into any column.</span>
+        </li>
+        <li class="how-item">
+          <span class="how-num">2</span>
+          <span class="how-text">The piece falls to the lowest available space in that column.</span>
+        </li>
+        <li class="how-item">
+          <span class="how-num">3</span>
+          <span class="how-text">Connect 4 of your pieces horizontally, vertically, or diagonally to win.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ========================================================
+         WIN OVERLAY (sits on top of the game screen)
+         ======================================================== -->
+    <div id="winOverlay" class="overlay">
+      <div id="confetti" class="confetti" aria-hidden="true"></div>
+      <h2 id="winTitle" class="overlay-title overlay-title--win">PLAYER 1 WINS!</h2>
+      <div class="overlay-buttons">
+        <button id="winPlayAgainBtn" class="big-btn big-btn--red" type="button">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         DRAW OVERLAY
+         ======================================================== -->
+    <div id="drawOverlay" class="overlay">
+      <div id="drawStars" class="stars" aria-hidden="true"></div>
+      <h2 class="overlay-title overlay-title--draw">IT'S A DRAW!</h2>
+      <div class="overlay-buttons">
+        <button id="drawPlayAgainBtn" class="big-btn big-btn--blue" type="button">PLAY AGAIN</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
