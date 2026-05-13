@@ -147,12 +147,12 @@ const Sound = {
   setMuted(muted) {
     this.muted = muted;
     try { localStorage.setItem("connect4-muted", muted ? "1" : "0"); }
-    catch (_) { /* private mode - safe to ignore */ }
+    catch { /* private mode - safe to ignore */ }
   },
 
   loadMuted() {
     try { this.muted = localStorage.getItem("connect4-muted") === "1"; }
-    catch (_) { this.muted = false; }
+    catch { this.muted = false; }
   },
 };
 
@@ -834,7 +834,7 @@ function setMode(mode) {
   if (Game.mode !== mode) {
     Game.mode = mode;
     try { localStorage.setItem("connect4-mode", mode); }
-    catch (_) { /* ignore */ }
+    catch { /* ignore */ }
   }
   renderModeToggle();
   resetGame();
@@ -844,7 +844,7 @@ function loadMode() {
   try {
     const saved = localStorage.getItem("connect4-mode");
     if (saved === MODE_PVP || saved === MODE_CPU) Game.mode = saved;
-  } catch (_) { /* ignore */ }
+  } catch { /* ignore */ }
 }
 
 /* ---------- Difficulty ---------- */
@@ -855,7 +855,7 @@ function setDifficulty(diff) {
   if (Game.difficulty === diff) return;
   Game.difficulty = diff;
   try { localStorage.setItem("connect4-difficulty", diff); }
-  catch (_) { /* ignore */ }
+  catch { /* ignore */ }
   renderDifficultyOptions();
 }
 
@@ -865,7 +865,7 @@ function loadDifficulty() {
     if (saved && Object.values(DIFFICULTY).includes(saved)) {
       Game.difficulty = saved;
     }
-  } catch (_) { /* ignore */ }
+  } catch { /* ignore */ }
 }
 
 function renderDifficultyOptions() {

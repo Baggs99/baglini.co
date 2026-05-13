@@ -37,6 +37,37 @@ export const about = {
   ],
 }
 
+/** Live sites — premium placards in the Projects section (3-up on desktop) */
+export const livePortfolioProjects = [
+  {
+    id: 'auwm',
+    title: 'African Urban Worship Music',
+    description:
+      'Research, writing, and digital storytelling on African urban worship music.',
+    tag: 'Course · Multimedia',
+    url: 'https://auwm.baglini.co/',
+    ctaLabel: 'View Project',
+  },
+  {
+    id: 'yale-som-consulting',
+    title: 'Yale SOM Consulting Club',
+    description:
+      'Club site for recruiting resources, events, and student communications.',
+    tag: 'Club site · Web',
+    url: 'https://yalesomconsultingclub.com/',
+    ctaLabel: 'Visit Site',
+  },
+  {
+    id: 'case-repo',
+    title: 'Case Repo',
+    description:
+      'Case interview library for MBAs: find, preview, and practice real cases.',
+    tag: 'Product · Web',
+    url: 'https://cases.baglini.co/',
+    ctaLabel: 'Browse Cases',
+  },
+]
+
 /** Featured work — swap titles, tags, and href when you have live URLs */
 export const projects = [
   {
