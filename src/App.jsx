@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { siteMeta } from './data/content.js'
 import { About } from './components/About.jsx'
 import { Contact } from './components/Contact.jsx'
 import { Experience } from './components/Experience.jsx'
@@ -11,13 +12,32 @@ import { Writing } from './components/Writing.jsx'
 
 function App() {
   useEffect(() => {
-    const hash = window.location.hash
+    document.title = siteMeta.title
+    const meta = document.querySelector('meta[name="description"]')
+    if (meta) meta.setAttribute('content', siteMeta.description)
+  }, [])
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
     if (!hash) return
-    const el = document.getElementById(hash.slice(1))
-    if (!el) return
+
+    const scrollToHash = () => {
+      const el = document.getElementById(hash)
+      if (el) {
+        el.scrollIntoView({ behavior: 'auto', block: 'start' })
+      }
+    }
+
+    scrollToHash()
     requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      requestAnimationFrame(scrollToHash)
     })
+    const t1 = setTimeout(scrollToHash, 80)
+    const t2 = setTimeout(scrollToHash, 320)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
   }, [])
 
   return (

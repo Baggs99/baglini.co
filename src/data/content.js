@@ -1,17 +1,14 @@
 /**
  * Site copy & links — edit this file to update text across the homepage.
- * Arrays drive project cards, timeline, writing previews, and contact buttons.
  */
 
 export const siteMeta = {
   name: 'Dan Baglini',
-  /** Shown in browser tab + SEO */
-  title: 'Dan Baglini: Strategy, Policy & Technology',
+  title: 'Dan Baglini: Portfolio · Policy, AI & Education Products',
   description:
-    'U.S. Army veteran and Yale SOM student focused on strategy, technology, education, housing, and public leadership.',
+    'Yale SOM MBA, former Army intelligence officer. Interactive tools, research platforms, AI systems, and web products.',
 }
 
-/** Main navigation: label + hash id of section (must match section id in App) */
 export const navLinks = [
   { label: 'About', id: 'about' },
   { label: 'Projects', id: 'projects' },
@@ -21,87 +18,101 @@ export const navLinks = [
 ]
 
 export const hero = {
-  headline: 'Dan Baglini',
+  eyebrow: 'Yale SOM · McKinsey-bound · Veteran',
+  headline: 'Yale SOM MBA building policy, AI, and education products.',
   subheadline:
-    'Veteran. Builder. Yale SOM. I work at the intersection of strategy, technology, and policy, turning complex problems into clear direction.',
-  /** Primary / secondary CTAs — href can be #section or external URL */
-  primaryCta: { label: 'View Projects', href: '#projects' },
-  secondaryCta: { label: 'Contact Me', href: '#contact' },
+    'Former Army intelligence officer. Incoming McKinsey consultant. Builder of interactive tools, research platforms, and AI systems.',
+  primaryCta: { label: 'View projects', href: '#projects' },
+  secondaryCta: { label: 'Contact', href: '#contact' },
 }
 
 export const about = {
   title: 'About',
   paragraphs: [
-    'I am a U.S. Army veteran and student at the Yale School of Management, driven by a belief that good institutions need both rigor and imagination. My work sits where strategy meets execution: clarifying tradeoffs, aligning stakeholders, and shipping outcomes that hold up in the real world.',
-    'I care deeply about technology, education, housing, and public leadership: not as abstractions, but as levers that shape who gets opportunity and how systems perform under pressure.',
+    'I combine executive-level judgment with builder execution: translating messy problems into usable products that institutions and users can rely on.',
+    'Shipped work spans policy calculators, recruiting tools, multimedia research platforms, outreach systems, and public-facing websites. Rigorous evidence and clear stakeholder communication underpin every shipping decision.',
   ],
 }
 
-/** Live sites — premium placards in the Projects section (3-up on desktop) */
-export const livePortfolioProjects = [
+/** Large showcase cards (visual weight). */
+export const portfolioFeatured = [
+  {
+    id: 'case-repo',
+    title: 'Case Repo',
+    category: 'MBA Recruiting Tool',
+    description:
+      'A searchable case interview repository for MBA students, built to help consulting candidates find, preview, rate, and practice real cases.',
+    techTags: ['Search', 'Case Prep', 'Cloud Storage', 'MBA Recruiting'],
+    liveUrl: 'https://cases.baglini.co/',
+    ctaPrimary: 'Browse Cases',
+    visualVariant: 'indigo',
+  },
+  {
+    id: 'ri-calculator',
+    title: 'RI School Consolidation Calculator',
+    category: 'Policy + Data Tool',
+    description:
+      'An interactive map and calculator exploring how Rhode Island school district consolidation could affect costs, leadership structures, and local decision-making.',
+    techTags: ['Education Policy', 'Mapping', 'Public Finance', 'Data Visualization'],
+    liveUrl: 'https://calc.baglini.co',
+    ctaPrimary: 'Open Calculator',
+    paperUrl: '/rhode-island-school-consolidation-paper.pdf',
+    ctaSecondary: 'Read paper',
+    visualVariant: 'teal',
+  },
+]
+
+/** Smaller placards — live sites plus shipped tools already on this page. */
+export const portfolioOther = [
   {
     id: 'auwm',
     title: 'African Urban Worship Music',
+    category: 'Multimedia Research Project',
     description:
-      'Research, writing, and digital storytelling on African urban worship music.',
-    tag: 'Course · Multimedia',
-    url: 'https://auwm.baglini.co/',
-    ctaLabel: 'View Project',
+      'A digital storytelling project exploring African urban worship music through research, writing, media, and course-based analysis.',
+    techTags: ['Research', 'Media', 'Culture', 'Storytelling'],
+    liveUrl: 'https://auwm.baglini.co/',
+    ctaPrimary: 'View Project',
+    visualVariant: 'amber',
   },
   {
     id: 'yale-som-consulting',
     title: 'Yale SOM Consulting Club',
+    category: 'Student Organization Website',
     description:
-      'Club site for recruiting resources, events, and student communications.',
-    tag: 'Club site · Web',
-    url: 'https://yalesomconsultingclub.com/',
-    ctaLabel: 'Visit Site',
-  },
-  {
-    id: 'case-repo',
-    title: 'Case Repo',
-    description:
-      'Case interview library for MBAs: find, preview, and practice real cases.',
-    tag: 'Product · Web',
-    url: 'https://cases.baglini.co/',
-    ctaLabel: 'Browse Cases',
-  },
-]
-
-/** Featured work — swap titles, tags, and href when you have live URLs */
-export const projects = [
-  {
-    id: 'ri-schools',
-    title: 'Rhode Island School District Consolidation',
-    description:
-      'Examines whether Rhode Island should consolidate its school districts, using real enrollment, budget, and geographic data to model cost savings, transportation tradeoffs, and structural feasibility across scenarios.',
-    cardNote: 'Policy paper + interactive map tool',
-    tag: 'Policy & education',
-    paperUrl: '/rhode-island-school-consolidation-paper.pdf',
-    calculatorUrl: 'https://calc.baglini.co',
+      'A redesigned website for Yale SOM consulting recruiting resources, events, timelines, and student-facing communications.',
+    techTags: ['Consulting', 'Recruiting', 'Web Design', 'Yale SOM'],
+    liveUrl: 'https://yalesomconsultingclub.com/',
+    ctaPrimary: 'Visit Site',
+    visualVariant: 'slate',
   },
   {
     id: 'elc-outreach',
     title: 'Education Leadership Conference Outreach',
+    category: 'AI Outreach System',
     description:
-      'Built an AI-assisted system for generating personalized outreach emails at scale. Designed to drive conference attendance without sacrificing tone, relevance, or credibility.',
-    tag: 'Outreach & strategy',
+      'An AI-assisted system that generates credible, personalized outreach at scale to drive attendance without sacrificing tone or relevance.',
+    techTags: ['AI', 'Email', 'Outreach', 'Scaling'],
     liveUrl: 'https://elc.baglini.co',
-    liveUrlNote: 'May take a few seconds to wake up on first load.',
+    ctaPrimary: 'Open tool',
+    note: 'Cold start may take a few seconds on first load.',
     githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
+    ctaGithub: 'GitHub',
+    visualVariant: 'violet',
   },
   {
     id: '4-connect',
     title: '4 Connect',
+    category: 'Web Game',
     description:
-      'A polished, mobile, Connect Four. Two-player mode plus four AI difficulty levels including a near-unbeatable "Impossible." Built from scratch in vanilla HTML, CSS, and JavaScript. Hand-tuned animations, Web Audio sound effects, and a custom game-tree search for the AI.',
-    cardNote: 'Vanilla HTML/CSS/JS · Web Audio sound · Minimax AI',
-    tag: 'Game · Web',
+      'A polished Connect Four with two-player mode, multiple AI tiers, handcrafted motion, Web Audio, and minimax-backed play.',
+    techTags: ['Vanilla JS', 'Web Audio', 'Game AI', 'Mobile UX'],
     liveUrl: '/4-connect/',
+    ctaPrimary: 'Play',
+    visualVariant: 'rose',
   },
 ]
 
-/** Experience — order is top-to-bottom (newest first if you prefer; reorder as needed) */
 export const experience = [
   {
     id: 'yale',
@@ -131,7 +142,6 @@ export const experience = [
   },
 ]
 
-/** Writing / ideas — replace href with Medium, Substack, or PDF links later */
 export const articles = [
   {
     id: 'a1',
@@ -144,7 +154,7 @@ export const articles = [
     id: 'a2',
     title: 'Technology as Leverage, Not Decoration',
     description:
-      'A short memo on where digital tools actually change outcomes — and where they only add noise.',
+      'A short memo on where digital tools actually change outcomes, and where they only add noise.',
     href: '#',
   },
   {
@@ -156,10 +166,6 @@ export const articles = [
   },
 ]
 
-/**
- * Contact — replace # placeholders with real URLs and mailto:
- * Example email: href: 'mailto:you@example.com'
- */
 export const contactLinks = [
   {
     id: 'linkedin',

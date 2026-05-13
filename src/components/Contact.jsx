@@ -8,7 +8,7 @@ export function Contact() {
       className="border-b border-white/[0.06] bg-[oklch(0.125_0.012_260)]"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
+      <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
         <Reveal>
           <h2
             id="contact-heading"

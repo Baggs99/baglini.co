@@ -3,7 +3,11 @@ import { navLinks, siteMeta } from '../data/content.js'
 
 function scrollToId(id) {
   const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  if (!el) return
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  if (history.replaceState) {
+    history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${encodeURIComponent(id)}`)
+  }
 }
 
 export function Navbar() {

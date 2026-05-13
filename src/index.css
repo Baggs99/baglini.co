@@ -14,9 +14,15 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Offset anchor targets so the sticky navbar never covers a section heading */
+/* Offset anchor targets so sticky header never hides section headings */
 section[id] {
-  scroll-margin-top: 72px;
+  scroll-margin-top: 5rem;
+}
+
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 5.25rem;
+  }
 }
 
 body {

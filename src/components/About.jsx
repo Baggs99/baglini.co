@@ -8,7 +8,7 @@ export function About() {
       className="border-b border-white/[0.06] bg-[oklch(0.125_0.012_260)]"
       aria-labelledby="about-heading"
     >
-      <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
         <Reveal>
           <h2
             id="about-heading"
@@ -16,7 +16,7 @@ export function About() {
           >
             {about.title}
           </h2>
-          <div className="mt-10 max-w-3xl space-y-6 text-lg leading-relaxed text-zinc-400">
+          <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-zinc-400 md:mt-10 md:text-lg">
             {about.paragraphs.map((p, idx) => (
               <p key={idx}>{p}</p>
             ))}

@@ -5,7 +5,12 @@ function scrollTo(href) {
   if (href.startsWith('#')) {
     const id = href.slice(1)
     const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (history.replaceState) {
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${encodeURIComponent(id)}`)
+      }
+    }
   }
 }
 
@@ -16,9 +21,12 @@ export function Hero() {
       className="relative overflow-hidden border-b border-white/[0.06]"
       aria-labelledby="hero-heading"
     >
-      {/* Background: soft gradients + grid — no stock illustrations */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,oklch(0.35_0.08_250_/_0.35),transparent)]" />
+        <motion.div
+          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,oklch(0.35_0.08_250_/_0.35),transparent)]"
+          animate={{ opacity: [0.32, 0.42, 0.32] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_100%_50%,oklch(0.28_0.06_260_/_0.2),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_0%_80%,oklch(0.3_0.05_200_/_0.15),transparent)]" />
         <div
@@ -32,26 +40,26 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-20 md:px-8 md:pb-24 md:pt-24">
+      <div className="relative mx-auto max-w-6xl px-5 pb-14 pt-[4.75rem] md:px-8 md:pb-20 md:pt-[5.5rem]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-            Strategy · Policy · Technology
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+            {hero.eyebrow}
           </p>
           <h1
             id="hero-heading"
-            className="font-display text-5xl font-medium tracking-tight text-zinc-50 sm:text-6xl md:text-7xl"
+            className="max-w-4xl font-display text-4xl font-medium leading-[1.1] tracking-tight text-zinc-50 sm:text-5xl md:text-[2.85rem]"
           >
             {hero.headline}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400 md:text-xl">
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 md:text-lg">
             {hero.subheadline}
           </p>
 
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="mt-10 flex flex-col gap-3.5 sm:mt-12 sm:flex-row sm:items-center">
             <a
               href={hero.primaryCta.href}
               onClick={(e) => {
