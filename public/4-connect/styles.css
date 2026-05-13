@@ -160,6 +160,11 @@ body {
   margin-top: 4px;
 }
 
+/* `hidden` must win over `.big-btn { display: inline-flex }` (see updateUndoButton). */
+#undoBtn[hidden] {
+  display: none !important;
+}
+
 /* ---------- 5. Header / icon buttons ----------
    3-column grid: [icon] [title] [icon] - keeps the title perfectly
    centered regardless of which side icons are present.

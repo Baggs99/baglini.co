@@ -790,6 +790,9 @@ function canUndoCpuRound() {
 function updateUndoButton() {
   const show = Game.mode === MODE_CPU && undoMoveEnabled;
   undoBtn.hidden = !show;
+  // Inline display beats `.big-btn { display: inline-flex }`, which otherwise
+  // can keep the button visible while `hidden` is true in some browsers.
+  undoBtn.style.display = show ? "" : "none";
   if (!show) return;
 
   undoBtn.disabled = !canUndoCpuRound();
