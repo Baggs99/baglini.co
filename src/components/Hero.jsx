@@ -46,20 +46,20 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 sm:text-xs sm:tracking-[0.22em]">
             {hero.eyebrow}
           </p>
           <h1
             id="hero-heading"
-            className="max-w-4xl font-display text-4xl font-medium leading-[1.1] tracking-tight text-zinc-50 sm:text-5xl md:text-[2.85rem]"
+            className="max-w-[22rem] font-display text-[1.65rem] font-medium leading-snug tracking-tight text-zinc-50 sm:max-w-2xl sm:text-[1.85rem] md:max-w-[42rem] md:text-[2.15rem] md:leading-[1.2]"
           >
             {hero.headline}
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 md:text-lg">
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-zinc-400 sm:mt-6 md:max-w-[36rem] md:text-base md:leading-relaxed">
             {hero.subheadline}
           </p>
 
-          <div className="mt-10 flex flex-col gap-3.5 sm:mt-12 sm:flex-row sm:items-center">
+          <div className="mt-9 flex flex-col gap-3.5 sm:mt-10 sm:flex-row sm:items-center">
             <a
               href={hero.primaryCta.href}
               onClick={(e) => {
