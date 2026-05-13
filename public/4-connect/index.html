@@ -93,7 +93,7 @@
       <!-- The board. JS fills it with 7 columns of 6 cells each. -->
       <div id="board" class="board" role="grid" aria-label="Connect 4 board"></div>
 
-      <!-- Visible only in 1 Player mode: takes back your last move + computer reply. -->
+      <!-- In 1 Player mode: shown only when "Go back one move" is on in Settings. -->
       <button id="undoBtn" class="big-btn big-btn--outline undo-btn" type="button" hidden>
         GO BACK ONE MOVE
       </button>
@@ -146,6 +146,13 @@
         <div class="settings-row">
           <span class="settings-label">Sound Effects</span>
           <button id="soundToggle" class="toggle" type="button" role="switch" aria-checked="true">
+            <span class="toggle-thumb"></span>
+          </button>
+        </div>
+
+        <div class="settings-row">
+          <span class="settings-label">Go back one move</span>
+          <button id="undoMoveToggle" class="toggle" type="button" role="switch" aria-checked="false">
             <span class="toggle-thumb"></span>
           </button>
         </div>

@@ -66,6 +66,7 @@ const modePvpBtn        = document.getElementById("modePvpBtn");
 // Settings & How to Play
 const settingsBackBtn   = document.getElementById("settingsBackBtn");
 const soundToggle       = document.getElementById("soundToggle");
+const undoMoveToggle    = document.getElementById("undoMoveToggle");
 const howToPlayLink     = document.getElementById("howToPlayLink");
 const howToPlayBackBtn  = document.getElementById("howToPlayBackBtn");
 const diffOptionEls     = document.querySelectorAll(".diff-option");
@@ -93,6 +94,9 @@ const Game = {
   /** CPU mode only: each finished drop { row, col, player } for undo */
   moveHistory: [],
 };
+
+/** 1 Player: show "Go back one move" when enabled (default off). */
+let undoMoveEnabled = false;
 
 /* ============================================================
    Sound (Web Audio)
@@ -147,12 +151,12 @@ const Sound = {
   setMuted(muted) {
     this.muted = muted;
     try { localStorage.setItem("connect4-muted", muted ? "1" : "0"); }
-    catch { /* private mode - safe to ignore */ }
+    catch (_) { /* private mode - safe to ignore */ }
   },
 
   loadMuted() {
     try { this.muted = localStorage.getItem("connect4-muted") === "1"; }
-    catch { this.muted = false; }
+    catch (_) { this.muted = false; }
   },
 };
 
@@ -741,6 +745,7 @@ function popRecordedMove() {
  * Clears win/draw overlays so you can keep playing.
  */
 function undoCpuRound() {
+  if (!undoMoveEnabled) return;
   if (Game.mode !== MODE_CPU || Game.isAnimating) return;
   if (!canUndoCpuRound()) return;
 
@@ -783,7 +788,7 @@ function canUndoCpuRound() {
 }
 
 function updateUndoButton() {
-  const show = Game.mode === MODE_CPU;
+  const show = Game.mode === MODE_CPU && undoMoveEnabled;
   undoBtn.hidden = !show;
   if (!show) return;
 
@@ -834,7 +839,7 @@ function setMode(mode) {
   if (Game.mode !== mode) {
     Game.mode = mode;
     try { localStorage.setItem("connect4-mode", mode); }
-    catch { /* ignore */ }
+    catch (_) { /* ignore */ }
   }
   renderModeToggle();
   resetGame();
@@ -844,7 +849,7 @@ function loadMode() {
   try {
     const saved = localStorage.getItem("connect4-mode");
     if (saved === MODE_PVP || saved === MODE_CPU) Game.mode = saved;
-  } catch { /* ignore */ }
+  } catch (_) { /* ignore */ }
 }
 
 /* ---------- Difficulty ---------- */
@@ -855,7 +860,7 @@ function setDifficulty(diff) {
   if (Game.difficulty === diff) return;
   Game.difficulty = diff;
   try { localStorage.setItem("connect4-difficulty", diff); }
-  catch { /* ignore */ }
+  catch (_) { /* ignore */ }
   renderDifficultyOptions();
 }
 
@@ -865,7 +870,20 @@ function loadDifficulty() {
     if (saved && Object.values(DIFFICULTY).includes(saved)) {
       Game.difficulty = saved;
     }
-  } catch { /* ignore */ }
+  } catch (_) { /* ignore */ }
+}
+
+function loadUndoMoveEnabled() {
+  try { undoMoveEnabled = localStorage.getItem("connect4-undo-move") === "1"; }
+  catch (_) { undoMoveEnabled = false; }
+}
+
+function setUndoMoveEnabled(enabled) {
+  if (undoMoveEnabled === enabled) return;
+  undoMoveEnabled = enabled;
+  try { localStorage.setItem("connect4-undo-move", enabled ? "1" : "0"); }
+  catch (_) { /* ignore */ }
+  updateUndoButton();
 }
 
 function renderDifficultyOptions() {
@@ -905,6 +923,11 @@ function renderMuteButton() {
 function renderSoundToggle() {
   soundToggle.classList.toggle("on", !Sound.muted);
   soundToggle.setAttribute("aria-checked", String(!Sound.muted));
+}
+
+function renderUndoMoveToggle() {
+  undoMoveToggle.classList.toggle("on", undoMoveEnabled);
+  undoMoveToggle.setAttribute("aria-checked", String(undoMoveEnabled));
 }
 
 function renderModeToggle() {
@@ -964,6 +987,12 @@ soundToggle.addEventListener("click", () => {
   Sound.click();
 });
 
+undoMoveToggle.addEventListener("click", () => {
+  setUndoMoveEnabled(!undoMoveEnabled);
+  renderUndoMoveToggle();
+  Sound.click();
+});
+
 diffOptionEls.forEach((btn) => {
   btn.addEventListener("click", () => {
     Sound.click();
@@ -1001,8 +1030,10 @@ document.addEventListener("pointerdown", () => Sound.init(), { once: true });
 Sound.loadMuted();
 loadMode();
 loadDifficulty();
+loadUndoMoveEnabled();
 renderMuteButton();
 renderSoundToggle();
+renderUndoMoveToggle();
 renderModeToggle();
 renderDifficultyOptions();
 resetGame();
