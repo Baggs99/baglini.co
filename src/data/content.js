@@ -18,10 +18,10 @@ export const navLinks = [
 ]
 
 export const hero = {
-  eyebrow: 'YALE SOM · ARMY VETERAN · BUILDER',
-  headline: 'Building useful tools at the intersection of policy, education, and technology.',
+  eyebrow: 'YALE SOM · PUBLIC POLICY · APPLIED TECHNOLOGY',
+  headline: 'Building tools at the intersection of policy, education, and technology.',
   subheadline:
-    "I'm Daniel Baglini, a Yale SOM MBA and former Army intelligence officer. I build interactive tools, research platforms, and applied AI projects that make complex ideas easier to understand.",
+    "I'm Daniel Baglini, a Yale SOM MBA and former Army intelligence officer. I build interactive tools, research platforms, and web applications that make complex ideas easier to understand.",
   primaryCta: { label: 'View projects', href: '#projects' },
   secondaryCta: { label: 'Contact', href: '#contact' },
 }
