@@ -63,7 +63,7 @@ export const projects = [
     id: '4-connect',
     title: '4 Connect',
     description:
-      'A polished, mobile-first take on Connect Four with two-player and four-tier AI modes (Easy, Medium, Hard, and an alpha-beta minimax "Impossible"). Built from scratch in vanilla HTML, CSS, and JavaScript — no frameworks, no build step.',
+      'A polished, mobile, Connect Four. Two-player mode plus four AI difficulty levels including a near-unbeatable "Impossible." Built from scratch in vanilla HTML, CSS, and JavaScript. Hand-tuned animations, Web Audio sound effects, and a custom game-tree search for the AI.',
     cardNote: 'Vanilla HTML/CSS/JS · Web Audio sound · Minimax AI',
     tag: 'Game · Web',
     liveUrl: '/4-connect/',

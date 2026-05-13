@@ -148,6 +148,18 @@ body {
   box-shadow: 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
+.big-btn--outline:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  pointer-events: none;
+}
+
+/* Undo sits between board and reset in 1 Player mode only. */
+.undo-btn {
+  margin-top: 4px;
+}
+
 /* ---------- 5. Header / icon buttons ----------
    3-column grid: [icon] [title] [icon] - keeps the title perfectly
    centered regardless of which side icons are present.

@@ -93,6 +93,11 @@
       <!-- The board. JS fills it with 7 columns of 6 cells each. -->
       <div id="board" class="board" role="grid" aria-label="Connect 4 board"></div>
 
+      <!-- Visible only in 1 Player mode: takes back your last move + computer reply. -->
+      <button id="undoBtn" class="big-btn big-btn--outline undo-btn" type="button" hidden>
+        GO BACK ONE MOVE
+      </button>
+
       <button id="resetBtn" class="big-btn big-btn--reset" type="button">
         RESET GAME
       </button>

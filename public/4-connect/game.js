@@ -49,6 +49,7 @@ const AI_THINK_MS = 0;    // delay before the AI plays. 0 = respond immediately
 
 // ----- DOM references (grabbed once) -----
 const boardEl           = document.getElementById("board");
+const undoBtn           = document.getElementById("undoBtn");
 const resetBtn          = document.getElementById("resetBtn");
 
 const redPlayerCardEl   = document.getElementById("redPlayerCard");
@@ -89,6 +90,8 @@ const Game = {
   lastMove: null,       // { row, col } of most recent drop, or null
   mode: MODE_CPU,       // MODE_PVP | MODE_CPU - default to "1 Player" for new players
   difficulty: DIFFICULTY.MEDIUM, // AI difficulty (only matters in CPU mode)
+  /** CPU mode only: each finished drop { row, col, player } for undo */
+  moveHistory: [],
 };
 
 /* ============================================================
@@ -660,11 +663,17 @@ function applyMove(col) {
     Game.isAnimating = false;
     Game.lastMove = null;
 
+    const mover = Game.currentPlayer;
+
     const winningCells = findWinningCells(Game.board, row, col, Game.currentPlayer);
     if (winningCells) {
+      if (Game.mode === MODE_CPU) {
+        Game.moveHistory.push({ row, col, player: mover });
+      }
       Game.isOver = true;
       highlightCells(winningCells);
       updatePlayerCards();          // clear active state during overlay
+      updateUndoButton();
       // Small extra delay so the player sees the winning highlight
       // pop on the board before the celebratory overlay covers it.
       setTimeout(() => showWinOverlay(Game.currentPlayer), 450);
@@ -673,14 +682,23 @@ function applyMove(col) {
     }
 
     if (isBoardFull(Game.board)) {
+      if (Game.mode === MODE_CPU) {
+        Game.moveHistory.push({ row, col, player: mover });
+      }
       Game.isOver = true;
       updatePlayerCards();
+      updateUndoButton();
       setTimeout(() => showDrawOverlay(), 350);
       return;
     }
 
+    if (Game.mode === MODE_CPU) {
+      Game.moveHistory.push({ row, col, player: mover });
+    }
+
     Game.currentPlayer = Game.currentPlayer === RED ? YELLOW : RED;
     updatePlayerCards();
+    updateUndoButton();
     maybeTriggerAi();
   }, DROP_ANIM_MS);
 }
@@ -701,9 +719,75 @@ function maybeTriggerAi() {
     if (Game.currentPlayer !== YELLOW) return;
     if (Game.isAnimating) return;
 
+    updateUndoButton(); // human can't undo while AI is about to move
     const col = AI.pickMove(Game.board, YELLOW, Game.difficulty);
     if (col !== -1) applyMove(col);
   }, AI_THINK_MS);
+}
+
+/**
+ * Pop one recorded move off the history and clear that cell.
+ */
+function popRecordedMove() {
+  const m = Game.moveHistory.pop();
+  if (!m) return false;
+  Game.board[m.row][m.col] = EMPTY;
+  return true;
+}
+
+/**
+ * CPU mode: undo your last turn — removes the computer's reply and your move.
+ * If you won on your move (computer never replied), removes only your piece.
+ * Clears win/draw overlays so you can keep playing.
+ */
+function undoCpuRound() {
+  if (Game.mode !== MODE_CPU || Game.isAnimating) return;
+  if (!canUndoCpuRound()) return;
+
+  hideOverlays();
+
+  if (Game.isOver) {
+    const last = Game.moveHistory[Game.moveHistory.length - 1];
+    if (last.player === RED) {
+      popRecordedMove();
+    } else {
+      popRecordedMove();
+      popRecordedMove();
+    }
+    Game.isOver = false;
+  } else {
+    popRecordedMove();
+    popRecordedMove();
+  }
+
+  Game.currentPlayer = RED;
+  Game.lastMove = null;
+  renderBoard();
+  updatePlayerCards();
+  updateUndoButton();
+  Sound.click();
+}
+
+function canUndoCpuRound() {
+  if (Game.mode !== MODE_CPU || Game.isAnimating) return false;
+  const len = Game.moveHistory.length;
+  if (len === 0) return false;
+
+  if (Game.isOver) {
+    const last = Game.moveHistory[len - 1];
+    if (last.player === RED) return true;
+    return len >= 2;
+  }
+
+  return Game.currentPlayer === RED && len >= 2;
+}
+
+function updateUndoButton() {
+  const show = Game.mode === MODE_CPU;
+  undoBtn.hidden = !show;
+  if (!show) return;
+
+  undoBtn.disabled = !canUndoCpuRound();
 }
 
 /* ============================================================
@@ -798,9 +882,11 @@ function resetGame() {
   Game.isOver = false;
   Game.isAnimating = false;
   Game.lastMove = null;
+  Game.moveHistory = [];
   hideOverlays();
   renderBoard();
   updatePlayerCards();
+  updateUndoButton();
 }
 
 /* ============================================================
@@ -854,6 +940,10 @@ muteBtn.addEventListener("click", () => {
 gameSettingsBtn.addEventListener("click", () => {
   Sound.click();
   showScreen("settingsScreen");
+});
+
+undoBtn.addEventListener("click", () => {
+  undoCpuRound();
 });
 
 resetBtn.addEventListener("click", () => {
