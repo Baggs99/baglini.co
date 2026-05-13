@@ -65,6 +65,31 @@ export const portfolioFeatured = [
 /** Smaller placards — live sites plus shipped tools already on this page. */
 export const portfolioOther = [
   {
+    id: '4-connect',
+    title: '4 Connect',
+    category: 'Web Game',
+    description:
+      'A polished Connect Four with two-player mode, multiple AI tiers, handcrafted motion, Web Audio, and minimax-backed play.',
+    techTags: ['Vanilla JS', 'Web Audio', 'Game AI', 'Mobile UX'],
+    liveUrl: '/4-connect/',
+    ctaPrimary: 'Play',
+    visualVariant: 'rose',
+  },
+  {
+    id: 'elc-outreach',
+    title: 'Education Leadership Conference Outreach',
+    category: 'AI Outreach System',
+    description:
+      'An AI-assisted system that generates credible, personalized outreach at scale to drive attendance without sacrificing tone or relevance.',
+    techTags: ['AI', 'Email', 'Outreach', 'Scaling'],
+    liveUrl: 'https://elc.baglini.co',
+    ctaPrimary: 'Open tool',
+    note: 'Cold start may take a few seconds on first load.',
+    githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
+    ctaGithub: 'GitHub',
+    visualVariant: 'violet',
+  },
+  {
     id: 'auwm',
     title: 'African Urban Worship Music',
     category: 'Multimedia Research Project',
@@ -85,31 +110,6 @@ export const portfolioOther = [
     liveUrl: 'https://yalesomconsultingclub.com/',
     ctaPrimary: 'Visit Site',
     visualVariant: 'slate',
-  },
-  {
-    id: 'elc-outreach',
-    title: 'Education Leadership Conference Outreach',
-    category: 'AI Outreach System',
-    description:
-      'An AI-assisted system that generates credible, personalized outreach at scale to drive attendance without sacrificing tone or relevance.',
-    techTags: ['AI', 'Email', 'Outreach', 'Scaling'],
-    liveUrl: 'https://elc.baglini.co',
-    ctaPrimary: 'Open tool',
-    note: 'Cold start may take a few seconds on first load.',
-    githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
-    ctaGithub: 'GitHub',
-    visualVariant: 'violet',
-  },
-  {
-    id: '4-connect',
-    title: '4 Connect',
-    category: 'Web Game',
-    description:
-      'A polished Connect Four with two-player mode, multiple AI tiers, handcrafted motion, Web Audio, and minimax-backed play.',
-    techTags: ['Vanilla JS', 'Web Audio', 'Game AI', 'Mobile UX'],
-    liveUrl: '/4-connect/',
-    ctaPrimary: 'Play',
-    visualVariant: 'rose',
   },
 ]
 
@@ -141,6 +141,28 @@ export const experience = [
       'Led intelligence teams in international operations, delivering decision-critical analysis and coordinating across U.S. and allied partners in high-stakes environments.',
   },
 ]
+
+/** Writing section header copy */
+export const writingSection = {
+  title: 'Writing & ideas',
+  subtitle:
+    'Published honors research, essays, and memos on institutions, policy, technology, and leadership.',
+}
+
+/** Honors thesis hosted on institutional repository */
+export const honorsThesis = {
+  id: 'uri-army-officer-retention-thesis',
+  title: 'Analysis of Officer Retention and Success in the US Army by Commissioning Source',
+  documentType: 'Undergraduate Honors Thesis',
+  institution: 'University of Rhode Island',
+  author: 'Daniel Baglini',
+  description:
+    'An undergraduate honors thesis analyzing how commissioning source impacts officer retention and promotion outcomes in the United States Army, using statistical analysis of Army officer career data.',
+  href: 'https://digitalcommons.uri.edu/srhonorsprog/875/',
+  ctaLabel: 'Read Thesis',
+  archiveNote: 'Published through URI DigitalCommons',
+  subjectTags: ['Military Research', 'Public Policy', 'Data Analysis', 'Army Leadership'],
+}
 
 export const articles = [
   {
