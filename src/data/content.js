@@ -74,6 +74,8 @@ export const portfolioOther = [
     liveUrl: '/4-connect/',
     ctaPrimary: 'Play',
     visualVariant: 'rose',
+    previewSrc: '/previews/4-connect.png',
+    previewAlt: '4 Connect gameplay: Connect Four board, player turn indicator, and reset control',
   },
   {
     id: 'elc-outreach',

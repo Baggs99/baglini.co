@@ -11,26 +11,50 @@ const visualGradients = {
   rose: 'from-rose-500/[0.15] via-rose-950/40 to-zinc-950',
 }
 
-function VisualFrame({ variant, featured }) {
+function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
   const grad = visualGradients[variant] ?? visualGradients.indigo
+  const sizeClass = featured
+    ? 'min-h-[12.5rem] lg:min-h-[17rem]'
+    : previewSrc
+      ? 'aspect-[21/11] md:aspect-auto md:h-[10.75rem]'
+      : 'aspect-[21/11] md:aspect-auto md:h-36'
+
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${featured ? 'min-h-[12.5rem] lg:min-h-[17rem]' : 'aspect-[21/11] md:aspect-auto md:h-36'}`}>
-      <div
-        aria-hidden="true"
-        className={`absolute inset-0 scale-100 bg-gradient-to-br bg-zinc-900 transition duration-700 ease-out group-hover/card:scale-[1.04] ${grad}`}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-[0.22] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:26px_26px]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-white/[0.06] blur-3xl transition duration-700 ease-out group-hover/card:scale-110 group-hover/card:bg-[oklch(0.92_0.02_260_/_0.08)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-8 top-10 h-2 rounded-full bg-white/[0.08] backdrop-blur-sm opacity-70"
-      />
+    <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${sizeClass}`}>
+      {previewSrc ? (
+        <>
+          <img
+            src={previewSrc}
+            alt={previewAlt}
+            className="absolute inset-0 h-full w-full object-cover object-[center_42%] transition duration-700 ease-out group-hover/card:scale-[1.045]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/55 via-transparent to-zinc-950/20"
+          />
+        </>
+      ) : (
+        <>
+          <div
+            aria-hidden="true"
+            className={`absolute inset-0 scale-100 bg-gradient-to-br bg-zinc-900 transition duration-700 ease-out group-hover/card:scale-[1.04] ${grad}`}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 opacity-[0.22] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:26px_26px]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-white/[0.06] blur-3xl transition duration-700 ease-out group-hover/card:scale-110 group-hover/card:bg-[oklch(0.92_0.02_260_/_0.08)]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-8 top-10 h-2 rounded-full bg-white/[0.08] backdrop-blur-sm opacity-70"
+          />
+        </>
+      )}
     </div>
   )
 }
@@ -82,7 +106,12 @@ export function FeaturedProjects() {
               <Reveal key={project.id} delay={i * 0.05}>
                 <article className="group/card overflow-hidden rounded-[1.65rem] border border-white/[0.065] bg-gradient-to-b from-white/[0.05] to-white/[0.015] shadow-[0_26px_100px_-38px_rgba(0,0,0,0.88)] transition duration-300 ease-out hover:-translate-y-0.5 hover:border-emerald-500/15 hover:shadow-[0_36px_120px_-38px_rgba(0,0,0,0.92)] lg:flex lg:flex-row lg:items-stretch">
                   <div className="p-6 pb-0 lg:flex lg:w-[47%] lg:flex-col lg:justify-center lg:p-10 lg:pr-5 lg:pb-10">
-                    <VisualFrame variant={project.visualVariant} featured />
+                    <VisualFrame
+                      variant={project.visualVariant}
+                      featured
+                      previewSrc={project.previewSrc}
+                      previewAlt={project.previewAlt}
+                    />
                   </div>
                   <div className="flex flex-1 flex-col px-6 pb-8 pt-6 lg:p-10 lg:pl-6">
                     <span className="inline-flex w-fit rounded-full border border-white/[0.10] bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
@@ -138,7 +167,12 @@ export function FeaturedProjects() {
                 <article className="group/card flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01] shadow-[0_18px_64px_-32px_rgba(0,0,0,0.78)] transition duration-300 hover:-translate-y-1 hover:border-sky-500/12 hover:shadow-[0_28px_80px_-30px_rgba(0,0,0,0.85)]">
                   <div className="relative overflow-hidden px-5 pb-2 pt-5">
                     <div className="overflow-hidden rounded-xl">
-                      <VisualFrame variant={project.visualVariant} featured={false} />
+                      <VisualFrame
+                        variant={project.visualVariant}
+                        featured={false}
+                        previewSrc={project.previewSrc}
+                        previewAlt={project.previewAlt}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-1 flex-col px-6 pb-6 pt-4">
