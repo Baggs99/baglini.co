@@ -11,7 +11,7 @@ const visualGradients = {
   rose: 'from-rose-500/[0.15] via-rose-950/40 to-zinc-950',
 }
 
-function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPresentation }) {
+function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPresentation, href }) {
   const grad = visualGradients[variant] ?? visualGradients.indigo
   const naturalProduct = previewPresentation === 'natural-product'
   const deviceFrame = previewPresentation === 'device-frame'
@@ -27,8 +27,14 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPr
             ? 'aspect-[21/11] w-full'
             : 'aspect-[21/11] md:aspect-auto md:h-36'
 
+  const Container = href ? 'a' : 'div'
+  const linkProps = href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {}
+
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${sizeClass}`}>
+    <Container
+      {...linkProps}
+      className={`relative block overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${href ? 'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 transition-all hover:border-white/10 cursor-pointer' : ''} ${sizeClass}`}
+    >
       {previewSrc ? (
         <>
           <div aria-hidden="true">
@@ -95,7 +101,7 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPr
           />
         </>
       )}
-    </div>
+    </Container>
   )
 }
 
@@ -152,6 +158,7 @@ export function FeaturedProjects() {
                       previewSrc={project.previewSrc}
                       previewAlt={project.previewAlt}
                       previewPresentation={project.previewPresentation}
+                      href={project.liveUrl}
                     />
                   </div>
                   <div className="flex flex-1 flex-col px-6 pb-8 pt-6 lg:p-10 lg:pl-6">
@@ -214,6 +221,7 @@ export function FeaturedProjects() {
                         previewSrc={project.previewSrc}
                         previewAlt={project.previewAlt}
                         previewPresentation={project.previewPresentation}
+                        href={project.liveUrl}
                       />
                     </div>
                   </div>
