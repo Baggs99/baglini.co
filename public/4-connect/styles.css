@@ -160,8 +160,9 @@ body {
   margin-top: 4px;
 }
 
-/* `hidden` must win over `.big-btn { display: inline-flex }` (see updateUndoButton). */
-#undoBtn[hidden] {
+/* Must win over `.big-btn { display: inline-flex }` (see updateUndoButton). */
+#undoBtn[hidden],
+button#undoBtn.undo-btn--hidden {
   display: none !important;
 }
 

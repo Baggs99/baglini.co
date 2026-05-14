@@ -789,12 +789,13 @@ function canUndoCpuRound() {
 
 function updateUndoButton() {
   const show = Game.mode === MODE_CPU && undoMoveEnabled;
+  undoBtn.classList.toggle("undo-btn--hidden", !show);
   undoBtn.hidden = !show;
-  // Inline display beats `.big-btn { display: inline-flex }`, which otherwise
-  // can keep the button visible while `hidden` is true in some browsers.
   undoBtn.style.display = show ? "" : "none";
-  if (!show) return;
-
+  if (!show) {
+    undoBtn.disabled = true;
+    return;
+  }
   undoBtn.disabled = !canUndoCpuRound();
 }
 
@@ -806,6 +807,12 @@ function showScreen(screenId) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.remove("visible"));
   const target = document.getElementById(screenId);
   if (target) target.classList.add("visible");
+  // Re-sync undo control when the game screen becomes visible again (e.g. leaving
+  // Settings); some browsers/layout passes can leave the button visible otherwise.
+  if (screenId === "gameScreen") {
+    updateUndoButton();
+    requestAnimationFrame(() => updateUndoButton());
+  }
 }
 
 function showWinOverlay(winner) {
@@ -882,7 +889,10 @@ function loadUndoMoveEnabled() {
 }
 
 function setUndoMoveEnabled(enabled) {
-  if (undoMoveEnabled === enabled) return;
+  if (undoMoveEnabled === enabled) {
+    updateUndoButton();
+    return;
+  }
   undoMoveEnabled = enabled;
   try { localStorage.setItem("connect4-undo-move", enabled ? "1" : "0"); }
   catch (_) { /* ignore */ }
