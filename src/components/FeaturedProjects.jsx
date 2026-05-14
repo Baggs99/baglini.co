@@ -11,8 +11,9 @@ const visualGradients = {
   rose: 'from-rose-500/[0.15] via-rose-950/40 to-zinc-950',
 }
 
-function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
+function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPresentation }) {
   const grad = visualGradients[variant] ?? visualGradients.indigo
+  const framedUi = previewPresentation === 'device-frame'
   const sizeClass = featured
     ? 'min-h-[12.5rem] lg:min-h-[17rem]'
     : previewSrc
@@ -23,17 +24,35 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
     <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${sizeClass}`}>
       {previewSrc ? (
         <>
+          <div aria-hidden="true">
+            <div
+              className={
+                framedUi
+                  ? 'absolute inset-0 bg-[oklch(0.085_0.02_260)]'
+                  : 'absolute inset-0 bg-[radial-gradient(ellipse_95%_100%_at_50%_40%,oklch(0.19_0.05_268)_0%,oklch(0.11_0.028_268)_45%,oklch(0.06_0.015_260)_100%)] opacity-85'
+              }
+            />
+            {!framedUi ? (
+              <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-transparent to-zinc-950/35" />
+            ) : null}
+          </div>
           <img
             src={previewSrc}
             alt={previewAlt}
-            className="absolute inset-0 h-full w-full object-cover object-[50%_50%] transition duration-700 ease-out group-hover/card:scale-[1.035]"
+            className={
+              framedUi
+                ? 'relative z-[1] h-full w-full object-contain p-3 transition duration-500 ease-out group-hover/card:scale-[1.017] sm:p-4'
+                : 'relative z-[1] h-full w-full object-cover object-[50%_50%] transition duration-700 ease-out group-hover/card:scale-[1.035]'
+            }
             loading="lazy"
             decoding="async"
           />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-zinc-950/15"
-          />
+          {!framedUi ? (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-zinc-950/15"
+            />
+          ) : null}
         </>
       ) : (
         <>
@@ -111,6 +130,7 @@ export function FeaturedProjects() {
                       featured
                       previewSrc={project.previewSrc}
                       previewAlt={project.previewAlt}
+                      previewPresentation={project.previewPresentation}
                     />
                   </div>
                   <div className="flex flex-1 flex-col px-6 pb-8 pt-6 lg:p-10 lg:pl-6">
@@ -172,6 +192,7 @@ export function FeaturedProjects() {
                         featured={false}
                         previewSrc={project.previewSrc}
                         previewAlt={project.previewAlt}
+                        previewPresentation={project.previewPresentation}
                       />
                     </div>
                   </div>

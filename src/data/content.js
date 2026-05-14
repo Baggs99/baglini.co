@@ -75,7 +75,9 @@ export const portfolioOther = [
     ctaPrimary: 'Play',
     visualVariant: 'rose',
     previewSrc: '/previews/4-connect.png',
-    previewAlt: '4 Connect gameplay: Connect Four board, player turn indicator, and reset control',
+    previewAlt:
+      '4 Connect framed mobile preview: logo, mode toggle, player cards, filled board, and reset control',
+    previewPresentation: 'device-frame',
   },
   {
     id: 'elc-outreach',
