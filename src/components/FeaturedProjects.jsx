@@ -16,7 +16,7 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
   const sizeClass = featured
     ? 'min-h-[12.5rem] lg:min-h-[17rem]'
     : previewSrc
-      ? 'aspect-[21/11] md:aspect-auto md:h-[10.75rem]'
+      ? 'aspect-[21/11] w-full'
       : 'aspect-[21/11] md:aspect-auto md:h-36'
 
   return (
@@ -26,13 +26,13 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
           <img
             src={previewSrc}
             alt={previewAlt}
-            className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 ease-out group-hover/card:scale-[1.045]"
+            className="absolute inset-0 h-full w-full object-cover object-[50%_50%] transition duration-700 ease-out group-hover/card:scale-[1.035]"
             loading="lazy"
             decoding="async"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/45 via-transparent to-zinc-950/15"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-zinc-950/15"
           />
         </>
       ) : (
