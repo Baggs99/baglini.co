@@ -29,8 +29,8 @@ export const hero = {
 export const about = {
   title: 'About',
   paragraphs: [
-    'I combine executive-level judgment with builder execution: translating messy problems into usable products that institutions and users can rely on.',
-    'Shipped work spans policy calculators, recruiting tools, multimedia research platforms, outreach systems, and public-facing websites. Rigorous evidence and clear stakeholder communication underpin every shipping decision.',
+    'I enjoy building useful tools and figuring out how to make complicated problems easier to understand. My projects have included policy calculators, recruiting tools, research platforms, outreach systems, and websites.',
+    'Most of my work sits at the intersection of strategy, technology, and communication. I care a lot about making things practical, intuitive, and genuinely helpful.',
   ],
 }
 
