@@ -26,13 +26,13 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '' }) {
           <img
             src={previewSrc}
             alt={previewAlt}
-            className="absolute inset-0 h-full w-full object-cover object-[center_42%] transition duration-700 ease-out group-hover/card:scale-[1.045]"
+            className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 ease-out group-hover/card:scale-[1.045]"
             loading="lazy"
             decoding="async"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/55 via-transparent to-zinc-950/20"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/45 via-transparent to-zinc-950/15"
           />
         </>
       ) : (
