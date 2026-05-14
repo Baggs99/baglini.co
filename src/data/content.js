@@ -46,6 +46,9 @@ export const portfolioFeatured = [
     liveUrl: 'https://cases.baglini.co/',
     ctaPrimary: 'Browse Cases',
     visualVariant: 'indigo',
+    previewSrc: '/previews/case-repo.png',
+    previewAlt:
+      'Case Repo web application: Yale and Booth co-branded header with Browse navigation and sign-in to the MBA consulting case catalog',
   },
   {
     id: 'ri-calculator',
@@ -59,6 +62,9 @@ export const portfolioFeatured = [
     paperUrl: '/rhode-island-school-consolidation-paper.pdf',
     ctaSecondary: 'Read paper',
     visualVariant: 'teal',
+    previewSrc: '/previews/ri-school-consolidation.png',
+    previewAlt:
+      'Rhode Island school consolidation calculator showing the interactive district map alongside policy and fiscal controls',
   },
 ]
 
@@ -74,10 +80,9 @@ export const portfolioOther = [
     liveUrl: '/4-connect/',
     ctaPrimary: 'Play',
     visualVariant: 'rose',
-    previewSrc: '/previews/4-connect-portrait-preview.png',
+    previewSrc: '/previews/4-connect.png',
     previewAlt:
-      '4 Connect full mobile preview: title, mode toggle, player indicators, filled board mid-game, and reset',
-    previewPresentation: 'natural-product',
+      '4 Connect mobile game interface on a framed canvas: modes, players, filled board mid-game, and controls',
   },
   {
     id: 'elc-outreach',
@@ -92,6 +97,9 @@ export const portfolioOther = [
     githubUrl: 'https://github.com/Baggs99/ELC-Mass-Email-Sender',
     ctaGithub: 'GitHub',
     visualVariant: 'violet',
+    previewSrc: '/previews/elc-outreach.png',
+    previewAlt:
+      'Education Leadership Conference Outreach app with AI-assisted email drafting and outreach workflow controls',
   },
   {
     id: 'auwm',
@@ -103,6 +111,9 @@ export const portfolioOther = [
     liveUrl: 'https://auwm.baglini.co/',
     ctaPrimary: 'View Project',
     visualVariant: 'amber',
+    previewSrc: '/previews/auwm.png',
+    previewAlt:
+      'African Urban Worship Music site showing rich multimedia layout with research narratives and imagery',
   },
   {
     id: 'yale-som-consulting',
@@ -114,6 +125,9 @@ export const portfolioOther = [
     liveUrl: 'https://yalesomconsultingclub.com/',
     ctaPrimary: 'Visit Site',
     visualVariant: 'slate',
+    previewSrc: '/previews/yale-som-consulting-club.png',
+    previewAlt:
+      'Yale SOM Consulting Club homepage with recruiting-focused navigation, events, and student resources',
   },
 ]
 

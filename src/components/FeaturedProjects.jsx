@@ -16,13 +16,16 @@ function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPr
   const naturalProduct = previewPresentation === 'natural-product'
   const deviceFrame = previewPresentation === 'device-frame'
 
-  const sizeClass = featured
-    ? 'min-h-[12.5rem] lg:min-h-[17rem]'
-    : previewSrc && naturalProduct
-      ? 'w-full'
-      : previewSrc
-        ? 'aspect-[21/11] w-full'
-        : 'aspect-[21/11] md:aspect-auto md:h-36'
+  const sizeClass =
+    featured && previewSrc
+      ? 'aspect-[21/11] w-full'
+      : featured
+        ? 'min-h-[12.5rem] lg:min-h-[17rem]'
+        : previewSrc && naturalProduct
+          ? 'w-full'
+          : previewSrc
+            ? 'aspect-[21/11] w-full'
+            : 'aspect-[21/11] md:aspect-auto md:h-36'
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${sizeClass}`}>

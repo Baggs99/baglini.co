@@ -139,6 +139,9 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# Portfolio capture pipeline (composed PNGs in public/previews stay tracked)
+public/previews/_raw/
+
 # Additional build artifacts
 dist-ssr
 *.local
