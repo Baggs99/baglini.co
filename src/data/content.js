@@ -48,7 +48,7 @@ export const portfolioFeatured = [
     visualVariant: 'indigo',
     previewSrc: '/previews/case-repo.png',
     previewAlt:
-      'Case Repo web application: Yale and Booth co-branded header with Browse navigation and sign-in to the MBA consulting case catalog',
+      'Case Repo browse experience: case library hero, metrics, search and filters, and results grid for MBA consulting interviews',
   },
   {
     id: 'ri-calculator',
