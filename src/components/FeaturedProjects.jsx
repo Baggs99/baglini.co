@@ -13,44 +13,62 @@ const visualGradients = {
 
 function VisualFrame({ variant, featured, previewSrc, previewAlt = '', previewPresentation }) {
   const grad = visualGradients[variant] ?? visualGradients.indigo
-  const framedUi = previewPresentation === 'device-frame'
+  const naturalProduct = previewPresentation === 'natural-product'
+  const deviceFrame = previewPresentation === 'device-frame'
+
   const sizeClass = featured
     ? 'min-h-[12.5rem] lg:min-h-[17rem]'
-    : previewSrc
-      ? 'aspect-[21/11] w-full'
-      : 'aspect-[21/11] md:aspect-auto md:h-36'
+    : previewSrc && naturalProduct
+      ? 'w-full'
+      : previewSrc
+        ? 'aspect-[21/11] w-full'
+        : 'aspect-[21/11] md:aspect-auto md:h-36'
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border border-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${sizeClass}`}>
       {previewSrc ? (
         <>
           <div aria-hidden="true">
-            <div
-              className={
-                framedUi
-                  ? 'absolute inset-0 bg-[oklch(0.085_0.02_260)]'
-                  : 'absolute inset-0 bg-[radial-gradient(ellipse_95%_100%_at_50%_40%,oklch(0.19_0.05_268)_0%,oklch(0.11_0.028_268)_45%,oklch(0.06_0.015_260)_100%)] opacity-85'
-              }
-            />
-            {!framedUi ? (
-              <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-transparent to-zinc-950/35" />
-            ) : null}
+            {naturalProduct ? (
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_95%_at_50%_15%,oklch(0.18_0.05_268)_0%,oklch(0.085_0.025_268)_45%,oklch(0.055_0.015_260)_100%)]" />
+            ) : (
+              <>
+                <div
+                  className={
+                    deviceFrame
+                      ? 'absolute inset-0 bg-[oklch(0.085_0.02_260)]'
+                      : 'absolute inset-0 bg-[radial-gradient(ellipse_95%_100%_at_50%_40%,oklch(0.19_0.05_268)_0%,oklch(0.11_0.028_268)_45%,oklch(0.06_0.015_260)_100%)] opacity-85'
+                  }
+                />
+                {!deviceFrame ? (
+                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-transparent to-zinc-950/35" />
+                ) : null}
+              </>
+            )}
           </div>
           <img
             src={previewSrc}
             alt={previewAlt}
             className={
-              framedUi
-                ? 'relative z-[1] h-full w-full object-contain p-3 transition duration-500 ease-out group-hover/card:scale-[1.017] sm:p-4'
-                : 'relative z-[1] h-full w-full object-cover object-[50%_50%] transition duration-700 ease-out group-hover/card:scale-[1.035]'
+              naturalProduct
+                ? 'relative z-[1] block w-full h-auto origin-center transition duration-500 ease-out group-hover/card:scale-[1.015] group-hover/card:brightness-[1.05]'
+                : deviceFrame
+                  ? 'absolute inset-0 z-[1] h-full w-full object-cover object-[50%_44%] transition duration-500 ease-out group-hover/card:scale-[1.022]'
+                  : 'absolute inset-0 z-[1] h-full w-full object-cover object-[50%_50%] transition duration-700 ease-out group-hover/card:scale-[1.035]'
             }
             loading="lazy"
             decoding="async"
           />
-          {!framedUi ? (
+          {!naturalProduct && !deviceFrame ? (
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-zinc-950/15"
+            />
+          ) : null}
+          {naturalProduct ? (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.07]"
             />
           ) : null}
         </>

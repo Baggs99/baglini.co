@@ -74,10 +74,10 @@ export const portfolioOther = [
     liveUrl: '/4-connect/',
     ctaPrimary: 'Play',
     visualVariant: 'rose',
-    previewSrc: '/previews/4-connect.png',
+    previewSrc: '/previews/4-connect-portrait-preview.png',
     previewAlt:
-      '4 Connect framed mobile preview: logo, mode toggle, player cards, filled board, and reset control',
-    previewPresentation: 'device-frame',
+      '4 Connect full mobile preview: title, mode toggle, player indicators, filled board mid-game, and reset',
+    previewPresentation: 'natural-product',
   },
   {
     id: 'elc-outreach',
