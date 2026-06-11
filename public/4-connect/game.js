@@ -588,11 +588,23 @@ function updatePlayerCards() {
   const isOnline = Game.mode === MODE_ONLINE;
   
   if (isOnline) {
+    const isMyTurn = Game.currentPlayer === Game.onlineRole;
+    
+    // For Host (RED): You are red, Opponent is yellow
+    // For Guest (YELLOW): You are yellow, Opponent is red
     redPlayerNameEl.textContent    = Game.onlineRole === RED ? "You" : "Opponent";
     yellowPlayerNameEl.textContent = Game.onlineRole === YELLOW ? "You" : "Opponent";
+    
+    // In online mode, we want the text to be super clear about whose turn it is
+    redPlayerCardEl.querySelector(".player-turn-badge").textContent = (Game.currentPlayer === RED && isMyTurn) ? "Your Turn!" : "Opponent's Turn";
+    yellowPlayerCardEl.querySelector(".player-turn-badge").textContent = (Game.currentPlayer === YELLOW && isMyTurn) ? "Your Turn!" : "Opponent's Turn";
+    
   } else {
     redPlayerNameEl.textContent    = isCpu ? "You" : "Player 1";
     yellowPlayerNameEl.textContent = isCpu ? "Computer" : "Player 2";
+    
+    redPlayerCardEl.querySelector(".player-turn-badge").textContent = "Turn";
+    yellowPlayerCardEl.querySelector(".player-turn-badge").textContent = "Turn";
   }
 
   const redActive = Game.currentPlayer === RED;

@@ -318,12 +318,13 @@ button#undoBtn.undo-btn--hidden {
   background: #f97316;
   color: #ffffff;
   font-family: "Bowlby One", system-ui, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 1px;
-  padding: 3px 12px;
+  padding: 4px 14px;
   border-radius: 999px;
   box-shadow: 0 2px 0 #9a3412;
   animation: turnBadgeIn 0.25s ease-out;
+  white-space: nowrap;
 }
 .player-card.active .player-turn-badge { display: block; }
 
