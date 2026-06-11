@@ -74,6 +74,7 @@ const joinCodeInput     = document.getElementById("joinCodeInput");
 const onlineStatusOverlay= document.getElementById("onlineStatusOverlay");
 const onlineStatusTitle = document.getElementById("onlineStatusTitle");
 const roomCodeDisplay   = document.getElementById("roomCodeDisplay");
+const copyLinkBtn       = document.getElementById("copyLinkBtn");
 const cancelOnlineBtn   = document.getElementById("cancelOnlineBtn");
 
 // Settings & How to Play
@@ -1005,7 +1006,7 @@ const Online = {
     Game.onlineRole = RED; // host is always red
     Game.onlineRoomCode = this.generateRoomCode();
     
-    showOnlineStatus("WAITING FOR OPPONENT...", Game.onlineRoomCode);
+    showOnlineStatus("WAITING FOR OPPONENT...", Game.onlineRoomCode, true);
     
     // Set to online mode immediately
     Game.mode = MODE_ONLINE;
@@ -1022,7 +1023,7 @@ const Online = {
     Game.onlineRole = YELLOW; // guest is always yellow
     Game.onlineRoomCode = code;
     
-    showOnlineStatus("JOINING ROOM...", code);
+    showOnlineStatus("JOINING ROOM...", code, false);
     
     // Switch immediately to online mode so that when sync happens, we don't double-reset
     Game.mode = MODE_ONLINE;
@@ -1109,9 +1110,12 @@ const Online = {
   }
 };
 
-function showOnlineStatus(title, code) {
+function showOnlineStatus(title, code, isHost = false) {
   onlineStatusTitle.textContent = title;
   roomCodeDisplay.textContent = code;
+  if (copyLinkBtn) {
+    copyLinkBtn.style.display = isHost ? "inline-block" : "none";
+  }
   onlineStatusOverlay.classList.add("visible");
 }
 
@@ -1217,6 +1221,19 @@ cancelOnlineBtn.addEventListener("click", () => {
   Sound.click();
   Online.leaveRoom();
 });
+if (copyLinkBtn) {
+  copyLinkBtn.addEventListener("click", () => {
+    Sound.click();
+    const url = new URL(window.location.href);
+    url.searchParams.set("room", Game.onlineRoomCode);
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      copyLinkBtn.textContent = "COPIED!";
+      setTimeout(() => {
+        copyLinkBtn.textContent = "COPY INVITE LINK";
+      }, 2000);
+    });
+  });
+}
 
 soundToggle.addEventListener("click", () => {
   Sound.setMuted(!Sound.muted);
@@ -1276,3 +1293,13 @@ renderModeToggle();
 renderDifficultyOptions();
 resetGame();
 showScreen("gameScreen");
+
+// Check if URL has ?room=CODE
+const urlParams = new URLSearchParams(window.location.search);
+const roomParam = urlParams.get("room");
+if (roomParam) {
+  // Clean up the URL so the query string doesn't stick around
+  window.history.replaceState({}, document.title, window.location.pathname);
+  showScreen("onlineScreen");
+  Online.joinAsGuest(roomParam);
+}
