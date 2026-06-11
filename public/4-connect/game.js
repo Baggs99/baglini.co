@@ -842,9 +842,13 @@ function updateUndoButton() {
   undoBtn.style.display = show ? "" : "none";
   if (!show) {
     undoBtn.disabled = true;
-    return;
+  } else {
+    undoBtn.disabled = !canUndoCpuRound();
   }
-  undoBtn.disabled = !canUndoCpuRound();
+
+  // Also hide the Reset Game button in Online mode
+  const showReset = Game.mode !== MODE_ONLINE;
+  resetBtn.style.display = showReset ? "" : "none";
 }
 
 /* ============================================================
