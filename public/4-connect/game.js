@@ -1114,7 +1114,7 @@ function showOnlineStatus(title, code, isHost = false) {
   onlineStatusTitle.textContent = title;
   roomCodeDisplay.textContent = code;
   if (copyLinkBtn) {
-    copyLinkBtn.style.display = isHost ? "inline-block" : "none";
+    copyLinkBtn.style.display = isHost ? "block" : "none";
   }
   onlineStatusOverlay.classList.add("visible");
 }
