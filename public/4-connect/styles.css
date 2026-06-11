@@ -563,7 +563,79 @@ button#undoBtn.undo-btn--hidden {
   padding-top: 4px;
 }
 
-/* ---------- 10. Overlays (win / draw) + confetti ---------- */
+/* --- Online Setup Styles --- */
+.online-setup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+}
+.online-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.online-card h3 {
+  margin: 0 0 10px 0;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  color: #f8fafc;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+.online-card p {
+  margin: 0 0 20px 0;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+.online-divider {
+  font-family: "Bowlby One", system-ui, sans-serif;
+  color: rgba(255, 255, 255, 0.3);
+}
+.room-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 12px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.room-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: none;
+}
+.room-code-box {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.room-code-box span {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.room-code-box strong {
+  font-family: "Bowlby One", system-ui, sans-serif;
+  font-size: 2.5rem;
+  color: #fbbf24;
+  letter-spacing: 4px;
+}
+
+/* ---------- 10. Overlays (win / draw / online) + confetti ---------- */
 .overlay {
   display: none;
   position: fixed;

@@ -29,6 +29,7 @@ const YELLOW = "yellow";
 // ----- Mode constants -----
 const MODE_PVP = "pvp"; // two human players
 const MODE_CPU = "cpu"; // human (RED) vs computer (YELLOW)
+const MODE_ONLINE = "online"; // multiplayer over Supabase
 
 // ----- Difficulty constants -----
 const DIFFICULTY = {
@@ -62,6 +63,18 @@ const muteBtn           = document.getElementById("muteBtn");
 const gameSettingsBtn   = document.getElementById("gameSettingsBtn");
 const modeCpuBtn        = document.getElementById("modeCpuBtn");
 const modePvpBtn        = document.getElementById("modePvpBtn");
+const modeOnlineBtn     = document.getElementById("modeOnlineBtn");
+
+// Online Setup
+const onlineScreen      = document.getElementById("onlineScreen");
+const onlineBackBtn     = document.getElementById("onlineBackBtn");
+const hostBtn           = document.getElementById("hostBtn");
+const joinBtn           = document.getElementById("joinBtn");
+const joinCodeInput     = document.getElementById("joinCodeInput");
+const onlineStatusOverlay= document.getElementById("onlineStatusOverlay");
+const onlineStatusTitle = document.getElementById("onlineStatusTitle");
+const roomCodeDisplay   = document.getElementById("roomCodeDisplay");
+const cancelOnlineBtn   = document.getElementById("cancelOnlineBtn");
 
 // Settings & How to Play
 const settingsBackBtn   = document.getElementById("settingsBackBtn");
@@ -89,10 +102,13 @@ const Game = {
   isOver: false,
   isAnimating: false,   // true while a piece is mid-drop (locks input)
   lastMove: null,       // { row, col } of most recent drop, or null
-  mode: MODE_CPU,       // MODE_PVP | MODE_CPU - default to "1 Player" for new players
+  mode: MODE_CPU,       // MODE_PVP | MODE_CPU | MODE_ONLINE
   difficulty: DIFFICULTY.MEDIUM, // AI difficulty (only matters in CPU mode)
   /** CPU mode only: each finished drop { row, col, player } for undo */
   moveHistory: [],
+  /** Online mode only */
+  onlineRole: null,     // RED (Host) or YELLOW (Guest)
+  onlineRoomCode: null, // string
 };
 
 /** 1 Player: show "Go back one move" when enabled (default off). */
@@ -151,12 +167,12 @@ const Sound = {
   setMuted(muted) {
     this.muted = muted;
     try { localStorage.setItem("connect4-muted", muted ? "1" : "0"); }
-    catch { /* private mode - safe to ignore */ }
+    catch (_) { /* private mode - safe to ignore */ }
   },
 
   loadMuted() {
     try { this.muted = localStorage.getItem("connect4-muted") === "1"; }
-    catch { this.muted = false; }
+    catch (_) { this.muted = false; }
   },
 };
 
@@ -568,8 +584,15 @@ function renderBoard() {
  */
 function updatePlayerCards() {
   const isCpu = Game.mode === MODE_CPU;
-  redPlayerNameEl.textContent    = isCpu ? "You" : "Player 1";
-  yellowPlayerNameEl.textContent = isCpu ? "Computer" : "Player 2";
+  const isOnline = Game.mode === MODE_ONLINE;
+  
+  if (isOnline) {
+    redPlayerNameEl.textContent    = Game.onlineRole === RED ? "You" : "Opponent";
+    yellowPlayerNameEl.textContent = Game.onlineRole === YELLOW ? "You" : "Opponent";
+  } else {
+    redPlayerNameEl.textContent    = isCpu ? "You" : "Player 1";
+    yellowPlayerNameEl.textContent = isCpu ? "Computer" : "Player 2";
+  }
 
   const redActive = Game.currentPlayer === RED;
   redPlayerCardEl.classList.toggle("active", redActive && !Game.isOver);
@@ -638,9 +661,21 @@ function spawnStars(container, count = 14) {
  * Handle a tap/click on a column. Human entry point.
  * In CPU mode this is a no-op while it's the computer's turn.
  */
-function handleColumnClick(col) {
+function handleColumnClick(col, fromNetwork = false) {
   if (Game.isOver || Game.isAnimating) return;
   if (Game.mode === MODE_CPU && Game.currentPlayer === YELLOW) return;
+  
+  if (Game.mode === MODE_ONLINE) {
+    if (Game.currentPlayer !== Game.onlineRole && !fromNetwork) {
+      // Not our turn, wait for opponent's network message
+      return;
+    }
+    if (!fromNetwork) {
+      // It's our turn, send it to the opponent
+      Online.broadcast({ type: "move", col });
+    }
+  }
+
   applyMove(col);
 }
 
@@ -817,8 +852,11 @@ function showScreen(screenId) {
 
 function showWinOverlay(winner) {
   const isCpu = Game.mode === MODE_CPU;
+  const isOnline = Game.mode === MODE_ONLINE;
   let title;
-  if (isCpu) {
+  if (isOnline) {
+    title = winner === Game.onlineRole ? "YOU WIN!" : "OPPONENT WINS!";
+  } else if (isCpu) {
     title = winner === RED ? "YOU WIN!" : "COMPUTER WINS!";
   } else {
     title = winner === RED ? "PLAYER 1 WINS!" : "PLAYER 2 WINS!";
@@ -847,9 +885,12 @@ function hideOverlays() {
 
 function setMode(mode) {
   if (Game.mode !== mode) {
+    if (Game.mode === MODE_ONLINE) {
+      Online.leaveRoom();
+    }
     Game.mode = mode;
     try { localStorage.setItem("connect4-mode", mode); }
-    catch { /* ignore */ }
+    catch (_) { /* ignore */ }
   }
   renderModeToggle();
   resetGame();
@@ -859,7 +900,7 @@ function loadMode() {
   try {
     const saved = localStorage.getItem("connect4-mode");
     if (saved === MODE_PVP || saved === MODE_CPU) Game.mode = saved;
-  } catch { /* ignore */ }
+  } catch (_) { /* ignore */ }
 }
 
 /* ---------- Difficulty ---------- */
@@ -870,7 +911,7 @@ function setDifficulty(diff) {
   if (Game.difficulty === diff) return;
   Game.difficulty = diff;
   try { localStorage.setItem("connect4-difficulty", diff); }
-  catch { /* ignore */ }
+  catch (_) { /* ignore */ }
   renderDifficultyOptions();
 }
 
@@ -880,12 +921,12 @@ function loadDifficulty() {
     if (saved && Object.values(DIFFICULTY).includes(saved)) {
       Game.difficulty = saved;
     }
-  } catch { /* ignore */ }
+  } catch (_) { /* ignore */ }
 }
 
 function loadUndoMoveEnabled() {
   try { undoMoveEnabled = localStorage.getItem("connect4-undo-move") === "1"; }
-  catch { undoMoveEnabled = false; }
+  catch (_) { undoMoveEnabled = false; }
 }
 
 function setUndoMoveEnabled(enabled) {
@@ -895,7 +936,7 @@ function setUndoMoveEnabled(enabled) {
   }
   undoMoveEnabled = enabled;
   try { localStorage.setItem("connect4-undo-move", enabled ? "1" : "0"); }
-  catch { /* ignore */ }
+  catch (_) { /* ignore */ }
   updateUndoButton();
 }
 
@@ -907,17 +948,175 @@ function renderDifficultyOptions() {
   });
 }
 
-function resetGame() {
+function resetGame(fromNetwork = false) {
+  if (Game.mode === MODE_ONLINE && !fromNetwork) {
+    Online.broadcast({ type: "reset" });
+  }
+
   Game.board = createEmptyBoard();
   Game.currentPlayer = RED;
   Game.isOver = false;
   Game.isAnimating = false;
   Game.lastMove = null;
   Game.moveHistory = [];
+  // Keep online state during resets
+  // Game.onlineRole = null;
+  // Game.onlineRoomCode = null;
   hideOverlays();
   renderBoard();
   updatePlayerCards();
   updateUndoButton();
+}
+
+/* ============================================================
+   Supabase Online Multiplayer Setup
+   ============================================================ */
+
+// TODO: Replace these with your actual Supabase project URL and Anon Key.
+const SUPABASE_URL = "https://iwekfwssxqanwdgbnxcs.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_GbRg9JUYoj6uhOSeqPLz6Q_p9GELdGx"; // I see the key starts with this from your screenshot, you'll need to paste the full key here
+
+const Online = {
+  client: null,
+  channel: null,
+
+  init() {
+    if (this.client || typeof window.supabase === "undefined") return;
+    if (SUPABASE_URL !== "YOUR_SUPABASE_URL") {
+      this.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+      console.warn("Supabase not configured. Online mode will not work until keys are set.");
+    }
+  },
+
+  generateRoomCode() {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no confusing chars like I, 1, O, 0
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  },
+
+  startHost() {
+    this.init();
+    if (!this.client) return alert("Please configure Supabase URL and Key first.");
+    
+    Game.onlineRole = RED; // host is always red
+    Game.onlineRoomCode = this.generateRoomCode();
+    
+    showOnlineStatus("WAITING FOR OPPONENT...", Game.onlineRoomCode);
+    
+    // Set to online mode immediately
+    Game.mode = MODE_ONLINE;
+    this.joinRoom(Game.onlineRoomCode);
+  },
+
+  joinAsGuest(code) {
+    this.init();
+    if (!this.client) return alert("Please configure Supabase URL and Key first.");
+    
+    code = code.toUpperCase().trim();
+    if (code.length !== 5) return alert("Room code must be 5 characters.");
+    
+    Game.onlineRole = YELLOW; // guest is always yellow
+    Game.onlineRoomCode = code;
+    
+    showOnlineStatus("JOINING ROOM...", code);
+    
+    // Switch immediately to online mode so that when sync happens, we don't double-reset
+    Game.mode = MODE_ONLINE;
+    this.joinRoom(code);
+  },
+
+  joinRoom(code) {
+    if (this.channel) {
+      this.client.removeChannel(this.channel);
+    }
+    
+    this.channel = this.client.channel(`room-${code}`, {
+      config: {
+        presence: { key: Game.onlineRole }
+      }
+    });
+
+    // Listen for incoming moves/events
+    this.channel.on('broadcast', { event: 'game-action' }, payload => {
+      this.handleNetworkMessage(payload.payload);
+    });
+
+    // Listen for presence to detect opponent joining/leaving
+    this.channel.on('presence', { event: 'sync' }, () => {
+      const state = this.channel.presenceState();
+      
+      // Because a player might have multiple tabs/connections open,
+      // we need to count unique roles (RED vs YELLOW) rather than raw connection keys.
+      // But actually, we set `presence: { key: Game.onlineRole }`, so the keys ARE the roles!
+      const players = Object.keys(state);
+      
+      if (players.includes(RED) && players.includes(YELLOW)) {
+        // Both roles are present!
+        hideOnlineStatus();
+        renderModeToggle();
+        resetGame(true); // pass true so it doesn't broadcast a reset to the newly joined player
+        showScreen("gameScreen");
+      } else if (Game.mode === MODE_ONLINE && !document.getElementById("onlineStatusOverlay").classList.contains("visible")) {
+        // Opponent disconnected mid-game
+        showOnlineStatus("OPPONENT DISCONNECTED", code);
+      }
+    });
+
+    this.channel.subscribe(async (status) => {
+      if (status === 'SUBSCRIBED') {
+        await this.channel.track({ online_at: new Date().toISOString() });
+      }
+    });
+  },
+
+  leaveRoom() {
+    if (this.channel) {
+      this.client.removeChannel(this.channel);
+      this.channel = null;
+    }
+    Game.onlineRole = null;
+    Game.onlineRoomCode = null;
+    hideOnlineStatus();
+    
+    // If they were mid-game, switch back to 1-player mode
+    if (Game.mode === MODE_ONLINE) {
+      setMode(MODE_CPU);
+    }
+  },
+
+  broadcast(message) {
+    if (!this.channel) return;
+    this.channel.send({
+      type: 'broadcast',
+      event: 'game-action',
+      payload: message
+    });
+  },
+
+  handleNetworkMessage(msg) {
+    if (msg.type === "move" && Game.currentPlayer !== Game.onlineRole) {
+      // It's a move from the opponent
+      if (findLowestEmptyRow(Game.board, msg.col) !== -1) {
+        handleColumnClick(msg.col, true);
+      }
+    } else if (msg.type === "reset") {
+      resetGame(true);
+    }
+  }
+};
+
+function showOnlineStatus(title, code) {
+  onlineStatusTitle.textContent = title;
+  roomCodeDisplay.textContent = code;
+  onlineStatusOverlay.classList.add("visible");
+}
+
+function hideOnlineStatus() {
+  onlineStatusOverlay.classList.remove("visible");
 }
 
 /* ============================================================
@@ -944,11 +1143,13 @@ function renderUndoMoveToggle() {
 }
 
 function renderModeToggle() {
-  const isCpu = Game.mode === MODE_CPU;
-  modeCpuBtn.classList.toggle("active", isCpu);
-  modePvpBtn.classList.toggle("active", !isCpu);
-  modeCpuBtn.setAttribute("aria-selected", String(isCpu));
-  modePvpBtn.setAttribute("aria-selected", String(!isCpu));
+  modeCpuBtn.classList.toggle("active", Game.mode === MODE_CPU);
+  modePvpBtn.classList.toggle("active", Game.mode === MODE_PVP);
+  modeOnlineBtn.classList.toggle("active", Game.mode === MODE_ONLINE);
+
+  modeCpuBtn.setAttribute("aria-selected", String(Game.mode === MODE_CPU));
+  modePvpBtn.setAttribute("aria-selected", String(Game.mode === MODE_PVP));
+  modeOnlineBtn.setAttribute("aria-selected", String(Game.mode === MODE_ONLINE));
 }
 
 /* ============================================================
@@ -963,6 +1164,12 @@ modeCpuBtn.addEventListener("click", () => {
 modePvpBtn.addEventListener("click", () => {
   Sound.click();
   setMode(MODE_PVP);
+});
+modeOnlineBtn.addEventListener("click", () => {
+  Sound.click();
+  // Don't setMode yet, just show the lobby screen.
+  // The mode button won't highlight until they successfully join a room.
+  showScreen("onlineScreen");
 });
 
 // --- Game header ---
@@ -991,6 +1198,24 @@ resetBtn.addEventListener("click", () => {
 settingsBackBtn.addEventListener("click", () => {
   Sound.click();
   showScreen("gameScreen");
+});
+
+// --- Online Setup ---
+onlineBackBtn.addEventListener("click", () => {
+  Sound.click();
+  showScreen("gameScreen");
+});
+hostBtn.addEventListener("click", () => {
+  Sound.click();
+  Online.startHost();
+});
+joinBtn.addEventListener("click", () => {
+  Sound.click();
+  Online.joinAsGuest(joinCodeInput.value);
+});
+cancelOnlineBtn.addEventListener("click", () => {
+  Sound.click();
+  Online.leaveRoom();
 });
 
 soundToggle.addEventListener("click", () => {
