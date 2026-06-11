@@ -1082,11 +1082,6 @@ const Online = {
     Game.onlineRole = null;
     Game.onlineRoomCode = null;
     hideOnlineStatus();
-    
-    // If they were mid-game, switch back to 1-player mode
-    if (Game.mode === MODE_ONLINE) {
-      setMode(MODE_CPU);
-    }
   },
 
   broadcast(message) {
@@ -1220,6 +1215,7 @@ joinBtn.addEventListener("click", () => {
 cancelOnlineBtn.addEventListener("click", () => {
   Sound.click();
   Online.leaveRoom();
+  setMode(MODE_CPU);
 });
 if (copyLinkBtn) {
   copyLinkBtn.addEventListener("click", () => {
