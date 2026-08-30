@@ -71,6 +71,19 @@ export const portfolioFeatured = [
 /** Smaller placards — live sites plus shipped tools already on this page. */
 export const portfolioOther = [
   {
+    id: 'housingct',
+    title: 'Housing Connecticut',
+    category: 'Course Reader',
+    description:
+      'A local-first reader for ARCH 8108: assigned readings, school intro meetings, and the Fall 2026 clinic schedule.',
+    techTags: ['Housing', 'Yale', 'Course Tools', 'Static Site'],
+    liveUrl: '/housingct/',
+    ctaPrimary: 'Open reader',
+    githubUrl: 'https://github.com/Baggs99/HousingCT',
+    ctaGithub: 'GitHub',
+    visualVariant: 'slate',
+  },
+  {
     id: '4-connect',
     title: '4 Connect',
     category: 'Web Game',

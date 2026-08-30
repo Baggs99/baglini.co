@@ -1,3 +1,7 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/housingct", "destination": "/housingct/index.html" },
+    { "source": "/4-connect", "destination": "/4-connect/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

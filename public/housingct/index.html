@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/housingct/">
+  <title>Housing Connecticut · Fall 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f3f0e7;
+      --ink: #161513;
+      --muted: #5e5a52;
+      --faint: #8a8478;
+      --rule: #d3cdc0;
+      --rule-strong: #161513;
+      --stamp: #8a2f16;
+      --fill: rgba(22, 21, 19, 0.04);
+      --serif: "Source Serif 4", "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --measure: 46rem;
+      --page: 54rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(to right, rgba(22,21,19,0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(22,21,19,0.035) 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: -1px -1px;
+      font: 16px/1.5 var(--sans);
+    }
+
+    a { color: var(--ink); }
+    a:hover { color: var(--stamp); }
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .page {
+      max-width: var(--page);
+      margin: 0 auto;
+      padding: 1.5rem 1.4rem 4rem;
+    }
+
+    .mast {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem 1.5rem;
+      align-items: end;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--rule-strong);
+    }
+    .docno {
+      margin: 0 0 0.35rem;
+      font: 500 0.72rem/1.3 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mast h1 {
+      margin: 0;
+      font: 600 1.85rem/1.1 var(--serif);
+      letter-spacing: -0.02em;
+    }
+    .mast .sub {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .today {
+      text-align: right;
+    }
+    .today .lbl {
+      margin: 0;
+      font: 500 0.72rem/1.3 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .today .date {
+      margin: 0.15rem 0 0;
+      font: 600 1.15rem/1.2 var(--serif);
+    }
+    .today .cal {
+      margin: 0.2rem 0 0;
+      font-size: 0.8rem;
+      color: var(--faint);
+      max-width: 16rem;
+      margin-left: auto;
+    }
+
+    .jump {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.25rem;
+      margin: 0.85rem 0 0;
+      padding: 0;
+      list-style: none;
+      font: 500 0.78rem/1 var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .jump a { text-decoration: none; border-bottom: 1px solid transparent; }
+    .jump a:hover { border-bottom-color: var(--ink); }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin: 1rem 0 2rem;
+    }
+    .find-btn, .text-btn {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid var(--ink);
+      padding: 0.35rem 0;
+      font: 500 0.9rem/1 var(--sans);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .find-btn kbd {
+      font: 400 0.72rem var(--mono);
+      color: var(--faint);
+      margin-left: 0.4rem;
+    }
+
+    .sec {
+      scroll-margin-top: 1rem;
+      margin: 0 0 2.35rem;
+    }
+    .sec-label {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin: 0 0 0.7rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .sec-label .n {
+      font: 500 0.72rem/1 var(--mono);
+      letter-spacing: 0.1em;
+      color: var(--stamp);
+      min-width: 2.2rem;
+    }
+    .sec-label .name {
+      margin: 0;
+      font: 600 0.72rem/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .week-kicker {
+      margin: 0;
+      font: 500 0.72rem/1.3 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stamp);
+    }
+    .week-title {
+      margin: 0.15rem 0 0.15rem;
+      font: 600 clamp(1.6rem, 3vw, 2.15rem)/1.12 var(--serif);
+      letter-spacing: -0.02em;
+    }
+    .week-meta {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .week-meta strong { color: var(--ink); font-weight: 600; }
+
+    .mast .sub-line {
+      margin: 0.35rem 0 0;
+      font: 500 0.72rem/1.4 var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .about {
+      margin: 0.85rem 0 0;
+      max-width: 40rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .about summary {
+      cursor: pointer;
+      font: 500 0.78rem/1.3 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .about p { margin: 0.55rem 0 0; }
+    .about p + p { margin-top: 0.45rem; }
+
+    .meetings {
+      margin: 0 0 1.15rem;
+      border-top: 1px solid var(--rule-strong);
+    }
+    .meet {
+      display: grid;
+      grid-template-columns: 11rem 1fr;
+      gap: 0.15rem 1rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .meet.past { opacity: 0.55; }
+    .meet .school {
+      font: 500 0.75rem/1.4 var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .meet .when { margin: 0; font-family: var(--serif); font-weight: 600; }
+    .meet .where, .meet .mnote {
+      margin: 0.15rem 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .work {
+      display: grid;
+      grid-template-columns: 1.35rem 1fr auto;
+      gap: 0.35rem 0.7rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .work:first-of-type { border-top: 1px solid var(--rule-strong); }
+    .work.done .work-title { color: var(--muted); }
+    .work.missing .work-title { padding-right: 0.25rem; }
+
+    .work input[type="checkbox"] {
+      margin: 0.35rem 0 0;
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--ink);
+      cursor: pointer;
+    }
+    .work-title {
+      margin: 0;
+      font: 600 1.12rem/1.25 var(--serif);
+      letter-spacing: -0.015em;
+    }
+    .work-cite {
+      margin: 0.15rem 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .work-flag {
+      margin: 0.35rem 0 0;
+      font-size: 0.82rem;
+      color: var(--stamp);
+    }
+    .work-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem 0.85rem;
+      padding-top: 0.2rem;
+      font-size: 0.88rem;
+    }
+    .work-actions a, .work-actions button {
+      font: 500 0.88rem/1.2 var(--sans);
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .work-actions .primary {
+      text-decoration-thickness: 1.5px;
+    }
+    .work-actions .quiet { color: var(--muted); }
+    .work-actions .disabled {
+      color: var(--faint);
+      text-decoration: none;
+      cursor: default;
+    }
+
+    .player-wrap {
+      grid-column: 2 / -1;
+      margin: 0.15rem 0 0.4rem;
+    }
+    .player-wrap video {
+      display: block;
+      width: 100%;
+      max-height: 26rem;
+      background: #111;
+    }
+    .player-wrap[hidden] { display: none; }
+
+    .next-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--rule-strong);
+    }
+    .next-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.95rem;
+    }
+    .next-list .t { font-family: var(--serif); font-weight: 600; }
+    .next-list .p { color: var(--muted); font-size: 0.85rem; }
+
+    .preview-actions { margin-top: 0.85rem; }
+
+    .index {
+      border-top: 1px solid var(--rule-strong);
+    }
+    .index-row {
+      display: grid;
+      grid-template-columns: 2.4rem 1fr auto;
+      gap: 0.5rem 0.8rem;
+      width: 100%;
+      padding: 0.65rem 0;
+      border: 0;
+      border-bottom: 1px solid var(--rule);
+      background: transparent;
+      text-align: left;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    .index-row[aria-expanded="true"] {
+      border-bottom-color: var(--ink);
+    }
+    .index-row .wn {
+      font: 500 0.85rem/1.4 var(--mono);
+      color: var(--muted);
+    }
+    .index-row.is-now .wn { color: var(--stamp); }
+    .index-row h3 {
+      margin: 0;
+      font: 600 1rem/1.3 var(--serif);
+    }
+    .index-row .kind {
+      font: 500 0.72rem/1.4 var(--mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-align: right;
+    }
+    .index-row .dates {
+      grid-column: 2;
+      margin: 0;
+      color: var(--faint);
+      font-size: 0.8rem;
+    }
+    .week-panel {
+      padding: 0 0 0.9rem 3.2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .week-panel[hidden] { display: none; }
+    .week-panel .work:first-of-type { border-top: 0; }
+    .panel-close { margin: 0.85rem 0 0; }
+    .syllabus-excerpt {
+      margin: 0 0 0.75rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .syllabus-excerpt li { margin: 0.2rem 0; }
+
+    .studio-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .syllabus-block {
+      max-width: var(--measure);
+    }
+    .syllabus-block h3 {
+      margin: 1.1rem 0 0.3rem;
+      font: 600 1.05rem/1.25 var(--serif);
+    }
+    .syllabus-block ul {
+      margin: 0;
+      padding: 0 0 0 1.1rem;
+    }
+    .syllabus-block li { margin: 0.25rem 0; font-size: 0.92rem; }
+    .syllabus-block .empty { color: var(--faint); font-style: italic; }
+
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+      color: var(--faint);
+      font-size: 0.8rem;
+    }
+
+    dialog {
+      width: min(40rem, calc(100vw - 2rem));
+      max-height: min(32rem, calc(100vh - 4rem));
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      color: var(--ink);
+      padding: 0;
+    }
+    dialog::backdrop { background: rgba(22, 21, 19, 0.35); }
+    .finder-head {
+      padding: 0.85rem 1rem 0.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .finder-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .finder-close {
+      appearance: none;
+      background: none;
+      border: 0;
+      padding: 0;
+      font: 500 0.78rem/1 var(--sans);
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .finder-head label {
+      display: block;
+      font: 500 0.7rem/1 var(--mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .finder-head input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font: 600 1.15rem/1.3 var(--serif);
+      color: var(--ink);
+      padding: 0.2rem 0;
+    }
+    .finder-head input:focus { outline: none; }
+    .finder-list {
+      margin: 0;
+      padding: 0.35rem 0;
+      list-style: none;
+      overflow: auto;
+      max-height: 24rem;
+    }
+    .finder-list button {
+      display: grid;
+      grid-template-columns: 3.2rem 1fr;
+      gap: 0.2rem 0.75rem;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 0.55rem 1rem;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .finder-list button[aria-selected="true"],
+    .finder-list button:hover { background: var(--fill); }
+    .finder-list .wn { font: 500 0.75rem var(--mono); color: var(--muted); }
+    .finder-list .t { font: 600 0.98rem/1.25 var(--serif); }
+    .finder-list .c { grid-column: 2; color: var(--muted); font-size: 0.8rem; }
+    .finder-empty { padding: 1rem; color: var(--muted); }
+
+    @media (max-width: 700px) {
+      .mast, .work, .index-row {
+        grid-template-columns: 1fr;
+      }
+      .today, .index-row .kind { text-align: left; }
+      .today .cal { margin-left: 0; }
+      .work-actions { justify-content: flex-start; }
+      .week-panel { padding-left: 0; }
+      .meet { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .tools, .jump, .find-btn, dialog, .player-wrap { display: none !important; }
+      body { background: #fff; }
+      .page { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="mast">
+      <div>
+        <p class="docno">ARCH 8108 01 · FA26 · Local course reader</p>
+        <h1>Housing Connecticut</h1>
+        <p class="sub">Developing Healthy and Sustainable Neighborhoods</p>
+        <p class="sub-line">Yale Urban Design Workshop · Architecture · Law · Management · Environment</p>
+      </div>
+      <div class="today">
+        <p class="lbl">Today</p>
+        <p class="date" id="today-date"></p>
+        <p class="cal" id="cal-note"></p>
+      </div>
+    </header>
+
+    <details class="about">
+      <summary>About this clinic</summary>
+      <p>Interdisciplinary clinic across Architecture, Law, Management, and Environment, organized by the Yale Urban Design Workshop. Teams work with local nonprofits on development proposals and designs anchored by affordable housing. Partner: Connecticut Department of Housing. Proposals may be eligible for state funding for pilots or predevelopment.</p>
+      <p>This year the clinic is focused on small multifamily buildings of 2 to 6 units, missing middle housing, with the New Haven Land Bank, on infill sites, using prefab, modular, and CLT construction. Students work in three multidisciplinary teams. Official start is Friday, 11 September 2026. Week 0 is intro meetings by school; each school has a different first meeting.</p>
+    </details>
+
+    <ul class="jump">
+      <li><a href="#current">01 Current</a></li>
+      <li><a href="#next">02 Next</a></li>
+      <li><a href="#semester">03 Semester</a></li>
+      <li><a href="#syllabus">04 Syllabus</a></li>
+    </ul>
+
+    <div class="tools">
+      <button type="button" class="find-btn" id="open-finder">Find a reading <kbd>Ctrl K</kbd></button>
+    </div>
+
+    <section class="sec" id="current"></section>
+    <section class="sec" id="next"></section>
+    <section class="sec" id="semester"></section>
+    <section class="sec" id="syllabus"></section>
+
+    <footer>
+      Open this file from the Housing Connecticut folder so PDFs and the video resolve. Completion is stored only in this browser.
+    </footer>
+  </div>
+
+  <dialog id="finder" aria-label="Find a reading">
+    <div class="finder-head">
+      <div class="finder-head-row">
+        <label for="finder-q">Search titles, authors, weeks, files</label>
+        <button type="button" class="finder-close" id="close-finder">Close</button>
+      </div>
+      <input id="finder-q" type="search" autocomplete="off" spellcheck="false">
+    </div>
+    <ul class="finder-list" id="finder-list"></ul>
+  </dialog>
+
+  <script>
+    const STORAGE_KEY = "housing-ct-fall2026-done";
+
+    const W0 = "Week%2000%20-%20Discipline%20Specific%20Intro%20Meetings/";
+    const W1 = "Week%2001%20-%20Housing%20CT%20Kick%20Off/";
+    const W2 = "Week%2002%20-%20Evolution%20of%20Affordability/";
+    const W3 = "Week%2003%20-%20Via%20Verde%20Case%20Discussion%20and%20Finance%20Workshop/";
+    const W4 = "Week%2004%20-%20Codes%20Codes%20Codes/";
+    const VIDEO = W0 + "Fighting%20For%20Home%20-%20How%20Housing%20Policy%20Keeps%20Connecticut%20Segregated.mp4";
+
+    // Set item.summary to a relative path (e.g. "summaries/w0-kubey.html")
+    // to surface a Read summary action. Leave null until a file exists.
+    const WEEKS = [
+      {
+        n: 0,
+        id: "week-00",
+        title: "Intro meetings by school",
+        type: "reading",
+        meet: "2026-09-04",
+        meetings: [
+          {
+            school: "Law",
+            when: "Fri, Aug 28 · 9:30–11:00",
+            where: "Room M64, Ruttenberg Hall",
+            note: "Already held. No assignment in advance.",
+            past: true
+          },
+          {
+            school: "Architecture & Environment",
+            when: "Fri, Sept 4 · 9:00–12:00",
+            where: "Rudolph Hall, 4th floor pit",
+            note: "Assignment 0. Canvas announcement: slides up by 8:30am that morning. The assignment sheet says upload by Saturday, Sept 6, 9am — those two dates disagree."
+          },
+          {
+            school: "Management (SOM)",
+            when: "Fri, Sept 4 · 12:00–1:30",
+            where: "Evans Hall 4220",
+            note: "Week 0 lunch with Élise Celestin. No advance assignment. Official start is Friday, Sept 11."
+          }
+        ],
+        note: "Assignment 0 is for Architecture and Environment only. SOM and Law do not have it.",
+        syllabus: [
+          "Canvas: each school meets separately. Law has no advance assignment. Architecture and Environment complete Assignment 0. SOM week 0 is an intro lunch.",
+          "Assignment 0 required: Kubey; Fighting For Home; Yale Urban Design Workshop Housing Clinic 2022 and 2023 publications.",
+          "Short-form syllabus also listed Good Neighbors, pp. 13–59. That book is not on Assignment 0."
+        ],
+        items: [
+          {
+            id: "w0-assign",
+            title: "Assignment 0: Warming up for the Clinic",
+            cite: "Architecture and Environment. Present one affordable-housing example, max 5 slides, 2–3 minutes. Class Friday, Sept 4. SOM and Law: not your assignment.",
+            search: "assignment 0 warming up clinic slides canvas architecture environment september 4",
+            summary: null,
+            links: [
+              { label: "Open assignment", href: W0 + "F26%20Housing%20CT%20Assignment%200.pdf", primary: true }
+            ]
+          },
+          {
+            id: "w0-film",
+            title: "Fighting For Home",
+            cite: "How Housing Policy Keeps Connecticut Segregated. Connecticut Public / CPTV, 2024. 58 min. Required for Assignment 0.",
+            search: "fighting for home documentary video connecticut public cptv segregated watch assignment 0",
+            summary: null,
+            video: VIDEO,
+            links: [
+              { label: "Open local file", href: VIDEO, primary: true },
+              { label: "CT Public", href: "https://www.ctpublic.org/watch/local-programming/fighting-for-home", ext: true },
+              { label: "YouTube", href: "https://www.youtube.com/watch?v=VCvtTLOLSgo", ext: true }
+            ]
+          },
+          {
+            id: "w0-kubey",
+            title: "Housing for the Common Good",
+            cite: "Karen Kubey. Introduction, in Housing as Intervention, pp. 6–13. Wiley / AD, 2018. Required for Assignment 0.",
+            search: "kubey housing for the common good housing as intervention wiley assignment 0",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W0 + "Kubey%202018%20-%20Housing%20for%20the%20Common%20Good.pdf", primary: true }
+            ]
+          },
+          {
+            id: "w0-yudw-2022",
+            title: "Housing Clinic 2022",
+            cite: "Yale Urban Design Workshop. Clinic report: Hazel St, Division St, Grand Av. Required for Assignment 0.",
+            search: "yale urban design workshop housing clinic 2022 hazel division grand assignment 0",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W0 + "Yale%20Urban%20Design%20Workshop%20-%20Housing%20Clinic%202022.pdf", primary: true }
+            ]
+          },
+          {
+            id: "w0-yudw-2023",
+            title: "Housing Clinic 2023",
+            cite: "Yale Urban Design Workshop. Clinic report. Required for Assignment 0.",
+            search: "yale urban design workshop housing clinic 2023 report assignment 0",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W0 + "Yale%20Urban%20Design%20Workshop%20-%20Housing%20Clinic%202023.pdf", primary: true }
+            ]
+          },
+          {
+            id: "w0-neighbors",
+            title: "Good Neighbors",
+            cite: "Tom Jones, William Pettus, and Michael Pyatok. Parts One and Two, pp. 13–59. McGraw-Hill, 1997. On the short-form syllabus for Week 0; not listed on Assignment 0.",
+            search: "good neighbors jones pettus pyatok affordable family housing who lives syllabus",
+            summary: null,
+            missing: "On the short-form syllabus, not on Assignment 0.",
+            links: [
+              { label: "Open assigned pages", href: W0 + "Jones%20Pettus%20Pyatok%201997%20-%20Good%20Neighbors%20pp%2013-59.pdf", primary: true },
+              { label: "Full book", href: W0 + "Jones%20Pettus%20Pyatok%201997%20-%20Good%20Neighbors%20(full%20book).pdf" }
+            ]
+          }
+        ]
+      },
+      {
+        n: 1,
+        id: "week-01",
+        title: "Housing CT kick off",
+        type: "reading",
+        meet: "2026-09-11",
+        note: "First full-clinic meeting. Official start.",
+        syllabus: [
+          "Colburn and Aldern. “Market” in Homelessness is a Housing Problem, pp. 121–144. UC Press, 2022.",
+          "Podemski, Max. A paradise of small houses, pp. 11–34 and 136–154."
+        ],
+        items: [
+          {
+            id: "w1-colburn",
+            title: "Market",
+            cite: "Gregg Colburn and Clayton Page Aldern. Chapter 5 of Homelessness Is a Housing Problem, pp. 121–144. University of California Press, 2022.",
+            search: "colburn aldern market homelessness is a housing problem chapter 5",
+            summary: null,
+            links: [
+              { label: "Open chapter", href: W1 + "Colburn%20Aldern%202022%20-%20Market%20(Homelessness%20Is%20a%20Housing%20Problem%20ch5).pdf", primary: true },
+              { label: "Rest of the book", href: W1 + "Colburn%20Aldern%20-%20Homelessness%20Is%20a%20Housing%20Problem%20(full%20book)/" }
+            ]
+          },
+          {
+            id: "w1-podemski-a",
+            title: "A Paradise of Small Houses, pp. 11–34",
+            cite: "Max Podemski. Chapter 1, Philadelphia row house. Beacon Press, 2024. Same PDF as the Boston excerpt; print pages are labeled.",
+            search: "podemski paradise of small houses philadelphia row house 11-34 chapter 1",
+            summary: null,
+            links: [
+              { label: "Open assigned pages", href: W1 + "Podemski%202024%20-%20assigned%20pages%2011-34%20and%20136-154.pdf", primary: true },
+              { label: "Full book", href: W1 + "Podemski%202024%20-%20A%20Paradise%20of%20Small%20Houses%20(full%20book).pdf" }
+            ]
+          },
+          {
+            id: "w1-podemski-b",
+            title: "A Paradise of Small Houses, pp. 136–154",
+            cite: "Max Podemski. Chapter 6, Boston triple-decker. Beacon Press, 2024. Same PDF as the Philadelphia excerpt; print pages are labeled.",
+            search: "podemski paradise of small houses boston triple-decker 136-154 chapter 6",
+            summary: null,
+            links: [
+              { label: "Open assigned pages", href: W1 + "Podemski%202024%20-%20assigned%20pages%2011-34%20and%20136-154.pdf", primary: true },
+              { label: "Full book", href: W1 + "Podemski%202024%20-%20A%20Paradise%20of%20Small%20Houses%20(full%20book).pdf" }
+            ]
+          }
+        ]
+      },
+      {
+        n: 2,
+        id: "week-02",
+        title: "Evolution of affordability",
+        type: "reading",
+        meet: "2026-09-18",
+        syllabus: [
+          "Parolek and Nelson. Missing Middle Housing, chap. 7, pp. 225–291. Island Press, 2020.",
+          "Churkina et al. Buildings as a global carbon sink. Nat Sustain 3, 269–276 (2020)."
+        ],
+        items: [
+          {
+            id: "w2-parolek",
+            title: "Implementing Missing Middle Housing",
+            cite: "Daniel Parolek and Arthur C. Nelson. Chapter 7 of Missing Middle Housing, print pp. 225–291. Island Press, 2020.",
+            search: "parolek nelson missing middle housing chapter 7 implementing 225-291",
+            summary: null,
+            links: [
+              { label: "Open chapter 7", href: W2 + "Parolek%20Nelson%202020%20-%20Missing%20Middle%20Housing%20Chapter%207%20pp%20225-291.pdf", primary: true },
+              { label: "Full book", href: W2 + "Parolek%20Nelson%202020%20-%20Missing%20Middle%20Housing%20(full%20book).pdf" }
+            ]
+          },
+          {
+            id: "w2-churkina",
+            title: "Buildings as a Global Carbon Sink",
+            cite: "Galina Churkina, Alan Organschi, Christopher P. O. Reyer, et al. Nature Sustainability 3 (2020): 269–276.",
+            search: "churkina organschi reyer buildings as a global carbon sink nature sustainability",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W2 + "Churkina%20et%20al%202020%20-%20Buildings%20as%20a%20Global%20Carbon%20Sink.pdf", primary: true },
+              { label: "Journal page", href: "https://doi.org/10.1038/s41893-019-0462-4", ext: true }
+            ]
+          }
+        ]
+      },
+      {
+        n: 3,
+        id: "week-03",
+        title: "Via Verde case discussion and finance workshop",
+        type: "reading",
+        meet: "2026-09-25",
+        note: "On disk: official REFM course-note slides. These are not the full textbook pages.",
+        syllabus: [
+          "Linneman and Kirsch. Real Estate, Finance and Investments. Ch. 5 pp. 55–83; Ch. 9 pp. 120–164; Ch. 10 pp. 165–177; Ch. 11 pp. 178–193."
+        ],
+        items: [
+          {
+            id: "w3-ch5",
+            title: "Ch. 5 · Property-Level Pro Forma Analysis",
+            cite: "Peter Linneman and Bruce Kirsch. Assigned pp. 55–83. Official course notes, not the textbook chapter.",
+            search: "linneman kirsch chapter 5 property-level pro forma analysis real estate finance",
+            summary: null,
+            missing: "Full textbook chapter is not here. Check Canvas or course reserves if the slides are not enough.",
+            links: [
+              { label: "Open course notes", href: W3 + "Linneman%20Kirsch%20-%20Ch5%20Property-Level%20Pro%20Forma%20Analysis%20(official%20course%20notes).pdf", primary: true }
+            ]
+          },
+          {
+            id: "w3-ch9",
+            title: "Ch. 9 · The Use and Selection of Cap Rates",
+            cite: "Peter Linneman and Bruce Kirsch. Assigned pp. 120–164. Official course notes, not the textbook chapter.",
+            search: "linneman kirsch chapter 9 cap rates real estate finance investments",
+            summary: null,
+            missing: "Full textbook chapter is not here.",
+            links: [
+              { label: "Open course notes", href: W3 + "Linneman%20Kirsch%20-%20Ch9%20The%20Use%20and%20Selection%20of%20Cap%20Rates%20(official%20course%20notes).pdf", primary: true }
+            ]
+          },
+          {
+            id: "w3-ch10",
+            title: "Ch. 10 · Development Pro Forma Analysis",
+            cite: "Peter Linneman and Bruce Kirsch. Assigned pp. 165–177. Official course notes, not the textbook chapter.",
+            search: "linneman kirsch chapter 10 development pro forma analysis",
+            summary: null,
+            missing: "Full textbook chapter is not here.",
+            links: [
+              { label: "Open course notes", href: W3 + "Linneman%20Kirsch%20-%20Ch10%20Development%20Pro%20Forma%20Analysis%20(official%20course%20notes).pdf", primary: true }
+            ]
+          },
+          {
+            id: "w3-ch11",
+            title: "Ch. 11 · Development Feasibility Analysis",
+            cite: "Peter Linneman and Bruce Kirsch. Assigned pp. 178–193. Official course notes, not the textbook chapter.",
+            search: "linneman kirsch chapter 11 development feasibility analysis",
+            summary: null,
+            missing: "Full textbook chapter is not here.",
+            links: [
+              { label: "Open course notes", href: W3 + "Linneman%20Kirsch%20-%20Ch11%20Development%20Feasibility%20Analysis%20(official%20course%20notes).pdf", primary: true }
+            ]
+          }
+        ]
+      },
+      {
+        n: 4,
+        id: "week-04",
+        title: "Codes, codes, codes",
+        type: "reading",
+        meet: "2026-10-02",
+        syllabus: [
+          "Cappel, Andrew J. “A Walk Along Willow,” Yale Law Journal 101, no. 3 (1991): 617–642.",
+          "Ellen, Freemark, and Schuetz. “Rethinking Local Regulations Governing Housing Production,” pp. 119–137. Edward Elgar, 2023."
+        ],
+        items: [
+          {
+            id: "w4-cappel",
+            title: "A Walk Along Willow",
+            cite: "Andrew J. Cappel. Pre-zoning New Haven, 1870–1926. Yale Law Journal 101, no. 3 (1991): 617–642.",
+            search: "cappel a walk along willow new haven zoning yale law journal 1991",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W4 + "Cappel%201991%20-%20A%20Walk%20Along%20Willow.pdf", primary: true }
+            ]
+          },
+          {
+            id: "w4-ellen",
+            title: "Rethinking Local Regulations Governing Housing Production",
+            cite: "Ingrid Gould Ellen, Yonah Freemark, and Jenny Schuetz. In A Research Agenda for US Land Use and Planning Law, pp. 119–137. Edward Elgar, 2023.",
+            search: "ellen freemark schuetz rethinking local regulations housing production nolon",
+            summary: null,
+            links: [
+              { label: "Open PDF", href: W4 + "Ellen%20Freemark%20Schuetz%202023%20-%20Rethinking%20Local%20Regulations%20Governing%20Housing%20Production.pdf", primary: true }
+            ]
+          }
+        ]
+      },
+      { n: 5, id: "week-05", title: "Student presentations", type: "studio", meet: "2026-10-09", syllabus: ["Initial project concepts, including but not limited to GIS suitability, zoning/lot analysis, building-code hurdles, initial design, market analysis, and a development pro forma draft."], items: [] },
+      { n: 6, id: "week-06", title: "Project workshop", type: "studio", meet: "2026-10-16", syllabus: [], items: [] },
+      { n: 7, id: "week-07", title: "Project workshop", type: "studio", meet: "2026-10-23", syllabus: [], note: "Yale October recess is 21–25 Oct. Confirm whether this workshop still meets.", items: [] },
+      { n: 8, id: "week-08", title: "Faculty lecture", type: "studio", meet: "2026-10-30", syllabus: ["Housing Crisis as Call to Action."], items: [] },
+      { n: 9, id: "week-09", title: "External review", type: "studio", meet: "2026-11-06", syllabus: [], items: [] },
+      { n: 10, id: "week-10", title: "Supervision", type: "studio", meet: "2026-11-13", syllabus: [], items: [] },
+      { n: 11, id: "week-11", title: "Moot", type: "studio", meet: "2026-11-20", syllabus: [], items: [] },
+      { n: 12, id: "week-12", title: "Thanksgiving", type: "studio", meet: "2026-11-26", syllabus: ["November recess. No class."], items: [] },
+      { n: 13, id: "week-13", title: "Workshops by school", type: "studio", meet: "2026-12-04", syllabus: [], items: [] },
+      { n: 14, id: "week-14", title: "Workshops by school", type: "studio", meet: "2026-12-11", syllabus: [], items: [] },
+      { n: 15, id: "week-15", title: "External review", type: "studio", meet: "2026-12-18", syllabus: [], note: "Date inferred. Yale classes end 11 Dec.", items: [] }
+    ];
+
+    const pad = (n) => String(n).padStart(2, "0");
+    const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+    function parseISO(s) {
+      const [y, m, day] = s.split("-").map(Number);
+      return new Date(y, m - 1, day);
+    }
+
+    function formatLong(d) {
+      return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    }
+    function formatMeet(week) {
+      const d = parseISO(week.meet);
+      if (week.n === 0) return "Meetings through " + d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      if (week.n === 12) return "Thanksgiving week";
+      return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    }
+
+    function currentWeekIndex(today) {
+      const t = startOfDay(today);
+      for (let i = 0; i < WEEKS.length; i++) {
+        if (t <= parseISO(WEEKS[i].meet)) return i;
+      }
+      return WEEKS.length - 1;
+    }
+
+    function loadDone() {
+      try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")); }
+      catch { return new Set(); }
+    }
+
+    function migrateDone(done) {
+      if (done.has("w1-podemski")) {
+        done.add("w1-podemski-a");
+        done.add("w1-podemski-b");
+      }
+      if (done.has("w3-linneman")) {
+        ["w3-ch5", "w3-ch9", "w3-ch10", "w3-ch11"].forEach((id) => done.add(id));
+      }
+    }
+
+    const done = loadDone();
+    migrateDone(done);
+    const saveDone = () => localStorage.setItem(STORAGE_KEY, JSON.stringify([...done]));
+
+    function itemDoneCount(week) {
+      const items = week.items || [];
+      return items.filter((it) => done.has(it.id)).length;
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function actionHTML(item, opts) {
+      const bits = [];
+      if (item.summary) {
+        bits.push(`<a class="primary" href="${esc(item.summary)}">Read summary</a>`);
+      }
+      (item.links || []).forEach((lnk) => {
+        const cls = lnk.primary ? "primary" : "quiet";
+        const ext = lnk.ext ? ` target="_blank" rel="noopener"` : "";
+        bits.push(`<a class="${cls}" href="${esc(lnk.href)}"${ext}>${esc(lnk.label)}</a>`);
+      });
+      if (item.video && opts && opts.allowPlayer) {
+        bits.push(`<button type="button" class="quiet js-watch">Watch on this page</button>`);
+      }
+      return bits.join("");
+    }
+
+    function workHTML(item, opts) {
+      const checked = done.has(item.id) ? " checked" : "";
+      const cls = ["work", done.has(item.id) ? "done" : "", item.missing ? "missing" : ""].filter(Boolean).join(" ");
+      const flag = item.missing ? `<p class="work-flag">${esc(item.missing)}</p>` : "";
+      const player = (item.video && opts && opts.allowPlayer)
+        ? `<div class="player-wrap" hidden><video controls preload="none" src="${esc(item.video)}"></video></div>`
+        : "";
+      return `<article class="${cls}" data-id="${esc(item.id)}">
+        <input type="checkbox" aria-label="Mark ${esc(item.title)} done"${checked}>
+        <div>
+          <h3 class="work-title">${esc(item.title)}</h3>
+          <p class="work-cite">${esc(item.cite)}</p>
+          ${flag}
+          ${player}
+        </div>
+        <div class="work-actions">${actionHTML(item, opts)}</div>
+      </article>`;
+    }
+
+    function updateDoneCount() {
+      const meta = document.querySelector("#current .js-done-count");
+      if (meta && cur.items.length) {
+        meta.textContent = itemDoneCount(cur) + " of " + cur.items.length + " marked done";
+      }
+    }
+
+    function bindWork(root) {
+      root.querySelectorAll(".work[data-id]").forEach((el) => {
+        const id = el.dataset.id;
+        const box = el.querySelector("input[type=checkbox]");
+        box.addEventListener("change", () => {
+          if (box.checked) done.add(id);
+          else done.delete(id);
+          saveDone();
+          document.querySelectorAll(`.work[data-id="${id}"]`).forEach((node) => {
+            node.classList.toggle("done", box.checked);
+            const cb = node.querySelector("input[type=checkbox]");
+            if (cb) cb.checked = box.checked;
+          });
+          updateDoneCount();
+        });
+        const watch = el.querySelector(".js-watch");
+        if (watch) {
+          watch.addEventListener("click", () => {
+            const wrap = el.querySelector(".player-wrap");
+            const on = wrap.hasAttribute("hidden");
+            wrap.toggleAttribute("hidden", !on);
+            watch.textContent = on ? "Hide player" : "Watch on this page";
+            if (on) wrap.querySelector("video").preload = "metadata";
+          });
+        }
+      });
+    }
+
+    const today = new Date();
+    const curN = currentWeekIndex(today);
+    const cur = WEEKS[curN];
+    const nxt = WEEKS[curN + 1] || null;
+
+    function meetingsHTML(week) {
+      if (!week.meetings || !week.meetings.length) return "";
+      return `<div class="meetings">${week.meetings.map((m) => `
+        <div class="meet${m.past ? " past" : ""}">
+          <div class="school">${esc(m.school)}</div>
+          <div>
+            <p class="when">${esc(m.when)}</p>
+            <p class="where">${esc(m.where)}</p>
+            <p class="mnote">${esc(m.note)}</p>
+          </div>
+        </div>`).join("")}</div>`;
+    }
+
+    function renderCurrent() {
+      const el = document.getElementById("current");
+      const after = startOfDay(today) > parseISO(WEEKS[WEEKS.length - 1].meet);
+      const kicker = after ? "Semester" : "Current";
+      const count = cur.items.length
+        ? `${itemDoneCount(cur)} of ${cur.items.length} marked done`
+        : "Studio week · no assigned readings";
+      const body = cur.items.length
+        ? cur.items.map((it) => workHTML(it, { allowPlayer: true })).join("")
+        : `<p class="studio-note">${esc((cur.syllabus && cur.syllabus[0]) || "No assigned readings this week.")}</p>`;
+      el.innerHTML = `
+        <div class="sec-label"><span class="n">01</span><p class="name">Current</p></div>
+        <p class="week-kicker">${kicker} · Week ${cur.n}</p>
+        <h2 class="week-title">${esc(cur.title)}</h2>
+        <p class="week-meta"><strong>${esc(formatMeet(cur))}</strong> · <span class="js-done-count">${esc(count)}</span></p>
+        ${meetingsHTML(cur)}
+        ${cur.note ? `<p class="work-flag">${esc(cur.note)}</p>` : ""}
+        ${body}`;
+      bindWork(el);
+    }
+
+    function renderNext() {
+      const el = document.getElementById("next");
+      if (!nxt) {
+        el.innerHTML = `
+          <div class="sec-label"><span class="n">02</span><p class="name">Next</p></div>
+          <p class="studio-note">No later week on the short-form syllabus.</p>`;
+        return;
+      }
+      const lines = nxt.items.length
+        ? nxt.items.map((it) => `<li><span class="t">${esc(it.title)}</span></li>`).join("")
+        : `<li><span class="t">${esc(nxt.title)}</span><span class="p">Studio</span></li>`;
+      el.innerHTML = `
+        <div class="sec-label"><span class="n">02</span><p class="name">Next</p></div>
+        <p class="week-kicker">Up next · Week ${nxt.n}</p>
+        <h2 class="week-title">${esc(nxt.title)}</h2>
+        <p class="week-meta">${esc(formatMeet(nxt))}${nxt.n === 1 ? " · Official clinic kickoff" : ""}</p>
+        <ul class="next-list">${lines}</ul>
+        <p class="preview-actions"><button type="button" class="text-btn" id="open-next">Open week ${nxt.n}</button></p>`;
+      document.getElementById("open-next").addEventListener("click", () => {
+        const panel = document.getElementById("panel-" + WEEKS[nxt.n].id);
+        const wasOpen = panel && !panel.hidden;
+        toggleWeek(nxt.n);
+        if (!wasOpen) {
+          document.getElementById(WEEKS[nxt.n].id).scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "start"
+          });
+        }
+      });
+    }
+
+    function kindLabel(week) {
+      if (week.n === 0) return "Meetings";
+      if (week.type === "studio") return "Studio";
+      return week.items.length + (week.items.length === 1 ? " reading" : " readings");
+    }
+
+    function renderSemester() {
+      const el = document.getElementById("semester");
+      el.innerHTML = `<div class="sec-label"><span class="n">03</span><p class="name">Semester</p></div>
+        <div class="index" id="week-index"></div>`;
+      const index = el.querySelector("#week-index");
+      WEEKS.forEach((week) => {
+        const now = week.n === curN;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "index-row" + (now ? " is-now" : "");
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-controls", "panel-" + week.id);
+        btn.id = week.id;
+        btn.innerHTML = `<span class="wn">${pad(week.n)}</span>
+          <h3>${esc(week.title)}</h3>
+          <span class="kind">${now ? "Now · " : ""}${esc(kindLabel(week))}</span>
+          <p class="dates">${esc(formatMeet(week))}</p>`;
+        const panel = document.createElement("div");
+        panel.className = "week-panel";
+        panel.id = "panel-" + week.id;
+        panel.hidden = true;
+        const syl = week.syllabus.length
+          ? `<div class="syllabus-excerpt"><strong>Syllabus.</strong><ul>${week.syllabus.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></div>`
+          : `<p class="studio-note">No assigned readings on the short-form syllabus.</p>`;
+        const note = week.note ? `<p class="work-flag">${esc(week.note)}</p>` : "";
+        const works = week.items.length
+          ? week.items.map((it) => workHTML(it, { allowPlayer: false })).join("")
+          : "";
+        panel.innerHTML = meetingsHTML(week) + syl + note + works +
+          `<p class="panel-close"><button type="button" class="text-btn js-close-week">Close week ${week.n}</button></p>`;
+        btn.addEventListener("click", () => toggleWeek(week.n));
+        panel.querySelector(".js-close-week").addEventListener("click", () => toggleWeek(week.n, false));
+        index.appendChild(btn);
+        index.appendChild(panel);
+        bindWork(panel);
+      });
+    }
+
+    function syncNextLabel() {
+      const b = document.getElementById("open-next");
+      if (!b || !nxt) return;
+      const panel = document.getElementById("panel-" + WEEKS[nxt.n].id);
+      b.textContent = (panel && !panel.hidden) ? "Close week " + nxt.n : "Open week " + nxt.n;
+    }
+
+    function toggleWeek(n, forceOpen) {
+      const week = WEEKS[n];
+      const btn = document.getElementById(week.id);
+      const panel = document.getElementById("panel-" + week.id);
+      const currentlyOpen = !panel.hidden;
+      const open = forceOpen === true ? true : forceOpen === false ? false : !currentlyOpen;
+      document.querySelectorAll(".week-panel").forEach((p) => { p.hidden = true; });
+      document.querySelectorAll(".index-row").forEach((b) => b.setAttribute("aria-expanded", "false"));
+      if (open) {
+        panel.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+      }
+      syncNextLabel();
+    }
+
+    function openWeek(n, scroll) {
+      toggleWeek(n, true);
+      const el = document.getElementById(WEEKS[n].id);
+      if (scroll) el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    }
+
+    function renderSyllabus() {
+      const el = document.getElementById("syllabus");
+      const blocks = WEEKS.map((week) => {
+        const list = week.syllabus.length
+          ? `<ul>${week.syllabus.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>`
+          : `<p class="empty">No assigned readings.</p>`;
+        return `<h3><a href="#${week.id}">Week ${week.n} · ${esc(week.title)}</a></h3>${list}`;
+      }).join("");
+      el.innerHTML = `
+        <div class="sec-label"><span class="n">04</span><p class="name">Syllabus</p></div>
+        <p class="week-meta">Assigned list from the Canvas announcement and the short-form syllabus. <a href="F%2026%20Short%20form%20syllabus%20Housing.pdf">Open short-form PDF</a></p>
+        <div class="syllabus-block">${blocks}</div>`;
+      el.querySelectorAll("a[href^='#week-']").forEach((a) => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const n = Number(a.getAttribute("href").replace("#week-", ""));
+          openWeek(n, true);
+        });
+      });
+    }
+
+    function renderAll() {
+      renderCurrent();
+      renderNext();
+      renderSemester();
+      renderSyllabus();
+    }
+
+    document.getElementById("today-date").textContent = formatLong(today);
+    document.getElementById("cal-note").textContent =
+      "Official start Fri, 11 Sept. Week 0 is intro meetings by school (Law 28 Aug; Arch/Env and SOM 4 Sept). Class Fridays assumed after that.";
+
+    renderAll();
+
+    const finder = document.getElementById("finder");
+    const finderQ = document.getElementById("finder-q");
+    const finderList = document.getElementById("finder-list");
+    let finderHits = [];
+    let finderSel = 0;
+
+    function corpus() {
+      const rows = [];
+      WEEKS.forEach((week) => {
+        rows.push({
+          week: week.n,
+          title: week.title,
+          cite: week.type === "studio" ? "Studio week" : "Reading week",
+          hay: (
+            week.title + " " +
+            week.syllabus.join(" ") + " " +
+            (week.meetings || []).map((m) => m.school + " " + m.where + " " + m.note).join(" ") +
+            " week " + week.n
+          ).toLowerCase(),
+          go: () => openWeek(week.n, true)
+        });
+        week.items.forEach((it) => {
+          rows.push({
+            week: week.n,
+            title: it.title,
+            cite: it.cite,
+            hay: (it.title + " " + it.cite + " " + (it.search || "") + " week " + week.n).toLowerCase(),
+            go: () => {
+              openWeek(week.n, true);
+              const node = document.querySelector(`#panel-${week.id} [data-id="${it.id}"]`);
+              if (node) node.scrollIntoView({ block: "center" });
+            }
+          });
+        });
+      });
+      return rows;
+    }
+
+    function renderFinder(q) {
+      const query = q.trim().toLowerCase();
+      finderHits = corpus().filter((r) => !query || r.hay.includes(query)).slice(0, 20);
+      finderSel = 0;
+      if (!finderHits.length) {
+        finderList.innerHTML = `<li class="finder-empty">Nothing matches.</li>`;
+        return;
+      }
+      finderList.innerHTML = finderHits.map((r, i) => `<li>
+        <button type="button" aria-selected="${i === 0}" data-i="${i}">
+          <span class="wn">W ${pad(r.week)}</span>
+          <span class="t">${esc(r.title)}</span>
+          <span class="c">${esc(r.cite)}</span>
+        </button>
+      </li>`).join("");
+    }
+
+    function chooseFinder(i) {
+      finder.close();
+      finderHits[i].go();
+    }
+
+    function openFinder() {
+      finder.showModal();
+      finderQ.value = "";
+      renderFinder("");
+      finderQ.focus();
+    }
+    function closeFinder() {
+      if (finder.open) finder.close();
+    }
+
+    document.getElementById("open-finder").addEventListener("click", openFinder);
+    document.getElementById("close-finder").addEventListener("click", closeFinder);
+    finder.addEventListener("click", (e) => {
+      if (e.target === finder) closeFinder();
+    });
+    finderQ.addEventListener("input", () => renderFinder(finderQ.value));
+    finderList.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-i]");
+      if (btn) chooseFinder(Number(btn.dataset.i));
+    });
+    finder.addEventListener("keydown", (e) => {
+      if (!finderHits.length) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        finderSel = Math.min(finderHits.length - 1, finderSel + 1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        finderSel = Math.max(0, finderSel - 1);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        chooseFinder(finderSel);
+        return;
+      } else return;
+      finderList.querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-selected", String(i === finderSel)));
+      finderList.querySelector(`button[data-i="${finderSel}"]`)?.scrollIntoView({ block: "nearest" });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (finder.open) closeFinder();
+        else openFinder();
+      } else if (e.key === "Escape" && finder.open) {
+        e.preventDefault();
+        closeFinder();
+      } else if (e.key === "/" && !finder.open && document.activeElement.tagName !== "INPUT") {
+        e.preventDefault();
+        openFinder();
+      }
+    });
+
+    const hash = location.hash.replace("#", "");
+    if (hash.startsWith("week-")) {
+      const n = Number(hash.replace("week-", ""));
+      if (!Number.isNaN(n) && WEEKS[n]) openWeek(n, true);
+    }
+
+    document.querySelector(".find-btn kbd").textContent =
+      /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K";
+  </script>
+</body>
+</html>
