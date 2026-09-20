@@ -42,8 +42,8 @@
   <div id="map" aria-label="Map of Housing Connecticut parcel records"></div>
   <section class="panel" aria-label="Map controls">
     <h1>Housing CT parcel locations</h1>
-    <p><strong id="count">84 parcels</strong> across Hartford, Waterbury, and New Haven.</p>
-    <p class="muted">Location-only view. Records include current, posted, historical, and sold parcels.</p>
+    <p><strong id="count">24 candidate parcels</strong> across Hartford, Waterbury, and New Haven.</p>
+    <p class="muted">Current or posted land-bank records only. Sold, sale-pending, and reserved parcels are excluded. Confirm availability with each land bank.</p>
     <div class="filters" role="group" aria-label="Filter parcels by city">
       <button data-city="All" aria-pressed="true">All</button>
       <button data-city="Hartford" aria-pressed="false">Hartford</button>
@@ -87,14 +87,18 @@
         },
         onEachFeature(feature, marker) {
           const p = feature.properties;
+          const address = escapeHtml(p.address || "Address unavailable");
+          marker.bindTooltip(address, {
+            direction:"top", offset:[0,-7], sticky:true, opacity:.96
+          });
           marker.bindPopup(
-            `<strong>${escapeHtml(p.address || "Address unavailable")}</strong><br>` +
+            `<strong>${address}</strong><br>` +
             `${escapeHtml(p.city)}<br>` +
             `<span style="color:#71695f">${escapeHtml(p.status || "Status unavailable")}</span>`
           );
         }
       }).addTo(map);
-      document.getElementById("count").textContent = `${selected.length} parcel${selected.length === 1 ? "" : "s"}`;
+      document.getElementById("count").textContent = `${selected.length} candidate parcel${selected.length === 1 ? "" : "s"}`;
       if (selected.length) map.fitBounds(layer.getBounds().pad(.12), { maxZoom:15 });
     }
 
