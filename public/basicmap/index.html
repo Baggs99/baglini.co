@@ -30,6 +30,8 @@
     .legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:11px; font-size:12px; }
     .key { display:flex; align-items:center; gap:5px; }
     .dot { width:10px; height:10px; border-radius:50%; border:1px solid rgba(0,0,0,.35); }
+    .sources { margin-top:10px; padding-top:9px; border-top:1px solid var(--rule); font-size:12px; }
+    .sources a, .leaflet-popup-content a { color:#176b8a; font-weight:600; }
     .leaflet-popup-content { min-width:190px; margin:13px 16px; }
     .leaflet-popup-content strong { font-size:15px; }
     @media (max-width:600px) {
@@ -55,11 +57,22 @@
       <span class="key"><i class="dot" style="background:#176b8a"></i>Waterbury</span>
       <span class="key"><i class="dot" style="background:#2f6b4f"></i>New Haven</span>
     </div>
+    <div class="sources">
+      <strong>Land-bank parcel lists:</strong>
+      <a href="https://public-hct.epropertyplus.com/landmgmtpub" target="_blank" rel="noopener">Hartford</a> ·
+      <a href="https://www.waterburylandbank.org/properties" target="_blank" rel="noopener">Waterbury</a> ·
+      <a href="https://nhlandbank.com/housing-ct-in-new-haven/" target="_blank" rel="noopener">New Haven</a>
+    </div>
   </section>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const colors = { Hartford:"#a74723", Waterbury:"#176b8a", "New Haven":"#2f6b4f" };
+    const parcelLists = {
+      Hartford:"https://public-hct.epropertyplus.com/landmgmtpub",
+      Waterbury:"https://www.waterburylandbank.org/properties",
+      "New Haven":"https://nhlandbank.com/housing-ct-in-new-haven/"
+    };
     const map = L.map("map", { zoomControl:true }).setView([41.47,-72.93], 9);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom:19,
@@ -94,7 +107,8 @@
           marker.bindPopup(
             `<strong>${address}</strong><br>` +
             `${escapeHtml(p.city)}<br>` +
-            `<span style="color:#71695f">${escapeHtml(p.status || "Status unavailable")}</span>`
+            `<span style="color:#71695f">${escapeHtml(p.status || "Status unavailable")}</span><br>` +
+            `<a href="${parcelLists[p.city]}" target="_blank" rel="noopener">Open ${escapeHtml(p.city)} parcel list</a>`
           );
         }
       }).addTo(map);
