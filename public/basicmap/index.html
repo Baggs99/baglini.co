@@ -98,7 +98,7 @@
       if (selected.length) map.fitBounds(layer.getBounds().pad(.12), { maxZoom:15 });
     }
 
-    fetch("./sites.geojson")
+    fetch("/basicmap/sites.geojson")
       .then(response => {
         if (!response.ok) throw new Error(`Parcel data failed to load (${response.status})`);
         return response.json();
