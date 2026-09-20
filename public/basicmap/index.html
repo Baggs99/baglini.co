@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Housing CT Parcel Locations</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    :root { --paper:#f7f2e9; --ink:#24211d; --muted:#71695f; --rule:#d8cec0; }
+    * { box-sizing:border-box; }
+    html, body, #map { width:100%; height:100%; margin:0; }
+    body { color:var(--ink); font:14px/1.4 Arial, sans-serif; }
+    #map { background:#ddd6ca; }
+    .panel {
+      position:absolute; z-index:1000; top:16px; left:16px; width:min(350px,calc(100vw - 32px));
+      padding:16px; border:1px solid var(--rule); border-radius:10px;
+      background:rgba(247,242,233,.96); box-shadow:0 8px 28px rgba(36,33,29,.18);
+    }
+    h1 { margin:0 0 4px; font:700 24px/1.1 Georgia,serif; }
+    p { margin:5px 0; }
+    .muted { color:var(--muted); font-size:12px; }
+    .filters { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+    button {
+      min-height:36px; padding:7px 10px; border:1px solid var(--rule); border-radius:999px;
+      color:var(--ink); background:#fffdfa; cursor:pointer; font-weight:600;
+    }
+    button[aria-pressed="true"] { color:white; background:var(--ink); border-color:var(--ink); }
+    button:focus-visible { outline:3px solid #176b8a; outline-offset:2px; }
+    .legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:11px; font-size:12px; }
+    .key { display:flex; align-items:center; gap:5px; }
+    .dot { width:10px; height:10px; border-radius:50%; border:1px solid rgba(0,0,0,.35); }
+    .leaflet-popup-content { min-width:190px; margin:13px 16px; }
+    .leaflet-popup-content strong { font-size:15px; }
+    @media (max-width:600px) {
+      .panel { top:8px; left:8px; width:calc(100vw - 16px); padding:12px; }
+      h1 { font-size:20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="map" aria-label="Map of Housing Connecticut parcel records"></div>
+  <section class="panel" aria-label="Map controls">
+    <h1>Housing CT parcel locations</h1>
+    <p><strong id="count">84 parcels</strong> across Hartford, Waterbury, and New Haven.</p>
+    <p class="muted">Location-only view. Records include current, posted, historical, and sold parcels.</p>
+    <div class="filters" role="group" aria-label="Filter parcels by city">
+      <button data-city="All" aria-pressed="true">All</button>
+      <button data-city="Hartford" aria-pressed="false">Hartford</button>
+      <button data-city="Waterbury" aria-pressed="false">Waterbury</button>
+      <button data-city="New Haven" aria-pressed="false">New Haven</button>
+    </div>
+    <div class="legend">
+      <span class="key"><i class="dot" style="background:#a74723"></i>Hartford</span>
+      <span class="key"><i class="dot" style="background:#176b8a"></i>Waterbury</span>
+      <span class="key"><i class="dot" style="background:#2f6b4f"></i>New Haven</span>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const colors = { Hartford:"#a74723", Waterbury:"#176b8a", "New Haven":"#2f6b4f" };
+    const map = L.map("map", { zoomControl:true }).setView([41.47,-72.93], 9);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom:19,
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    let features = [];
+    let layer;
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+      })[c]);
+    }
+
+    function draw(city = "All") {
+      if (layer) map.removeLayer(layer);
+      const selected = city === "All" ? features : features.filter(f => f.properties.city === city);
+      layer = L.geoJSON({ type:"FeatureCollection", features:selected }, {
+        pointToLayer(feature, latlng) {
+          return L.circleMarker(latlng, {
+            radius:7, weight:2, color:"#24211d",
+            fillColor:colors[feature.properties.city] || "#777", fillOpacity:.88
+          });
+        },
+        onEachFeature(feature, marker) {
+          const p = feature.properties;
+          marker.bindPopup(
+            `<strong>${escapeHtml(p.address || "Address unavailable")}</strong><br>` +
+            `${escapeHtml(p.city)}<br>` +
+            `<span style="color:#71695f">${escapeHtml(p.status || "Status unavailable")}</span>`
+          );
+        }
+      }).addTo(map);
+      document.getElementById("count").textContent = `${selected.length} parcel${selected.length === 1 ? "" : "s"}`;
+      if (selected.length) map.fitBounds(layer.getBounds().pad(.12), { maxZoom:15 });
+    }
+
+    fetch("./sites.geojson")
+      .then(response => {
+        if (!response.ok) throw new Error(`Parcel data failed to load (${response.status})`);
+        return response.json();
+      })
+      .then(data => {
+        features = data.features.filter(feature => feature.geometry?.type === "Point");
+        draw();
+      })
+      .catch(error => {
+        document.getElementById("count").textContent = "Parcel data unavailable";
+        console.error(error);
+      });
+
+    document.querySelectorAll("[data-city]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-city]").forEach(item => item.setAttribute("aria-pressed", "false"));
+        button.setAttribute("aria-pressed", "true");
+        draw(button.dataset.city);
+      });
+    });
+  </script>
+</body>
+</html>

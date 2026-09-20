@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/housingct", "destination": "/housingct/index.html" },
     { "source": "/HCMAP", "destination": "/HCMAP/index.html" },
+    { "source": "/basicmap", "destination": "/basicmap/index.html" },
     { "source": "/4-connect", "destination": "/4-connect/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
