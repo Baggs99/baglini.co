@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/ESAI", "destination": "/ESAI/index.html" },
     { "source": "/housingct", "destination": "/housingct/index.html" },
     { "source": "/HCMAP", "destination": "/HCMAP/index.html" },
     { "source": "/basicmap", "destination": "/basicmap/index.html" },
