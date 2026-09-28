@@ -22,10 +22,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
 const rawDir = path.join(root, 'public', 'previews', '_raw')
 
-/** @typedef {{ id: string, url: string, settleMs?: number, gotoTimeoutMs?: number, waitUntil?: import('playwright').WaitUntilEvent, waitPastRenderSplash?: boolean, splashTimeoutMs?: number, settleAfterSplashMs?: number }} CaptureJob */
+/** @typedef {{ id: string, url: string, settleMs?: number, gotoTimeoutMs?: number, waitUntil?: import('playwright').WaitUntilEvent, waitPastRenderSplash?: boolean, splashTimeoutMs?: number, settleAfterSplashMs?: number, viewport?: { width: number, height: number } }} CaptureJob */
 
 /** @type {CaptureJob[]} */
 const jobs = [
+  {
+    id: 'final-dayz',
+    url: 'https://zombie.baglini.co/',
+    settleMs: 2500,
+    waitUntil: 'domcontentloaded',
+    gotoTimeoutMs: 60000,
+    viewport: { width: 900, height: 1100 },
+  },
   {
     id: 'case-repo',
     url: 'https://cases.baglini.co/',
@@ -141,6 +149,7 @@ async function dismissCommonBanners(page) {
 
 /** @type {[string, string, string][]} */
 const composePlan = [
+  ['final-dayz', 'final-dayz.png', '0'],
   ['case-repo', 'case-repo.png', '0'],
   ['ri-school-consolidation', 'ri-school-consolidation.png', '-0.15'],
   ['elc-outreach', 'elc-outreach.png', '-0.1'],
@@ -172,7 +181,7 @@ async function main() {
       if (onlyId && job.id !== onlyId) continue
       const outPath = path.join(rawDir, `${job.id}.png`)
       const context = await browser.newContext({
-        viewport: VIEWPORT,
+        viewport: job.viewport ?? VIEWPORT,
         deviceScaleFactor: 1,
       })
       const page = await context.newPage()

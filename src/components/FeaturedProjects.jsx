@@ -148,7 +148,7 @@ export function FeaturedProjects() {
             Featured projects
           </h3>
           <div className="grid gap-6 lg:gap-8">
-            {portfolioFeatured.map((project, i) => (
+            {portfolioFeatured.filter((project) => !project.hidden).map((project, i) => (
               <Reveal key={project.id} delay={i * 0.05}>
                 <article className="group/card overflow-hidden rounded-[1.65rem] border border-white/[0.065] bg-gradient-to-b from-white/[0.05] to-white/[0.015] shadow-[0_26px_100px_-38px_rgba(0,0,0,0.88)] transition duration-300 ease-out hover:-translate-y-0.5 hover:border-emerald-500/15 hover:shadow-[0_36px_120px_-38px_rgba(0,0,0,0.92)] lg:flex lg:flex-row lg:items-stretch">
                   <div className="p-6 pb-0 lg:flex lg:w-[47%] lg:flex-col lg:justify-center lg:p-10 lg:pr-5 lg:pb-10">
@@ -210,7 +210,7 @@ export function FeaturedProjects() {
             Other projects
           </h3>
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {portfolioOther.map((project, i) => (
+            {portfolioOther.filter((project) => !project.hidden).map((project, i) => (
               <Reveal key={project.id} delay={i * 0.04}>
                 <article className="group/card flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01] shadow-[0_18px_64px_-32px_rgba(0,0,0,0.78)] transition duration-300 hover:-translate-y-1 hover:border-sky-500/12 hover:shadow-[0_28px_80px_-30px_rgba(0,0,0,0.85)]">
                   <div className="relative overflow-hidden px-5 pb-2 pt-5">

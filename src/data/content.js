@@ -37,6 +37,20 @@ export const about = {
 /** Large showcase cards (visual weight). */
 export const portfolioFeatured = [
   {
+    id: 'final-dayz',
+    title: 'Final Dayz',
+    category: 'Web Game',
+    description:
+      'A wave-survival shooter: hold the box, aim and shoot, swap weapons, repair under pressure, and climb a live leaderboard.',
+    techTags: ['Wave Survival', 'Leaderboard', 'Canvas', 'Single Player'],
+    liveUrl: 'https://zombie.baglini.co/',
+    ctaPrimary: 'Play',
+    visualVariant: 'rose',
+    previewSrc: '/previews/final-dayz.png',
+    previewAlt:
+      'Final Dayz menu: hold the box and survive the waves, with single player, a live leaderboard, and on-screen controls',
+  },
+  {
     id: 'case-repo',
     title: 'Case Repo',
     category: 'MBA Recruiting Tool',
@@ -72,6 +86,7 @@ export const portfolioFeatured = [
 export const portfolioOther = [
   {
     id: 'housingct',
+    hidden: true,
     title: 'Housing Connecticut',
     category: 'Course Reader',
     description:
