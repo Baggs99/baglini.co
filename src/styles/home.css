@@ -54,7 +54,7 @@ body { background: #0f1b4d; }
 .home-section-head span { font-size: 1rem; letter-spacing: 0; }
 
 /* Work */
-.home-screen { background: var(--paper); padding: 0.6rem 0.6rem 1.4rem; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); width: min(980px, 100%); }
+.home-screen { background: var(--paper); padding: 0.6rem 0.6rem 1.4rem; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); width: min(980px, 100%); margin-inline: auto; }
 .home-shot { position: relative; aspect-ratio: 16 / 8; overflow: hidden; background: #0c1520; }
 .home-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transform: scale(1.03); transition: opacity 0.55s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .home-shot img.on { opacity: 1; transform: none; }
@@ -69,7 +69,7 @@ body { background: #0f1b4d; }
 .home-go:hover { background: var(--accent-hover); }
 .home-sublink { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
 .home-sublink:hover { color: var(--ink); }
-.home-strip { display: flex; gap: 0.7rem; overflow-x: auto; padding: 0.6rem 0.2rem 1rem; scrollbar-width: none; }
+.home-strip { display: flex; gap: 0.7rem; overflow-x: auto; justify-content: safe center; width: min(980px, 100%); margin-inline: auto; padding: 0.6rem 0.2rem 1rem; scrollbar-width: none; }
 .home-thumb { flex: 0 0 8.5rem; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.7; }
 .home-thumb:hover { opacity: 1; }
 .home-thumb img { width: 100%; height: 5rem; object-fit: cover; display: block; outline: 2px solid transparent; transition: outline-color 0.3s; }
