@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>F · The Scrub · Dan Baglini</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  :root { --sky: #d5e2ea; --ink: #142028; --violet: #7a3cf0; --violet-deep: #6a3ad6; --paper: #f7fbff; --p: 0; }
+  html, body { margin: 0; background: var(--sky); color: var(--ink); font-family: "Schibsted Grotesk", sans-serif; }
+  a { color: inherit; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .rise { opacity: 0; animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; }
+
+  header { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: 1.2rem 6vw; font-weight: 700; letter-spacing: -0.03em; z-index: 10; background: rgba(213, 226, 234, 0.92); color: var(--ink); }
+  header a { text-decoration: none; }
+
+  /* Intro: the tile and headline before the scrub begins */
+  .intro { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: center; padding: 0 6vw; }
+  h1 { font-size: clamp(3.4rem, 9vw, 8.5rem); line-height: 0.84; letter-spacing: -0.05em; margin: 0; }
+  .lede { font-size: 1.25rem; line-height: 1.35; max-width: 34ch; margin: 1.6rem 0 0; }
+  .hint { margin-top: 2.2rem; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 0.6rem; }
+  .hint::after { content: ""; width: 60px; height: 2px; background: var(--ink); transform-origin: left; animation: line 1.8s ease-in-out infinite; }
+  @keyframes line { 0%, 100% { transform: scaleX(0.2); } 50% { transform: scaleX(1); } }
+  .tile { width: min(430px, 90%); justify-self: center; animation: spinin 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards; transform: rotate(calc(var(--p) * 180deg)) scale(calc(1 - var(--p) * 0.25)); will-change: transform; }
+  @keyframes spinin { from { opacity: 0; transform: rotate(-60deg) translateY(-40px); } to { opacity: 1; transform: none; } }
+
+  /* Scrub: each project gets one viewport of scroll */
+  .scrub { position: relative; height: 700vh; }
+  .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-rows: 1fr auto; }
+  .frame { position: relative; margin: 6rem 6vw 0; overflow: hidden; background: #0c1520; box-shadow: 0 26px 50px rgba(20, 32, 40, 0.2); }
+  .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transition: opacity 0.4s ease; }
+  .frame img.on { opacity: 1; }
+  /* The frame opens from a slit to full width as scroll progresses */
+  .frame { clip-path: inset(0 calc((1 - var(--open)) * 50%) 0 calc((1 - var(--open)) * 50%)); }
+
+  .meta { display: flex; justify-content: space-between; align-items: end; gap: 1.2rem; padding: 1.6rem 6vw 2.2rem; }
+  .meta h2 { margin: 0; font-size: clamp(2.4rem, 6vw, 6rem); letter-spacing: -0.05em; line-height: 0.9; }
+  .meta p { margin: 0.5rem 0 0; font-size: 1.1rem; }
+  .meta .count { font-weight: 700; font-size: 1rem; text-align: right; }
+  .meta .go { display: inline-block; margin-top: 0.8rem; font-weight: 700; text-decoration: none; background: var(--violet); color: #fff; padding: 0.7rem 1.1rem; transition: background 0.3s; }
+  .meta .go:hover { background: var(--violet-deep); }
+
+  .progress { position: absolute; left: 6vw; right: 6vw; bottom: 0; height: 3px; background: rgba(20, 32, 40, 0.15); }
+  .progress i { display: block; height: 100%; width: calc(var(--p) * 100%); background: var(--violet); }
+
+  .after { padding: 6vh 6vw 4vh; background: var(--ink); color: var(--paper); }
+  .after .big { font-size: clamp(3rem, 9vw, 8rem); letter-spacing: -0.05em; line-height: 0.9; margin: 0; }
+  .after .links { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 3rem; font-weight: 700; font-size: 1.1rem; }
+  .after .links a { text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.3s; }
+  .after .links a:hover { border-color: var(--violet); }
+
+  @media (max-width: 860px) {
+    .intro { grid-template-columns: 1fr; padding-top: 10vh; }
+    .tile { order: -1; width: 55%; }
+    .frame { margin: 5rem 4vw 0; }
+    .meta { flex-direction: column; align-items: start; }
+    .meta .count { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .rise { opacity: 1; transform: none; } .frame { clip-path: none; } .scrub { height: auto; } .stage { position: relative; height: auto; } .stage .frame img { opacity: 1; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="#">Dan Baglini</a>
+  <a href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+</header>
+
+<section class="intro">
+  <div>
+    <h1 class="rise d1">Shipped,<br />not just<br />sketched.</h1>
+    <p class="lede rise d2">Former Army intelligence officer. Yale SOM MBA candidate. Building tools, games, and research sites.</p>
+    <p class="hint rise d3">Scroll the work</p>
+  </div>
+  <img class="tile" id="tile" src="../src/assets/hero.png" alt="" />
+</section>
+
+<section class="scrub" id="scrub">
+  <div class="stage" id="stage">
+    <div class="frame" id="frame"></div>
+    <div class="meta">
+      <div>
+        <h2 id="title"></h2>
+        <p id="line"></p>
+        <a class="go" id="cta" target="_blank" rel="noopener noreferrer" href="#">Play</a>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="progress"><i></i></div>
+  </div>
+</section>
+
+<section class="after">
+  <p class="big">Let's talk.</p>
+  <div class="links">
+    <a href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+    <a href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+    <a href="https://www.linkedin.com/in/daniel-baglini/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://github.com/Baggs99" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</section>
+
+<script>
+const projects = [
+  ["Final Dayz", "final-dayz", "Hold the box. Survive the waves.", "https://zombie.baglini.co/", "Play"],
+  ["Case Repo", "case-repo", "A searchable case library for consulting interviews.", "https://cases.baglini.co/", "Browse"],
+  ["RI Calculator", "ri-school-consolidation", "What consolidation would change in Rhode Island schools.", "https://calc.baglini.co", "Open"],
+  ["4 Connect", "4-connect", "Connect Four, with opponents that think.", "/4-connect/", "Play"],
+  ["ELC Outreach", "elc-outreach", "Personalized outreach for the Education Leadership Conference.", "https://elc.baglini.co", "Open"],
+  ["AUWM", "auwm", "African urban worship music, in research and media.", "https://auwm.baglini.co/", "View"],
+  ["Consulting Club", "yale-som-consulting-club", "Recruiting resources for Yale SOM.", "https://yalesomconsultingclub.com/", "Visit"]
+];
+const N = projects.length;
+const scrub = document.getElementById("scrub");
+const frame = document.getElementById("frame");
+const tile = document.getElementById("tile");
+const stage = document.getElementById("stage");
+const imgs = projects.map((p) => {
+  const img = document.createElement("img");
+  img.src = `../public/previews/${p[1]}.png`; img.alt = p[0];
+  frame.appendChild(img);
+  return img;
+});
+let active = -1;
+function render() {
+  const rect = scrub.getBoundingClientRect();
+  const total = scrub.offsetHeight - window.innerHeight;
+  const p = Math.min(1, Math.max(0, -rect.top / total));
+  const idx = Math.min(N - 1, Math.floor(p * N));
+  // Within each project's slice, the frame opens over the first 40% of the slice
+  const local = Math.min(1, (p * N - idx) / 0.4);
+  const open = 0.08 + 0.92 * local;
+  frame.style.setProperty("--open", open.toFixed(4));
+  stage.style.setProperty("--p", p.toFixed(4));
+  tile.style.setProperty("--p", p.toFixed(4));
+  if (idx !== active) {
+    active = idx;
+    const proj = projects[idx];
+    imgs.forEach((img, k) => img.classList.toggle("on", k === idx));
+    document.getElementById("title").textContent = proj[0];
+    document.getElementById("line").textContent = proj[2];
+    const cta = document.getElementById("cta");
+    cta.textContent = proj[4]; cta.href = proj[3];
+    document.getElementById("count").textContent = `${String(idx + 1).padStart(2, "0")} / ${String(N).padStart(2, "0")}`;
+  }
+}
+window.addEventListener("scroll", () => requestAnimationFrame(render), { passive: true });
+window.addEventListener("resize", render);
+render();
+</script>
+</body>
+</html>

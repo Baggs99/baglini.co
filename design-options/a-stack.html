@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A · The Stack · Dan Baglini</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  :root { --sky: #d5e2ea; --ink: #142028; --violet: #7a3cf0; --paper: #f7fbff; }
+  html, body { margin: 0; background: var(--sky); color: var(--ink); font-family: "Schibsted Grotesk", sans-serif; }
+  a { color: inherit; }
+
+  /* Entrance: each block rises in, staggered */
+  .rise { opacity: 0; transform: translateY(18px); animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.22s; } .d3 { animation-delay: 0.34s; } .d4 { animation-delay: 0.5s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  header { display: flex; justify-content: space-between; padding: 1.2rem 6vw; font-weight: 700; letter-spacing: -0.03em; }
+  header nav a { margin-left: 1.4rem; text-decoration: none; }
+  header nav a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: center; padding: 3vh 6vw 4vh; min-height: 70vh; }
+  h1 { font-size: clamp(3.4rem, 9vw, 8.5rem); line-height: 0.84; letter-spacing: -0.05em; margin: 0; }
+  .lede { font-size: 1.25rem; line-height: 1.35; max-width: 34ch; margin: 1.6rem 0 0; }
+  .tile { justify-self: center; width: min(430px, 90%); animation: drop 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both, float 7s ease-in-out 1.6s infinite; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .tile:hover { transform: rotate(-3deg) scale(1.03); }
+  @keyframes drop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
+  @keyframes float { 50% { transform: translateY(-10px); } }
+
+  /* The reel: selected frame lifts like the ledge print */
+  .reel { padding: 0 6vw 2rem; }
+  .reel-head { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; border-top: 2px solid var(--ink); padding-top: 0.8rem; }
+  .screen { margin: 1.2rem 0 1rem; background: var(--paper); padding: 0.6rem 0.6rem 1.4rem; box-shadow: 0 22px 40px rgba(20, 32, 40, 0.16); width: min(980px, 100%); }
+  .screen img { display: block; width: 100%; aspect-ratio: 16 / 8; object-fit: cover; object-position: top; transition: opacity 0.5s ease; }
+  .screen .cap { display: flex; justify-content: space-between; align-items: end; gap: 1rem; padding: 0.9rem 0.3rem 0; }
+  .screen h2 { margin: 0; font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -0.04em; line-height: 0.95; }
+  .screen p { margin: 0.4rem 0 0; font-size: 1.05rem; }
+  .screen .go { font-weight: 700; text-decoration: none; background: var(--violet); color: #fff; padding: 0.6rem 1rem; white-space: nowrap; }
+  .strip { display: flex; gap: 0.7rem; overflow-x: auto; padding: 0.6rem 0.2rem 1rem; }
+  .strip button { flex: 0 0 8.5rem; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+  .strip button img { width: 100%; height: 5rem; object-fit: cover; display: block; outline: 2px solid transparent; transition: outline-color 0.3s; }
+  .strip button span { display: block; margin-top: 0.3rem; font-size: 0.85rem; font-weight: 700; }
+  .strip button.on { transform: translateY(-10px); }
+  .strip button.on img { outline-color: var(--violet); }
+
+  footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-top: 2px solid var(--ink); margin: 0 6vw; padding: 1.2rem 0 2.4rem; font-weight: 700; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--violet); }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .tile { order: -1; width: 55%; }
+    .screen .cap { flex-direction: column; align-items: start; }
+    header nav { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; } }
+</style>
+</head>
+<body>
+<header class="rise">
+  <a href="#" style="text-decoration:none">Dan Baglini</a>
+  <nav><a href="#work">Work</a><a href="#experience">Experience</a><a href="#writing">Writing</a><a href="#contact">Contact</a></nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1 class="rise d1">Shipped,<br />not just<br />sketched.</h1>
+    <p class="lede rise d2">Former Army intelligence officer. Yale SOM MBA candidate. Building tools, games, and research sites.</p>
+  </div>
+  <img class="tile" src="../src/assets/hero.png" alt="" />
+</section>
+
+<section class="reel" id="work">
+  <div class="reel-head rise d3"><span>Selected work</span><span id="count">01 / 07</span></div>
+  <div class="screen rise d3">
+    <img id="shot" src="../public/previews/final-dayz.png" alt="Final Dayz" />
+    <div class="cap">
+      <div><h2 id="title"></h2><p id="line"></p></div>
+      <a class="go" id="cta" target="_blank" rel="noopener noreferrer" href="#">Open</a>
+    </div>
+  </div>
+  <div class="strip" id="strip" role="group" aria-label="Projects"></div>
+</section>
+
+<footer id="contact" class="rise d4">
+  <a href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+  <a href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+  <a href="https://www.linkedin.com/in/daniel-baglini/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a href="https://github.com/Baggs99" target="_blank" rel="noopener noreferrer">GitHub</a>
+</footer>
+
+<script>
+const projects = [
+  ["Final Dayz", "final-dayz", "Hold the box. Survive the waves.", "https://zombie.baglini.co/", "Play"],
+  ["Case Repo", "case-repo", "A searchable case library for consulting interviews.", "https://cases.baglini.co/", "Browse"],
+  ["RI Calculator", "ri-school-consolidation", "What consolidation would change in Rhode Island schools.", "https://calc.baglini.co", "Open"],
+  ["4 Connect", "4-connect", "Connect Four, with opponents that think.", "/4-connect/", "Play"],
+  ["ELC Outreach", "elc-outreach", "Personalized outreach for the Education Leadership Conference.", "https://elc.baglini.co", "Open"],
+  ["AUWM", "auwm", "African urban worship music, in research and media.", "https://auwm.baglini.co/", "View"],
+  ["Consulting Club", "yale-som-consulting-club", "Recruiting resources for Yale SOM.", "https://yalesomconsultingclub.com/", "Visit"]
+];
+const strip = document.getElementById("strip");
+let current = 0;
+function show(i) {
+  current = i;
+  const p = projects[i];
+  const shot = document.getElementById("shot");
+  shot.style.opacity = 0;
+  setTimeout(() => { shot.src = `../public/previews/${p[1]}.png`; shot.alt = p[0]; shot.style.opacity = 1; }, 180);
+  document.getElementById("title").textContent = p[0];
+  document.getElementById("line").textContent = p[2];
+  document.getElementById("count").textContent = `${String(i + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+  const cta = document.getElementById("cta");
+  cta.textContent = p[4]; cta.href = p[3];
+  [...strip.children].forEach((b, n) => b.classList.toggle("on", n === i));
+}
+projects.forEach((p, n) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.innerHTML = `<img alt="" src="../public/previews/${p[1]}.png"><span>${p[0]}</span>`;
+  b.onclick = () => show(n);
+  strip.appendChild(b);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") show(Math.min(projects.length - 1, current + 1));
+  if (e.key === "ArrowLeft") show(Math.max(0, current - 1));
+});
+show(0);
+</script>
+</body>
+</html>

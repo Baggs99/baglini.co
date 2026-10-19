@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110.0 -122.0 220.0 248.0">
+<polygon points="-96.0,44.0 0.0,100.0 0.0,112.0 -96.0,56.0" fill="#7a3cf0" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="96.0,44.0 0.0,100.0 0.0,112.0 96.0,56.0" fill="#5b21d8" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="0.0,-12.0 96.0,44.0 0.0,100.0 -96.0,44.0" fill="#f7fbff" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="-96.0,-4.0 0.0,52.0 0.0,64.0 -96.0,8.0" fill="#c9d6df" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="96.0,-4.0 0.0,52.0 0.0,64.0 96.0,8.0" fill="#aebfcb" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="0.0,-60.0 96.0,-4.0 0.0,52.0 -96.0,-4.0" fill="#f7fbff" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="-96.0,-52.0 0.0,4.0 0.0,16.0 -96.0,-40.0" fill="#142028" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="96.0,-52.0 0.0,4.0 0.0,16.0 96.0,-40.0" fill="#2c3b45" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="0.0,-108.0 96.0,-52.0 0.0,4.0 -96.0,-52.0" fill="#f7fbff" stroke="#142028" stroke-width="1.2" stroke-linejoin="round"/>
+</svg>

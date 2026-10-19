@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>E · The Deck · Dan Baglini</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  :root { --sky: #d5e2ea; --ink: #142028; --violet: #7a3cf0; --violet-deep: #6a3ad6; --paper: #f7fbff; }
+  html, body { margin: 0; background: var(--sky); color: var(--ink); font-family: "Schibsted Grotesk", sans-serif; overflow-x: hidden; min-height: 100vh; }
+  a { color: inherit; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .rise { opacity: 0; animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.6s; }
+
+  header { display: flex; justify-content: space-between; padding: 1.2rem 6vw; font-weight: 700; letter-spacing: -0.03em; }
+  header a { text-decoration: none; }
+  header nav a { margin-left: 1.4rem; }
+  header nav a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; align-items: center; padding: 4vh 6vw 0; min-height: 78vh; }
+  h1 { font-size: clamp(3.2rem, 8.5vw, 8rem); line-height: 0.84; letter-spacing: -0.05em; margin: 0; }
+  .lede { font-size: 1.25rem; line-height: 1.35; max-width: 34ch; margin: 1.6rem 0 2rem; }
+  .cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .btn { font-weight: 700; text-decoration: none; padding: 0.8rem 1.2rem; border: 2px solid var(--ink); transition: background 0.3s, color 0.3s, transform 0.3s; }
+  .btn.solid { background: var(--ink); color: var(--paper); }
+  .btn:hover { transform: translateY(-3px); }
+  .btn.solid:hover { background: var(--violet); border-color: var(--violet); }
+
+  /* The deck: cards fan out in 3D; the front card is the active project */
+  .deck-wrap { position: relative; height: min(68vh, 560px); display: grid; place-items: center; perspective: 1400px; }
+  .deck { position: relative; width: min(500px, 88%); aspect-ratio: 16 / 11; transform-style: preserve-3d; }
+  .card { position: absolute; inset: 0; background: var(--paper); padding: 0.7rem 0.7rem 1.6rem; box-shadow: 0 24px 46px rgba(20, 32, 40, 0.18); cursor: pointer; transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease, box-shadow 0.6s; transform-origin: 50% 100%; }
+  .card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .card .name { position: absolute; left: 1rem; bottom: 0.45rem; font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+  .card:hover { box-shadow: 0 30px 56px rgba(20, 32, 40, 0.24); }
+
+  .info { display: flex; justify-content: space-between; align-items: end; gap: 1.2rem; padding: 2rem 6vw 0; min-height: 9rem; }
+  .info h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.6rem); letter-spacing: -0.045em; line-height: 0.95; transition: opacity 0.35s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .info p { margin: 0.5rem 0 0; font-size: 1.05rem; max-width: 46ch; transition: opacity 0.35s; }
+  .info .go { font-weight: 700; text-decoration: none; background: var(--violet); color: #fff; padding: 0.75rem 1.1rem; white-space: nowrap; transition: background 0.3s; }
+  .info .go:hover { background: var(--violet-deep); }
+  .info.swap h2, .info.swap p { opacity: 0; transform: translateY(12px); }
+
+  .hint { padding: 0.6rem 6vw 0; font-size: 0.9rem; font-weight: 700; color: #4f5f6b; }
+  .tile-float { position: absolute; right: 0; top: 0; width: 96px; opacity: 0.9; animation: bob 6s ease-in-out infinite; pointer-events: none; }
+  @keyframes bob { 50% { transform: translateY(-12px) rotate(-4deg); } }
+
+  footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin: 0 6vw; padding: 2rem 0 2.6rem; border-top: 2px solid var(--ink); margin-top: 3rem; font-weight: 700; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--violet); }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .deck-wrap { height: 52vh; }
+    .info { flex-direction: column; align-items: start; }
+    header nav { display: none; }
+    .tile-float { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .rise { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<header class="rise">
+  <a href="#">Dan Baglini</a>
+  <nav><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1 class="rise d1">Shipped,<br />not just<br />sketched.</h1>
+    <p class="lede rise d2">Former Army intelligence officer. Yale SOM MBA candidate. Building tools, games, and research sites.</p>
+    <div class="cta-row rise d3">
+      <a class="btn solid" href="mailto:dan.baglini@yale.edu">Email Dan</a>
+      <a class="btn" href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+    </div>
+  </div>
+  <div class="deck-wrap rise d2" id="work">
+    <div class="deck" id="deck" aria-label="Projects" role="group"></div>
+    <img class="tile-float" src="../src/assets/hero.png" alt="" />
+  </div>
+</section>
+
+<p class="hint">Click a card or use arrow keys to deal through the deck.</p>
+<div class="info" id="info">
+  <div>
+    <h2 id="title"></h2>
+    <p id="line"></p>
+  </div>
+  <a class="go" id="cta" target="_blank" rel="noopener noreferrer" href="#">Play</a>
+</div>
+
+<footer id="contact" class="rise d4">
+  <a href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+  <a href="https://www.linkedin.com/in/daniel-baglini/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a href="https://github.com/Baggs99" target="_blank" rel="noopener noreferrer">GitHub</a>
+</footer>
+
+<script>
+const projects = [
+  ["Final Dayz", "final-dayz", "Hold the box. Survive the waves.", "https://zombie.baglini.co/", "Play"],
+  ["Case Repo", "case-repo", "A searchable case library for consulting interviews.", "https://cases.baglini.co/", "Browse"],
+  ["RI Calculator", "ri-school-consolidation", "What consolidation would change in Rhode Island schools.", "https://calc.baglini.co", "Open"],
+  ["4 Connect", "4-connect", "Connect Four, with opponents that think.", "/4-connect/", "Play"],
+  ["ELC Outreach", "elc-outreach", "Personalized outreach for the Education Leadership Conference.", "https://elc.baglini.co", "Open"],
+  ["AUWM", "auwm", "African urban worship music, in research and media.", "https://auwm.baglini.co/", "View"],
+  ["Consulting Club", "yale-som-consulting-club", "Recruiting resources for Yale SOM.", "https://yalesomconsultingclub.com/", "Visit"]
+];
+const deck = document.getElementById("deck");
+const info = document.getElementById("info");
+const N = projects.length;
+// order[0] is the front card; deal() moves it to the back
+let order = projects.map((_, n) => n);
+const cards = projects.map((p, n) => {
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = `<img alt="${p[0]}" src="../public/previews/${p[1]}.png"><span class="name">${p[0]}</span>`;
+  el.addEventListener("click", () => deal());
+  deck.appendChild(el);
+  return el;
+});
+function layout() {
+  order.forEach((idx, pos) => {
+    const el = cards[idx];
+    const depth = pos;
+    const fan = pos === 0 ? 0 : 1;
+    el.style.zIndex = N - pos;
+    el.style.transform = `translate3d(${depth * 26}px, ${-depth * 22}px, ${-depth * 80}px) rotateZ(${depth * 2.2 * (depth % 2 ? 1 : -1)}deg)`;
+    el.style.opacity = depth > 4 ? 0 : 1 - depth * 0.08;
+    el.style.pointerEvents = pos === 0 ? "auto" : "none";
+    el.style.filter = depth === 0 ? "none" : "brightness(0.92)";
+  });
+  const p = projects[order[0]];
+  info.classList.add("swap");
+  setTimeout(() => {
+    document.getElementById("title").textContent = p[0];
+    document.getElementById("line").textContent = p[2];
+    const cta = document.getElementById("cta");
+    cta.textContent = p[4]; cta.href = p[3];
+    info.classList.remove("swap");
+  }, 260);
+}
+function deal() {
+  const front = order.shift();
+  order.push(front);
+  const el = cards[front];
+  el.style.transition = "transform 0.7s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.5s";
+  el.style.transform += " translate3d(0, 120%, 0) rotateX(-18deg)";
+  el.style.opacity = 0;
+  setTimeout(() => { el.style.transition = ""; layout(); }, 480);
+}
+document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") deal(); });
+layout();
+</script>
+</body>
+</html>
