@@ -1,14 +1,6 @@
 import { useEffect } from 'react'
 import { siteMeta } from './data/content.js'
-import { About } from './components/About.jsx'
-import { Contact } from './components/Contact.jsx'
-import { Experience } from './components/Experience.jsx'
-import { FeaturedProjects } from './components/FeaturedProjects.jsx'
-import { Footer } from './components/Footer.jsx'
-import { Hero } from './components/Hero.jsx'
-import { Navbar } from './components/Navbar.jsx'
-import { TipCta } from './components/TipCta.jsx'
-import { Writing } from './components/Writing.jsx'
+import { Home } from './components/Home.jsx'
 
 function App() {
   useEffect(() => {
@@ -23,9 +15,7 @@ function App() {
 
     const scrollToHash = () => {
       const el = document.getElementById(hash)
-      if (el) {
-        el.scrollIntoView({ behavior: 'auto', block: 'start' })
-      }
+      if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' })
     }
 
     scrollToHash()
@@ -41,22 +31,9 @@ function App() {
   }, [])
 
   return (
-    <>
-      <a href="#main" className="sr-only skip-link">
-        Skip to content
-      </a>
-      <Navbar />
-      <main id="main">
-        <Hero />
-        <About />
-        <FeaturedProjects />
-        <Experience />
-        <Writing />
-        <Contact />
-      </main>
-      <TipCta />
-      <Footer />
-    </>
+    <main id="main">
+      <Home />
+    </main>
   )
 }
 

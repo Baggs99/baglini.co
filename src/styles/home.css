@@ -1,0 +1,117 @@
+/* Homepage: Ultramarine palette, Eads Bridge hero, talk sprite. Classes are prefixed home- to stay separate from the global styles. */
+body { background: #0f1b4d; }
+
+.home {
+  --bg: #0f1b4d;
+  --paper: #1f2f7a;
+  --ink: #f4f1e8;
+  --muted: #b9c3ea;
+  --accent: #ffb020;
+  --accent-hover: #ffc454;
+  --on-accent: #0f1b4d;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+.home a { color: inherit; }
+.home h1, .home h2, .home h3 { font-weight: 700; }
+
+@keyframes home-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes home-letter { to { opacity: 1; transform: none; } }
+@keyframes home-drop { from { opacity: 0; transform: translateY(-60px) rotateX(40deg); } to { opacity: 1; transform: none; } }
+@keyframes home-bob { 50% { translate: 0 -10px; } }
+
+.home-rise { opacity: 0; animation: home-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* Header */
+.home-header { display: flex; justify-content: space-between; align-items: baseline; padding: 1.2rem 6vw; font-weight: 700; letter-spacing: -0.03em; position: relative; z-index: 2; }
+.home-header a { text-decoration: none; }
+.home-nav a { margin-left: 1.4rem; }
+.home-nav a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+/* Hero */
+.home-hero { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: center; padding: 3vh 6vw 4vh; min-height: 66vh; background: linear-gradient(90deg, rgba(15, 27, 77, 0.96) 0%, rgba(15, 27, 77, 0.82) 45%, rgba(15, 27, 77, 0.55) 100%), url('/images/eads-bridge-1875.jpg') center / cover no-repeat; }
+.home-hero-credit { position: absolute; right: 6vw; bottom: 0.6rem; font-size: 0.7rem; color: var(--muted); }
+.home-h1 { white-space: nowrap; font-size: clamp(3rem, 7.4vw, 7.2rem); line-height: 0.86; letter-spacing: -0.05em; margin: 0; font-weight: 700; }
+.home-line { display: block; }
+.home-letter { display: inline-block; opacity: 0; transform: translateY(0.6em) rotate(6deg); animation: home-letter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.home-kicker { margin: 1.8rem 0 0; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--accent); }
+.home-lede { font-size: 1.25rem; line-height: 1.35; max-width: 34ch; margin: 1rem 0 0; }
+.home-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+.home-btn { font-weight: 700; text-decoration: none; padding: 0.8rem 1.2rem; border: 2px solid var(--ink); transition: background 0.3s, color 0.3s, transform 0.3s; }
+.home-btn:hover { transform: translateY(-3px); }
+.home-btn--solid { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.home-btn--solid:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+.home-stage { perspective: 900px; justify-self: center; width: min(430px, 90%); }
+.home-tile { width: 100%; display: block; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); animation: home-drop 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both, home-bob 7s ease-in-out 1.6s infinite; }
+
+/* Sections */
+.home-section { padding: 0 6vw 3.2rem; }
+.home-section-head { margin: 0 0 1.2rem; font-size: clamp(2.2rem, 4.5vw, 3.8rem); letter-spacing: -0.05em; line-height: 0.95; border-top: 2px solid var(--ink); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; }
+.home-section-head span { font-size: 1rem; letter-spacing: 0; }
+
+/* Work */
+.home-screen { background: var(--paper); padding: 0.6rem 0.6rem 1.4rem; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); width: min(980px, 100%); }
+.home-shot { position: relative; aspect-ratio: 16 / 8; overflow: hidden; background: #0c1520; }
+.home-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transform: scale(1.03); transition: opacity 0.55s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.home-shot img.on { opacity: 1; transform: none; }
+.home-cap { display: flex; justify-content: space-between; align-items: end; gap: 1.2rem; padding: 0.9rem 0.3rem 0; }
+.home-category { margin: 0 0 0.3rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.home-cap h3 { margin: 0; font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -0.04em; line-height: 0.95; }
+.home-desc { margin: 0.5rem 0 0; font-size: 1.05rem; color: var(--muted); line-height: 1.4; max-width: 60ch; }
+.home-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+.home-tags span { font-size: 0.75rem; font-weight: 700; border: 1px solid var(--muted); color: var(--muted); padding: 0.15rem 0.45rem; }
+.home-actions { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+.home-go { font-weight: 700; text-decoration: none; background: var(--accent); color: var(--on-accent); padding: 0.6rem 1rem; white-space: nowrap; transition: background 0.3s; }
+.home-go:hover { background: var(--accent-hover); }
+.home-sublink { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+.home-sublink:hover { color: var(--ink); }
+.home-strip { display: flex; gap: 0.7rem; overflow-x: auto; padding: 0.6rem 0.2rem 1rem; scrollbar-width: none; }
+.home-thumb { flex: 0 0 8.5rem; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.7; }
+.home-thumb:hover { opacity: 1; }
+.home-thumb img { width: 100%; height: 5rem; object-fit: cover; display: block; outline: 2px solid transparent; transition: outline-color 0.3s; }
+.home-thumb span { display: block; margin-top: 0.3rem; font-size: 0.85rem; font-weight: 700; }
+.home-thumb.on { transform: translateY(-10px); opacity: 1; }
+.home-thumb.on img { outline-color: var(--accent); }
+
+/* About, Experience */
+.home-about p { font-size: 1.15rem; line-height: 1.5; max-width: 62ch; color: var(--muted); margin: 0 0 1rem; }
+.home-pins { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+.home-pin { background: var(--paper); padding: 1.2rem; }
+.home-when { margin: 0 0 0.5rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.home-pin h3 { margin: 0; font-size: 1.4rem; letter-spacing: -0.03em; line-height: 1.1; }
+.home-sub { margin: 0.4rem 0 0; font-weight: 700; color: var(--muted); font-size: 0.95rem; }
+.home-pin p { margin: 0.6rem 0 0; line-height: 1.45; font-size: 0.98rem; }
+
+/* Writing */
+.home-thesis { background: var(--paper); padding: 1.6rem; max-width: 880px; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); }
+.home-thesis h3 { margin: 0; font-size: clamp(1.5rem, 2.8vw, 2.2rem); letter-spacing: -0.04em; line-height: 1.05; }
+.home-thesis p { color: var(--muted); line-height: 1.45; margin: 0.8rem 0 0; }
+.home-thesis .home-tags span { color: var(--ink); border-color: var(--ink); }
+.home-thesis .home-go { display: inline-block; margin-top: 1.2rem; }
+
+/* Footer */
+.home-footer { margin: 0 6vw; padding: 2rem 0 2.6rem; border-top: 2px solid var(--ink); display: flex; flex-direction: column; gap: 1.2rem; }
+.home-contact { display: flex; gap: 1.6rem; flex-wrap: wrap; font-weight: 700; font-size: 1.1rem; }
+.home-contact a { text-decoration: none; }
+.home-contact a:hover { color: var(--accent); }
+.home-foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: var(--muted); }
+.home-foot-row a { color: var(--ink); font-weight: 700; text-decoration: none; }
+.home-foot-row a:hover { color: var(--accent); }
+
+@media (max-width: 860px) {
+  .home-hero { grid-template-columns: 1fr; }
+  .home-h1 { white-space: normal; }
+  .home-stage { order: -1; width: 55%; }
+  .home-nav { display: none; }
+  .home-cap { flex-direction: column; align-items: start; }
+  .home-actions { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home *, .home *::before, .home *::after { animation: none !important; transition: none !important; }
+  .home-letter, .home-rise { opacity: 1; transform: none; }
+}
