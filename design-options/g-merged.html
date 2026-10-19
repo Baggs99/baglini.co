@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dan Baglini: Portfolio · Policy, AI & Education Products</title>
+<meta name="description" content="Yale SOM MBA, former Army intelligence officer. Interactive tools, research platforms, AI systems, and web products." />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  /* Ultramarine palette */
+  :root { --bg: #0f1b4d; --paper: #1f2f7a; --ink: #f4f1e8; --muted: #b9c3ea; --accent: #ffb020; --accent-hover: #ffc454; --on-accent: #0f1b4d; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Schibsted Grotesk", sans-serif; overflow-x: hidden; }
+  a { color: inherit; }
+
+  /* Headline letters rise in one at a time */
+  .split span { display: inline-block; opacity: 0; transform: translateY(0.6em) rotate(6deg); animation: letter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(var(--i) * 28ms + 0.15s); }
+  @keyframes letter { to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .rise { opacity: 0; animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+  header { display: flex; justify-content: space-between; padding: 1.2rem 6vw; font-weight: 700; letter-spacing: -0.03em; position: relative; z-index: 2; }
+  header a { text-decoration: none; }
+  header nav a { margin-left: 1.4rem; }
+  header nav a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+  /* Hero: the Eads Bridge print sits under a navy overlay */
+  .hero { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: center; padding: 3vh 6vw 4vh; min-height: 66vh; background: linear-gradient(90deg, rgba(15, 27, 77, 0.96) 0%, rgba(15, 27, 77, 0.82) 45%, rgba(15, 27, 77, 0.55) 100%), url(assets/eads-bridge-1875.jpg) center / cover no-repeat; }
+  .hero::after { content: "Eads Bridge, C.N. Dry, 1875 · Library of Congress"; position: absolute; right: 6vw; bottom: 0.6rem; font-size: 0.7rem; color: var(--muted); }
+  .eyebrow { margin: 0 0 1.2rem; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.1em; color: var(--muted); }
+  h1 { white-space: nowrap; font-size: clamp(3rem, 7.4vw, 7.2rem); line-height: 0.86; letter-spacing: -0.05em; margin: 0; }
+  .kicker { margin: 1.8rem 0 0; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--accent); }
+  .lede { font-size: 1.25rem; line-height: 1.35; max-width: 34ch; margin: 1rem 0 0; }
+  .cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+  .btn { font-weight: 700; text-decoration: none; padding: 0.8rem 1.2rem; border: 2px solid var(--ink); transition: background 0.3s, color 0.3s, transform 0.3s; }
+  .btn.solid { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .btn:hover { transform: translateY(-3px); }
+  .btn.solid:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+  /* The talk sprite tilts toward the pointer in 3D */
+  .stage3d { perspective: 900px; justify-self: center; width: min(430px, 90%); }
+  .tile { width: 100%; display: block; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); animation: drop 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both, bob 7s ease-in-out 1.6s infinite; }
+  @keyframes drop { from { opacity: 0; transform: translateY(-60px) rotateX(40deg); } to { opacity: 1; transform: none; } }
+  @keyframes bob { 50% { translate: 0 -10px; } }
+
+  /* Section heads */
+  .section { padding: 0 6vw 3.2rem; }
+  .section h2 { margin: 0 0 1.2rem; font-size: clamp(2.2rem, 4.5vw, 3.8rem); letter-spacing: -0.05em; line-height: 0.95; border-top: 2px solid var(--ink); padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: baseline; }
+  .section h2 span { font-size: 1rem; letter-spacing: 0; font-weight: 700; }
+
+  /* Work: the print preview with thumbnails that lift */
+  .screen { background: var(--paper); padding: 0.6rem 0.6rem 1.4rem; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); width: min(980px, 100%); }
+  .screen .shot { position: relative; aspect-ratio: 16 / 8; overflow: hidden; background: #0c1520; }
+  .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; transform: scale(1.03); transition: opacity 0.55s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+  .screen img.on { opacity: 1; transform: none; }
+  .screen .cap { display: flex; justify-content: space-between; align-items: end; gap: 1.2rem; padding: 0.9rem 0.3rem 0; }
+  .screen .category { margin: 0 0 0.3rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .screen h3 { margin: 0; font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -0.04em; line-height: 0.95; }
+  .screen .desc { margin: 0.5rem 0 0; font-size: 1.05rem; color: var(--muted); line-height: 1.4; max-width: 60ch; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+  .tags span { font-size: 0.75rem; font-weight: 700; border: 1px solid var(--muted); color: var(--muted); padding: 0.15rem 0.45rem; }
+  .actions { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+  .go { font-weight: 700; text-decoration: none; background: var(--accent); color: var(--on-accent); padding: 0.6rem 1rem; white-space: nowrap; transition: background 0.3s; }
+  .go:hover { background: var(--accent-hover); }
+  .sub-link { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+  .sub-link:hover { color: var(--ink); }
+  .strip { display: flex; gap: 0.7rem; overflow-x: auto; padding: 0.6rem 0.2rem 1rem; scrollbar-width: none; }
+  .strip button { flex: 0 0 8.5rem; border: 0; background: transparent; padding: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.7; }
+  .strip button:hover { opacity: 1; }
+  .strip button img { width: 100%; height: 5rem; object-fit: cover; display: block; outline: 2px solid transparent; transition: outline-color 0.3s; }
+  .strip button span { display: block; margin-top: 0.3rem; font-size: 0.85rem; font-weight: 700; }
+  .strip button.on { transform: translateY(-10px); opacity: 1; }
+  .strip button.on img { outline-color: var(--accent); }
+
+  /* About and Experience */
+  .about p { font-size: 1.15rem; line-height: 1.5; max-width: 62ch; color: var(--muted); margin: 0 0 1rem; }
+  .pins { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+  .pin { background: var(--paper); padding: 1.2rem; }
+  .pin .when { margin: 0 0 0.5rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .pin h3 { margin: 0; font-size: 1.4rem; letter-spacing: -0.03em; line-height: 1.1; }
+  .pin .sub { margin: 0.4rem 0 0; font-weight: 700; color: var(--muted); font-size: 0.95rem; }
+  .pin p { margin: 0.6rem 0 0; line-height: 1.45; font-size: 0.98rem; }
+
+  /* Writing: the honors thesis as a paper card */
+  .thesis { background: var(--paper); padding: 1.6rem; max-width: 880px; box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3); }
+  .thesis .when { margin: 0 0 0.6rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .thesis h3 { margin: 0; font-size: clamp(1.5rem, 2.8vw, 2.2rem); letter-spacing: -0.04em; line-height: 1.05; }
+  .thesis p { color: var(--muted); line-height: 1.45; margin: 0.8rem 0 0; }
+  .thesis .tags span { color: var(--ink); border-color: var(--ink); }
+  .thesis .go { display: inline-block; margin-top: 1.2rem; }
+
+  /* Footer: contact, resume, tip */
+  footer { margin: 0 6vw; padding: 2rem 0 2.6rem; border-top: 2px solid var(--ink); display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-links { display: flex; gap: 1.6rem; flex-wrap: wrap; font-weight: 700; font-size: 1.1rem; }
+  .contact-links a { text-decoration: none; }
+  .contact-links a:hover { color: var(--accent); }
+  .foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: var(--muted); }
+  .foot-row a { color: var(--ink); font-weight: 700; text-decoration: none; }
+  .foot-row a:hover { color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    h1 { white-space: normal; }
+    .stage3d { order: -1; width: 55%; }
+    header nav { display: none; }
+    .screen .cap { flex-direction: column; align-items: start; }
+    .actions { align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .split span, .rise { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="#">Dan Baglini</a>
+  <nav><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#writing">Writing</a><a href="#contact">Contact</a></nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1 class="split" id="headline" aria-label="I get computers talking to each other.">I get<br />computers<br />talking to<br />each other.</h1>
+    <p class="kicker rise" style="animation-delay:0.8s">Shipped, not just sketched.</p>
+    <p class="lede rise" style="animation-delay:0.9s">Former Army intelligence officer and Yale SOM MBA candidate, building tools, games, and research in public policy and applied technology.</p>
+    <div class="cta-row rise" style="animation-delay:1s">
+      <a class="btn solid" href="mailto:dan.baglini@yale.edu">Email Dan</a>
+      <a class="btn" href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+    </div>
+  </div>
+  <div class="stage3d" id="stage">
+    <img class="tile" id="sprite" src="sprites/5-talk-animated.svg" alt="" />
+  </div>
+</section>
+
+<section class="section rise" id="work" style="animation-delay:0.5s">
+  <h2>Selected work<span id="count">01 / 07</span></h2>
+  <div class="screen">
+    <div class="shot" id="shot"></div>
+    <div class="cap">
+      <div>
+        <p class="category" id="category"></p>
+        <h3 id="title"></h3>
+        <p class="desc" id="desc"></p>
+        <div class="tags" id="tags"></div>
+      </div>
+      <div class="actions">
+        <a class="go" id="cta" target="_blank" rel="noopener noreferrer" href="#">Open</a>
+        <a class="sub-link" id="sub" href="#" target="_blank" rel="noopener noreferrer" hidden></a>
+      </div>
+    </div>
+  </div>
+  <div class="strip" id="strip" role="group" aria-label="Projects"></div>
+</section>
+
+<section class="section about rise" id="about" style="animation-delay:0.2s">
+  <h2>About</h2>
+  <p>I enjoy building useful tools and figuring out how to make complicated problems easier to understand. My projects have included policy calculators, recruiting tools, research platforms, outreach systems, and websites.</p>
+  <p>Most of my work sits at the intersection of strategy, technology, and communication. I care a lot about making things practical, intuitive, and genuinely helpful.</p>
+</section>
+
+<section class="section" id="experience">
+  <h2>Experience</h2>
+  <ol class="pins">
+    <li class="pin"><p class="when">Present</p><h3>Yale School of Management</h3><p class="sub">MBA Candidate</p><p>MBA candidate focused on strategy and decision-making under uncertainty, with an emphasis on public-sector and institutional challenges.</p></li>
+    <li class="pin"><p class="when">Ongoing</p><h3>Consulting &amp; Strategy</h3><p class="sub">Advisory and project-based work</p><p>Advisory and project-based work focused on structuring ambiguous problems, aligning stakeholders, and translating analysis into executable plans.</p></li>
+    <li class="pin"><p class="when">Prior</p><h3>U.S. Army: Leadership &amp; Intelligence</h3><p class="sub">Platoon Leader · Intelligence Officer · 173rd Airborne Brigade</p><p>Led intelligence teams in international operations, delivering decision-critical analysis and coordinating across U.S. and allied partners in high-stakes environments.</p></li>
+  </ol>
+</section>
+
+<section class="section" id="writing">
+  <h2>Writing</h2>
+  <article class="thesis">
+    <p class="when">Undergraduate Honors Thesis</p>
+    <h3>Analysis of Officer Retention and Success in the US Army by Commissioning Source</h3>
+    <p>Daniel Baglini. University of Rhode Island.</p>
+    <p>An undergraduate honors thesis analyzing how commissioning source impacts officer retention and promotion outcomes in the United States Army, using statistical analysis of Army officer career data.</p>
+    <div class="tags"><span>Military Research</span><span>Public Policy</span><span>Data Analysis</span><span>Army Leadership</span></div>
+    <p>Published through URI DigitalCommons</p>
+    <a class="go" href="https://digitalcommons.uri.edu/srhonorsprog/875/" target="_blank" rel="noopener noreferrer">Read Thesis</a>
+  </article>
+</section>
+
+<footer id="contact" class="rise" style="animation-delay:0.7s">
+  <div class="contact-links">
+    <a href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+    <a href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+    <a href="https://www.linkedin.com/in/daniel-baglini/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://github.com/Baggs99" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+  <div class="foot-row">
+    <p>© <span id="year"></span> Dan Baglini</p>
+    <a href="https://donate.stripe.com/aFa9AV0AB9gyeLGcCG24000" target="_blank" rel="noopener noreferrer">Leave a tip</a>
+  </div>
+</footer>
+
+<script>
+// Split the headline into letters for the staggered rise
+const headline = document.getElementById("headline");
+let i = 0;
+headline.innerHTML = headline.innerHTML.replace(/(<br>|<br\/>|<br \/>)|([^<])/g, (m, br, ch) => {
+  if (br) return br;
+  return `<span style="--i:${i++}">${ch === " " ? "&nbsp;" : ch}</span>`;
+});
+
+// Pointer tilt on the sprite
+const stage = document.getElementById("stage");
+const tile = document.getElementById("sprite");
+stage.addEventListener("pointermove", (e) => {
+  const r = stage.getBoundingClientRect();
+  tile.style.setProperty("--ry", `${((e.clientX - r.left) / r.width - 0.5) * 18}deg`);
+  tile.style.setProperty("--rx", `${-((e.clientY - r.top) / r.height - 0.5) * 14}deg`);
+});
+stage.addEventListener("pointerleave", () => { tile.style.setProperty("--rx", "0deg"); tile.style.setProperty("--ry", "0deg"); });
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Projects: the indexed work, with the same copy as the live site
+const projects = [
+  { title: "Final Dayz", img: "final-dayz", category: "Web Game", desc: "A wave-survival shooter: hold the box, aim and shoot, swap weapons, repair under pressure, and climb a live leaderboard.", tags: ["Wave Survival", "Leaderboard", "Canvas", "Single Player"], cta: "Play", url: "https://zombie.baglini.co/" },
+  { title: "Case Repo", img: "case-repo", category: "MBA Recruiting Tool", desc: "A searchable case interview repository for MBA students, built to help consulting candidates find, preview, rate, and practice real cases.", tags: ["Search", "Case Prep", "Cloud Storage", "MBA Recruiting"], cta: "Browse Cases", url: "https://cases.baglini.co/" },
+  { title: "RI School Consolidation Calculator", img: "ri-school-consolidation", category: "Policy + Data Tool", desc: "An interactive map and calculator exploring how Rhode Island school district consolidation could affect costs, leadership structures, and local decision-making.", tags: ["Education Policy", "Mapping", "Public Finance", "Data Visualization"], cta: "Open Calculator", url: "https://calc.baglini.co", sub: { label: "Read paper", url: "../public/rhode-island-school-consolidation-paper.pdf" } },
+  { title: "4 Connect", img: "4-connect", category: "Web Game", desc: "A polished Connect Four with two-player mode, multiple AI tiers, handcrafted motion, Web Audio, and minimax-backed play.", tags: ["Vanilla JS", "Web Audio", "Game AI", "Mobile UX"], cta: "Play", url: "/4-connect/" },
+  { title: "Education Leadership Conference Outreach", img: "elc-outreach", category: "AI Outreach System", desc: "An AI-assisted system that generates credible, personalized outreach at scale to drive attendance without sacrificing tone or relevance.", tags: ["AI", "Email", "Outreach", "Scaling"], cta: "Open tool", url: "https://elc.baglini.co", sub: { label: "GitHub", url: "https://github.com/Baggs99/ELC-Mass-Email-Sender" } },
+  { title: "African Urban Worship Music", img: "auwm", category: "Multimedia Research Project", desc: "A digital storytelling project exploring African urban worship music through research, writing, media, and course-based analysis.", tags: ["Research", "Media", "Culture", "Storytelling"], cta: "View Project", url: "https://auwm.baglini.co/" },
+  { title: "Yale SOM Consulting Club", img: "yale-som-consulting-club", category: "Student Organization Website", desc: "A redesigned website for Yale SOM consulting recruiting resources, events, timelines, and student-facing communications.", tags: ["Consulting", "Recruiting", "Web Design", "Yale SOM"], cta: "Visit Site", url: "https://yalesomconsultingclub.com/" }
+];
+const shot = document.getElementById("shot");
+const strip = document.getElementById("strip");
+let current = 0;
+projects.forEach((p) => {
+  const img = document.createElement("img");
+  img.src = `../public/previews/${p.img}.png`; img.alt = p.title;
+  shot.appendChild(img);
+  const b = document.createElement("button");
+  b.type = "button";
+  b.innerHTML = `<img alt="" src="../public/previews/${p.img}.png"><span>${p.title.split(" ").slice(0, 2).join(" ")}</span>`;
+  b.onclick = () => show([...strip.children].indexOf(b));
+  strip.appendChild(b);
+});
+function show(n) {
+  current = n;
+  const p = projects[n];
+  [...shot.children].forEach((img, k) => img.classList.toggle("on", k === n));
+  [...strip.children].forEach((b, k) => b.classList.toggle("on", k === n));
+  document.getElementById("count").textContent = `${String(n + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+  document.getElementById("category").textContent = p.category;
+  document.getElementById("title").textContent = p.title;
+  document.getElementById("desc").textContent = p.desc;
+  document.getElementById("tags").innerHTML = p.tags.map((t) => `<span>${t}</span>`).join("");
+  const cta = document.getElementById("cta");
+  cta.textContent = p.cta; cta.href = p.url;
+  const sub = document.getElementById("sub");
+  sub.hidden = !p.sub;
+  if (p.sub) { sub.textContent = p.sub.label; sub.href = p.sub.url; }
+  const btn = strip.children[n];
+  strip.scrollTo({ left: btn.offsetLeft - (strip.clientWidth - btn.offsetWidth) / 2, behavior: "smooth" });
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") show(Math.min(projects.length - 1, current + 1));
+  if (e.key === "ArrowLeft") show(Math.max(0, current - 1));
+});
+show(0);
+</script>
+</body>
+</html>

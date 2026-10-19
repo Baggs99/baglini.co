@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C · The Index · Dan Baglini</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  :root { --paper: #dce6ee; --ink: #142028; --muted: #4f5f6b; --rule: #142028; --accent: #6a3ad6; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Schibsted Grotesk", sans-serif; }
+  a { color: inherit; }
+
+  /* Scroll reveal: elements fade up once they enter the viewport */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  header { display: flex; justify-content: space-between; align-items: baseline; padding: 1.4rem 6vw; border-bottom: 1px solid var(--rule); }
+  header a { text-decoration: none; font-weight: 700; letter-spacing: -0.02em; }
+  header span { color: var(--muted); font-size: 0.95rem; }
+
+  .intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: end; padding: 7vh 6vw 6vh; }
+  h1 { font-size: clamp(3.2rem, 8.5vw, 8rem); line-height: 0.88; letter-spacing: -0.055em; margin: 0; }
+  .intro img { width: 100%; max-width: 420px; justify-self: end; animation: spin 40s linear infinite; }
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  .intro p { grid-column: 1; font-size: 1.2rem; max-width: 36ch; color: var(--muted); margin: 1.6rem 0 0; }
+
+  .list { padding: 0 6vw; border-top: 2px solid var(--rule); }
+  .row { position: relative; display: grid; grid-template-columns: 4rem 1fr auto; gap: 1rem; align-items: baseline; padding: 1.6rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  .row .n { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .row .name { font-size: clamp(2rem, 5.4vw, 4.8rem); letter-spacing: -0.045em; line-height: 0.95; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s; }
+  .row .blurb { display: block; font-size: 1rem; color: var(--muted); letter-spacing: 0; margin-top: 0.5rem; }
+  .row .tag { font-weight: 700; font-size: 0.95rem; }
+  .row:hover .name { transform: translateX(14px); color: var(--accent); }
+
+  /* Preview follows the cursor on hover (desktop only) */
+  .peek { position: fixed; left: 0; top: 0; width: 360px; aspect-ratio: 16 / 10; object-fit: cover; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(0.92); transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 20px 40px rgba(20, 32, 40, 0.2); z-index: 5; }
+  .peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @media (hover: none) { .peek { display: none; } }
+
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.2rem; padding: 3rem 6vw 3.5rem; }
+  .foot a { font-size: clamp(1.6rem, 3vw, 2.6rem); letter-spacing: -0.04em; font-weight: 700; text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+  .foot .links { display: flex; flex-direction: column; gap: 0.4rem; font-size: 1rem; font-weight: 500; }
+
+  @media (max-width: 760px) {
+    .intro { grid-template-columns: 1fr; }
+    .intro img { justify-self: start; max-width: 160px; }
+    .row { grid-template-columns: 2.4rem 1fr; }
+    .row .tag { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="#">Dan Baglini</a>
+  <span>Yale SOM MBA candidate · former Army intelligence officer</span>
+</header>
+
+<section class="intro">
+  <h1 class="reveal">Things I<br />have shipped.</h1>
+  <img src="../src/assets/hero.png" alt="" />
+  <p class="reveal">Games, research sites, and tools. Each one is live. Hover a row to see it, or open it directly.</p>
+</section>
+
+<section class="list" id="work" aria-label="Projects"></section>
+
+<footer class="foot" id="contact">
+  <a class="reveal" href="mailto:dan.baglini@yale.edu">dan.baglini@yale.edu</a>
+  <div class="links reveal">
+    <a href="/Baglini%20Resume%20Yale%20Format.pdf">Resume</a>
+    <a href="https://www.linkedin.com/in/daniel-baglini/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://github.com/Baggs99" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</footer>
+
+<img class="peek" id="peek" src="../public/previews/final-dayz.png" alt="" />
+
+<script>
+const projects = [
+  ["Final Dayz", "final-dayz", "Hold the box. Survive the waves.", "https://zombie.baglini.co/", "Play"],
+  ["Case Repo", "case-repo", "A searchable case library for consulting interviews.", "https://cases.baglini.co/", "Browse"],
+  ["RI School Calculator", "ri-school-consolidation", "What consolidation would change in Rhode Island schools.", "https://calc.baglini.co", "Open"],
+  ["4 Connect", "4-connect", "Connect Four, with opponents that think.", "/4-connect/", "Play"],
+  ["ELC Outreach", "elc-outreach", "Personalized outreach for the Education Leadership Conference.", "https://elc.baglini.co", "Open"],
+  ["AUWM", "auwm", "African urban worship music, in research and media.", "https://auwm.baglini.co/", "View"],
+  ["Yale SOM Consulting Club", "yale-som-consulting-club", "Recruiting resources for Yale SOM.", "https://yalesomconsultingclub.com/", "Visit"]
+];
+const list = document.querySelector(".list");
+const peek = document.getElementById("peek");
+projects.forEach((p, n) => {
+  const a = document.createElement("a");
+  a.className = "row reveal";
+  a.href = p[3];
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.innerHTML = `<span class="n">${String(n + 1).padStart(2, "0")}</span>
+    <span class="name">${p[0]}<span class="blurb">${p[2]}</span></span>
+    <span class="tag">${p[4]} →</span>`;
+  a.addEventListener("mouseenter", () => { peek.src = `../public/previews/${p[1]}.png`; peek.alt = p[0]; peek.classList.add("on"); });
+  a.addEventListener("mouseleave", () => peek.classList.remove("on"));
+  a.addEventListener("mousemove", (e) => { peek.style.left = e.clientX + "px"; peek.style.top = e.clientY + "px"; });
+  list.appendChild(a);
+});
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>
