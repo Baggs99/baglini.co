@@ -5,6 +5,8 @@
     { "source": "/HCMAP", "destination": "/HCMAP/index.html" },
     { "source": "/basicmap", "destination": "/basicmap/index.html" },
     { "source": "/4-connect", "destination": "/4-connect/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/support", "destination": "/support/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
