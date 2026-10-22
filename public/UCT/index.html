@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Township Winery · Group 10 · Rough draft</title>
+<style>
+  :root { --wine:#5B1A2A; --gold:#B8891E; --cream:#F6F1E7; --ink:#2B2B2B; --muted:#6B6B6B; --white:#FFF; --sand:#EADFCB; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #1d1d1d; font-family: Arial, Helvetica, sans-serif; color: var(--ink); overflow: hidden; }
+  #deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .slide { display: none; position: relative; width: min(96vw, 170vh); aspect-ratio: 16 / 9; background: var(--cream); padding: 6% 6% 5%; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.45); border-top: 1.2vh solid var(--wine); }
+  .slide.active { display: block; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+  h2 { color: var(--wine); font-size: clamp(18px, 3.2vh, 34px); margin: 0 0 1.2vh; }
+  h2::after { content: ""; display: block; width: 8vh; height: 0.3vh; background: var(--gold); margin-top: 1.4vh; }
+  footer { position: absolute; left: 6%; bottom: 3%; font-size: clamp(9px, 1.5vh, 12px); color: var(--muted); }
+  .note { font-style: italic; color: var(--muted); font-size: clamp(11px, 2vh, 16px); margin-top: 2.5vh; }
+  .lead { font-weight: bold; font-size: clamp(14px, 2.6vh, 22px); line-height: 1.4; margin-top: 2vh; }
+  ul.bullets li { font-size: clamp(14px, 2.5vh, 21px); line-height: 1.5; margin: 0 0 1.2vh; }
+  ul.bullets { padding-left: 3vh; margin-top: 3vh; }
+  /* title */
+  .title-slide { background: var(--wine); border-top: none; color: var(--white); }
+  .title-wrap { position: absolute; left: 6%; right: 6%; top: 28%; }
+  .title-slide h1 { font-size: clamp(30px, 7vh, 72px); margin: 0; }
+  .title-slide .rule { width: 12vh; height: 0.5vh; background: var(--gold); margin: 3vh 0; }
+  .title-slide .sub { font-family: Georgia, serif; font-style: italic; color: var(--sand); font-size: clamp(16px, 3.6vh, 34px); margin: 0; }
+  .title-slide .meta { color: var(--sand); font-size: clamp(11px, 2.2vh, 18px); margin: 8vh 0 0; }
+  .title-slide footer { display: none; }
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5%; margin-top: 4vh; }
+  .stat { background: var(--white); border-top: 0.6vh solid var(--gold); padding: 3vh 2%; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .stat .v { font-family: Georgia, serif; color: var(--wine); font-weight: bold; font-size: clamp(18px, 4vh, 40px); }
+  .stat .l { font-size: clamp(11px, 2vh, 16px); margin-top: 1.2vh; }
+  /* cards */
+  .cols { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2.5%; margin-top: 2vh; }
+  .card { background: var(--white); border: 1px solid var(--sand); }
+  .card h3 { margin: 0; background: var(--wine); color: var(--white); padding: 1.6vh 2%; font-size: clamp(12px, 2.3vh, 18px); font-family: Arial, sans-serif; }
+  .card ul { padding: 1.6vh 2% 1.6vh 4%; margin: 0; }
+  .card li { font-size: clamp(11px, 2.1vh, 17px); line-height: 1.5; margin-bottom: 1vh; }
+  /* flow */
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2%; margin-top: 3vh; }
+  .step { background: var(--white); border: 1px solid var(--gold); padding: 2.2vh 2.2%; min-height: 30vh; position: relative; }
+  .step.last { background: var(--sand); }
+  .step h3 { margin: 0 0 1.5vh; color: var(--wine); font-family: Arial, sans-serif; font-size: clamp(12px, 2.3vh, 18px); }
+  .step p { margin: 0; font-size: clamp(11px, 2vh, 16px); line-height: 1.5; }
+  .step:not(.last)::after { content: "›"; position: absolute; right: -2.2%; top: 45%; color: var(--gold); font-size: 4vh; font-weight: bold; }
+  /* bar chart */
+  .chart-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 4%; margin-top: 2vh; height: 58vh; }
+  .chart { display: flex; align-items: flex-end; gap: 4%; padding-bottom: 6vh; border-bottom: 1px solid #999; position: relative; }
+  .barcol { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+  .bar { width: 70%; }
+  .bar.wine { background: var(--wine); }
+  .bar.gold { background: var(--gold); }
+  .val { font-weight: bold; font-size: clamp(12px, 2.4vh, 20px); margin-bottom: 0.8vh; }
+  .cat { position: absolute; bottom: -5.5vh; width: 100%; text-align: center; font-size: clamp(10px, 1.9vh, 14px); }
+  .chart-side { font-size: clamp(12px, 2.2vh, 18px); align-self: center; }
+  .chart-side ul { padding-left: 3vh; }
+  /* table */
+  table { width: 100%; border-collapse: collapse; margin-top: 2vh; background: var(--white); font-size: clamp(11px, 2.1vh, 17px); }
+  th { background: var(--wine); color: var(--white); text-align: left; padding: 1.3vh 1.2%; }
+  td { padding: 1.2vh 1.2%; border-bottom: 1px solid var(--sand); vertical-align: middle; }
+  tbody tr:nth-child(even) td { background: var(--sand); }
+  /* nav */
+  #controls { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; color: #ddd; font-size: 13px; font-family: Arial, sans-serif; user-select: none; }
+  #controls button { background: #333; color: #eee; border: 1px solid #555; padding: 6px 14px; cursor: pointer; font: inherit; }
+  #controls button:hover { background: #444; }
+  #progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--gold); width: 0; transition: width .3s; }
+  @media print {
+    html, body { overflow: visible; background: none; height: auto; }
+    #controls, #progress { display: none; }
+    #deck { position: static; display: block; }
+    .slide { display: block !important; width: 100%; aspect-ratio: auto; height: 100vh; page-break-after: always; box-shadow: none; animation: none; }
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<main id="deck">
+<section class="slide title-slide" data-n="1"><div class="title-wrap"><h1>The Township Winery</h1><div class="rule"></div><p class="sub">A brand and a movement, built to last</p><p class="meta">Group 10 · Rough draft for discussion · 23 October 2026</p></div><footer>Group 10 · Rough draft · 1 / 14</footer></section>
+<section class="slide" data-n="2"><h2>The business at a glance</h2><div class="stats"><div class="stat"><div class="v">4</div><div class="l">Shareholders in the close corporation</div></div><div class="stat"><div class="v">3</div><div class="l">School MoUs signed in 3 years of work</div></div><div class="stat"><div class="v">R160–175</div><div class="l">Philippi range price</div></div><div class="stat"><div class="v">R355–390</div><div class="l">Single-vineyard range price</div></div></div><p class="note">Socially driven wine business linking production with community development, agricultural education and employment. Has supported township-owned vineyards.</p><footer>Group 10 · Rough draft · 2 / 14</footer></section>
+<section class="slide" data-n="3"><h2>Our brief and how we approached it</h2><ul class="bullets"><li>Brief: a practical business suggestion for The Township Winery</li><li>Sources: client email thread, group WhatsApp, and the business synopsis profile</li><li>Questions taken from the client and the group, mapped to where we answer them</li><li>Limits: no financials, no sales channel split, and no school site details yet</li><li>Where an answer is missing, we state an assumption and show how the recommendation holds either way</li></ul><footer>Group 10 · Rough draft · 3 / 14</footer></section>
+<section class="slide" data-n="4"><h2>Strengths to build on</h2><div class="cols"><div class="card"><h3>Differentiated story</h3><ul><li>Economic inclusion in an industry slow to transform 30+ years after democracy</li><li>Clear link between wine and community</li></ul></div><div class="card"><h3>Two-tier range</h3><ul><li>Philippi range at R160–175</li><li>Single-vineyard range at R355–390</li><li>A ready-made ladder from accessible to premium</li></ul></div><div class="card"><h3>Partnerships and reach</h3><ul><li>3 school MoUs in place</li><li>Philanthropic clients abroad who back the story</li><li>CSI interest from neighbouring wine farms</li></ul></div><div class="card"><h3>Digital capability</h3><ul><li>Website, e-commerce and digital marketing run in-house</li><li>Founders' Club as a recurring-revenue base</li></ul></div></div><footer>Group 10 · Rough draft · 4 / 14</footer></section>
+<section class="slide" data-n="5"><h2>Challenge 1: operations run on unpaid owner effort</h2><div class="cols"><div class="card"><h3>Today's roles</h3><ul><li>Production: one co-founder</li><li>Growth and customers: one owner</li><li>Digital and e-commerce: two people</li><li>School partnership: one ex-principal owner</li></ul></div><div class="card"><h3>What is missing</h3><ul><li>Written roles and decision rights</li><li>Any paid role</li><li>A named production successor</li><li>A staff count or organogram</li></ul></div><div class="card"><h3>Why it matters</h3><ul><li>Key-person risk on production and sales</li><li>Missed opportunities from unclear ownership of tasks</li><li>Leadership conversation due next month</li></ul></div></div><p class="note">Named by the client as 'precarious'. Our concern is the operating model, not the people.</p><footer>Group 10 · Rough draft · 5 / 14</footer></section>
+<section class="slide" data-n="6"><h2>Challenge 2: the school vineyard approval path</h2><div class="flow"><div class="step"><h3>1. SGB and principal</h3><p>Minute approval for use of land and water, and that learners maintain the vineyard. Without this, WCED will not engage.</p></div><div class="step"><h3>2. WCED district office</h3><p>Schools are provincial land. Infrastructure and Facilities approve digging deeper than 500 mm, trellising, or changes to water use.</p></div><div class="step"><h3>3. Other departments</h3><p>Client lists Basic Education, Agriculture and Public Works. Trade, Industry and Competition may also be needed.</p></div><div class="step last"><h3>4. Outcome</h3><p>One application denied. The other two have progressed at an unequal rate, which points to gaps in the process.</p></div></div><p class="note">The denied application is the clearest sign of fragmented government process. The land was reserved for future school development.</p><footer>Group 10 · Rough draft · 6 / 14</footer></section>
+<section class="slide" data-n="7"><h2>Challenge 3: the price ladder is clear, the buyers are not</h2><div class="chart-wrap"><div class="chart"><div class="barcol"><div class="val">R160</div><div class="bar wine" style="height:41.02564102564102%"></div><div class="cat">Philippi range (low)</div></div><div class="barcol"><div class="val">R175</div><div class="bar wine" style="height:44.871794871794876%"></div><div class="cat">Philippi range (high)</div></div><div class="barcol"><div class="val">R355</div><div class="bar gold" style="height:91.02564102564102%"></div><div class="cat">Single-vineyard (low)</div></div><div class="barcol"><div class="val">R390</div><div class="bar gold" style="height:100%"></div><div class="cat">Single-vineyard (high)</div></div></div><div class="chart-side"><p><strong>Price points only.</strong> Who buys each range, and why, is still open.</p><ul><li>Philippi range: accessible, community-led</li><li>Single-vineyard: premium, terroir-led</li></ul></div></div><p class="note">Price points only. Who buys each range, and why, is still open. (Rand per bottle (approx.))</p><footer>Group 10 · Rough draft · 7 / 14</footer></section>
+<section class="slide" data-n="8"><h2>Options we considered</h2><table><thead><tr><th>Option</th><th>Quality</th><th>Impact</th><th>Cash need</th><th>Speed</th><th>Verdict</th></tr></thead><tbody><tr><td>Keep operating as is</td><td>Stable</td><td>Limited</td><td>None</td><td>n/a</td><td>Not viable</td></tr><tr><td>Hire one paid role only</td><td>Stable</td><td>Limited</td><td>Medium</td><td>Fast</td><td>Necessary, not enough</td></tr><tr><td>Restructure leadership and roles</td><td>Stable</td><td>Stable</td><td>Low</td><td>Medium</td><td>Do now</td></tr><tr><td>Pivot school plan to one school and a phased start</td><td>Stable</td><td>Up</td><td>Low</td><td>Medium</td><td>Do now</td></tr><tr><td>Tier the range with a clear impact message</td><td>Up</td><td>Up</td><td>Low</td><td>Fast</td><td>Do now</td></tr></tbody></table><p class="note">Scores are our qualitative judgement from the materials, not measured data.</p><footer>Group 10 · Rough draft · 8 / 14</footer></section>
+<section class="slide" data-n="9"><h2>Our recommendation</h2><p class="lead">Run The Township Winery as two linked engines: a premium range that funds the business, and an impact range that carries the story. Manage both through one scorecard and a leadership plan that starts now.</p><ul class="bullets"><li>1. Formalise roles and leadership: shareholder agreement, written roles, one paid role, a production succession plan</li><li>2. Tier the portfolio on purpose: Philippi for volume, events and gifting; single-vineyard for margin, export and CSI buyers</li><li>3. Re-route the school path: SGB and principal first, then WCED district; start with the most advanced school; test a lower-permission first phase</li><li>4. Run one scorecard for quality and impact, reviewed quarterly</li><li>5. Diversify funding: Founders' Club, farm CSI, philanthropy; ring-fence school-vineyard money</li></ul><footer>Group 10 · Rough draft · 9 / 14</footer></section>
+<section class="slide" data-n="10"><h2>Roadmap</h2><div class="cols"><div class="card"><h3>0–3 months</h3><ul><li>Agree roles and decision rights</li><li>Start shareholder agreement</li><li>Triage the three schools: which is furthest</li><li>Confirm WCED district contact and process</li></ul></div><div class="card"><h3>3–6 months</h3><ul><li>Add impact labelling and QR story</li><li>Set up the funding mix</li><li>Source fruit from township-owned vineyards</li><li>Recruit or appoint the first paid role</li></ul></div><div class="card"><h3>6–12 months</h3><ul><li>Submit complete school application</li><li>Run a first phase, if approved</li><li>Scorecard live and reported</li><li>Succession plan agreed</li></ul></div></div><p class="note">Steps in the first column need the client's decision next month.</p><footer>Group 10 · Rough draft · 10 / 14</footer></section>
+<section class="slide" data-n="11"><h2>Quality and impact scorecard</h2><table><thead><tr><th>Dimension</th><th>Measure</th><th>Why it matters</th></tr></thead><tbody><tr><td>Quality</td><td>Competition medals and sensory scores</td><td>Keeps the wine credible on its own terms</td></tr><tr><td>Quality</td><td>Repeat-purchase rate</td><td>Shows the product earns loyalty</td></tr><tr><td>Impact</td><td>Learners engaged and bursaries created</td><td>Tracks the school promise</td></tr><tr><td>Impact</td><td>Jobs created and township-sourced fruit (bottles or rand)</td><td>Tracks economic inclusion</td></tr><tr><td>Business</td><td>Revenue mix across channels and funding mix</td><td>Shows the model is not dependent on one source</td></tr></tbody></table><footer>Group 10 · Rough draft · 11 / 14</footer></section>
+<section class="slide" data-n="12"><h2>Risks and mitigations</h2><table><thead><tr><th>Risk</th><th>Mitigation</th></tr></thead><tbody><tr><td>Key-person dependence on production and sales</td><td>Written roles, paid role, succession plan</td></tr><tr><td>School approvals delayed or denied</td><td>Triage schools; start with the furthest; phased first step; source fruit meanwhile</td></tr><tr><td>Quality slips under impact pressure</td><td>One scorecard with quality measures alongside impact</td></tr><tr><td>Reliance on one donor or one channel</td><td>Diversify funding and sales channels; ring-fence funds</td></tr></tbody></table><footer>Group 10 · Rough draft · 12 / 14</footer></section>
+<section class="slide" data-n="13"><h2>Open questions and our working assumptions</h2><p class="lead">These will not be answered before the presentation. We state the assumption and check that the recommendation still holds.</p><ul class="bullets"><li>Which township and school? Assumed: one of the three MoU schools, most advanced first. Holds regardless of location.</li><li>Channel split (online, restaurants and hotels, export, events)? Assumed: unknown. Recommendation holds; the mix sets the priority of moves 2 and 5.</li><li>Which authority governs school land: WCED district or national Basic Education? Assumed: WCED district, per the client's group note. To confirm.</li><li>Is a low-permission first phase exempt from approval? Assumed: unknown. Treated as an option to test, not a given.</li><li>Benefits to the school and length of commitment? Assumed: not yet defined. Listed as a gap to close in the next meeting.</li><li>Financials and staff count? Not available. The recommendation is qualitative until they are.</li></ul><footer>Group 10 · Rough draft · 13 / 14</footer></section>
+<section class="slide" data-n="14"><h2>Next steps and what we need</h2><ul class="bullets"><li>From the client, at the leadership meeting: school choice and site, benefits offered, channel split, staff and roles</li><li>From us: revisit this deck once answers arrive; build a one-page scorecard template</li><li>Route follow-ups by email, not WhatsApp, and keep requests small</li><li>Thank you</li></ul><footer>Group 10 · Rough draft · 14 / 14</footer></section>
+</main>
+<div id="controls"><button id="prev" aria-label="Previous slide">‹ Prev</button><span id="count"></span><button id="next" aria-label="Next slide">Next ›</button></div>
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+  const start = parseInt(location.hash.slice(1), 10);
+  show(isNaN(start) ? 0 : start - 1);
+</script>
+</body>
+</html>
