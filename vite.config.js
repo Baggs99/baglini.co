@@ -11,6 +11,7 @@ export default defineConfig({
       // The portfolio is the root entry. West African Produce is a subpage with its own storefront and staff queue.
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        projectProposal: fileURLToPath(new URL('./project-proposal/index.html', import.meta.url)),
         wap: fileURLToPath(new URL('./west-african-produce/index.html', import.meta.url)),
         wapAdmin: fileURLToPath(new URL('./west-african-produce/admin/index.html', import.meta.url)),
       },
