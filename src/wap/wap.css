@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+/*
+  West African Produce design tokens. Palette is drawn from the current WAP site
+  (navy buttons, produce photography on dark) and warmed up for a light, editorial layout.
+*/
+@theme {
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+  --color-wap-navy: #16263a;
+  --color-wap-navy-deep: #0e1a2a;
+  --color-wap-gold: #c9a24a;
+  --color-wap-palm: #b4441f;
+  --color-wap-green: #2f5d3a;
+  --color-wap-cream: #f7f3ea;
+  --color-wap-paper: #fffdf8;
+  --color-wap-ink: #1d1f24;
+  --color-wap-muted: #5d6470;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-wap-cream);
+  color: var(--color-wap-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Subtle woven pattern used behind the hero, a nod to West African textile motifs. */
+.wap-pattern {
+  background-image:
+    linear-gradient(45deg, rgba(201, 162, 74, 0.07) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(201, 162, 74, 0.07) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(201, 162, 74, 0.07) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(201, 162, 74, 0.07) 75%);
+  background-size: 48px 48px;
+  background-position: 0 0, 0 24px, 24px -24px, -24px 0;
+}

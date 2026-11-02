@@ -104,3 +104,34 @@ No extra config is required for this static single-page app.
 ---
 
 Optional next steps: see the “Optional upgrades” section in your project brief (blog, case studies, data visualization).
+
+## West African Produce (`/west-african-produce`)
+
+A storefront and order queue for West African Produce. The storefront is a subpage of this site, with its own entry point in `west-african-produce/`. Its React code is in `src/wap/`, and its serverless API is in `api/wap/`, with shared helpers in `wap-server/`.
+
+- Storefront: `/west-african-produce`
+- Staff order queue and inventory: `/west-african-produce/admin` (password protected)
+
+### Setup
+
+1. In Supabase, run `west-african-produce/supabase/schema.sql` in the SQL editor. It creates the tables, the stock functions, and the starting catalog. Prices and stock in that file are placeholders. Confirm them with WAP.
+2. In Stripe, create a webhook endpoint at `https://baglini.co/api/wap/stripe-webhook`. Listen for `checkout.session.completed` and `checkout.session.expired`.
+3. Set these environment variables in Vercel:
+
+| Variable | Purpose |
+|---|---|
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key. Never expose it to the browser. |
+| `STRIPE_SECRET_KEY` | Stripe secret key (test mode first) |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret for the webhook endpoint above |
+| `ADMIN_PASSWORD` | Password for the staff queue. Also signs the staff session cookie. |
+| `APP_URL` | Optional. Public origin used for Stripe return URLs, for example `https://baglini.co`. |
+
+### Order flow
+
+1. The customer's cart is checked against live stock. The order is written as `awaiting_payment` and stock is held for 60 minutes.
+2. The customer pays on Stripe Checkout, which also collects the shipping address.
+3. The webhook marks the order `paid`, and it appears in the staff queue.
+4. Staff move it through `preparing` → `ready` → `shipped` → `fulfilled`, or cancel it. A cancel issues a Stripe refund and returns the stock.
+
+Test the whole flow in Stripe test mode before switching to live keys.

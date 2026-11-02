@@ -5,6 +5,10 @@
     { "source": "/HCMAP", "destination": "/HCMAP/index.html" },
     { "source": "/basicmap", "destination": "/basicmap/index.html" },
     { "source": "/4-connect", "destination": "/4-connect/index.html" },
+    { "source": "/west-african-produce", "destination": "/west-african-produce/index.html" },
+    { "source": "/west-african-produce/", "destination": "/west-african-produce/index.html" },
+    { "source": "/west-african-produce/admin", "destination": "/west-african-produce/admin/index.html" },
+    { "source": "/west-african-produce/admin/", "destination": "/west-african-produce/admin/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
