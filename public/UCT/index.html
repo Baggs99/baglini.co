@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Township Winery · Group 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4EDDC; --paper-2: #EADFC6; --card: #FBF7EE; --ink: #2A1D18; --muted: #786A5C;
+    --merlot: #5A1426; --merlot-2: #7E2A3D; --ochre: #B9702A; --ochre-2: #D9A35B; --vine: #3D5A3A; --chenin: #E9D9A8; --line: #CDBA93;
+    --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --sans: "Manrope", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; font-family: var(--sans); color: var(--ink);
+    background: radial-gradient(120% 90% at 20% 0%, #5a1d2b 0%, #2a0d15 60%, #180709 100%); }
+  #deck { position: fixed; inset: 0; display: grid; place-items: center; }
+
+  /* ---------- canvas ---------- */
+  .slide { display: none; position: relative; width: min(94vw, calc((100vh - 100px) * 1.778)); aspect-ratio: 16 / 9; overflow: hidden;
+    border-radius: 6px; padding: 5.2% 6.5% 6%; color: var(--ink);
+    background:
+      radial-gradient(90% 70% at 100% 0%, rgba(217,163,91,.16), transparent 60%),
+      radial-gradient(70% 60% at 0% 100%, rgba(61,90,58,.12), transparent 60%),
+      repeating-linear-gradient(90deg, rgba(90,20,38,.018) 0 1px, transparent 1px 4px),
+      var(--paper);
+    box-shadow: 0 30px 90px rgba(0,0,0,.6), inset 0 0 0 10px var(--paper), inset 0 0 0 11px rgba(90,20,38,.25); }
+  .slide.active { display: block; animation: enter .7s cubic-bezier(.2,.7,.2,1); }
+  @keyframes enter { from { opacity: 0; transform: translateY(10px); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+
+  .gable { width: 1.9em; height: 1.9em; color: var(--ochre); flex: none; }
+  .slide-head { display: flex; align-items: center; gap: 1.6vh; margin-bottom: 3vh; position: relative; }
+  .slide-head .gable { width: 5.2vh; height: 5.2vh; }
+  .sec { display: block; font-family: var(--sans); font-weight: 600; font-size: clamp(9px, 1.6vh, 13px); letter-spacing: .24em; text-transform: uppercase; color: var(--ochre); }
+  h2 { margin: .2vh 0 0; font-family: var(--serif); font-weight: 560; font-variation-settings: "opsz" 72; color: var(--merlot); font-size: clamp(20px, 4vh, 42px); line-height: 1.08; letter-spacing: -.01em; }
+  .tag { position: absolute; right: 0; top: 0; background: var(--ochre); color: #FFF8EC; font-size: clamp(9px, 1.5vh, 12px); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; padding: .8vh 1.6vh; border-radius: 2px; box-shadow: 0 6px 16px rgba(185,112,42,.35); }
+  .body { position: relative; height: calc(100% - 9vh); }
+  footer { position: absolute; left: 6.5%; right: 6.5%; bottom: 3.4%; display: flex; justify-content: space-between; font-size: clamp(9px, 1.4vh, 12px); color: var(--muted); letter-spacing: .04em; z-index: 2; }
+  .vine { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 3.4vh; color: var(--vine); opacity: .55; }
+  .note { font-style: italic; font-family: var(--serif); color: var(--muted); font-size: clamp(11px, 1.9vh, 15px); margin: 2.6vh 0 0; max-width: 92%; }
+  .lede { font-family: var(--serif); font-size: clamp(14px, 2.5vh, 20px); line-height: 1.5; color: var(--ink); margin: 3vh 0 0; max-width: 92%; }
+  .lead { font-family: var(--serif); font-style: italic; font-size: clamp(14px, 2.6vh, 21px); line-height: 1.45; color: var(--merlot); margin: 0 0 3vh; padding: 0 0 0 2.4vh; border-left: .4vh solid var(--ochre); }
+
+  /* ---------- title ---------- */
+  .title-slide .body { height: 100%; }
+  .title-slide { padding: 0; background: #2A0D15; color: #FFF6E6; box-shadow: 0 30px 90px rgba(0,0,0,.6); }
+  .title-slide::after { display: none; }
+  .title-bg { position: absolute; inset: 0; }
+  .title-bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); animation: drift 22s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: scale(1.12) translate(-1.5%, 0); } }
+  .title-shade { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(42,13,21,.94) 0%, rgba(90,20,38,.72) 46%, rgba(42,13,21,.18) 100%); }
+  .medallion { position: absolute; right: 9%; top: 14%; width: 17vh; height: 17vh; border-radius: 50%; background: rgba(233,217,168,.08); border: .25vh solid rgba(233,217,168,.55); display: grid; place-items: center; }
+  .medallion::before { content: ""; position: absolute; inset: 1.1vh; border-radius: 50%; border: .12vh dashed rgba(233,217,168,.4); }
+  .medallion-in { display: flex; flex-direction: column; align-items: center; gap: 1vh; color: var(--chenin); }
+  .medallion .gable { width: 6vh; height: 6vh; color: var(--chenin); }
+  .medallion span { font-size: clamp(8px, 1.5vh, 12px); letter-spacing: .3em; text-transform: uppercase; font-weight: 700; }
+  .title-wrap { position: absolute; left: 7%; top: 26%; width: 62%; }
+  .kicker { font-size: clamp(9px, 1.7vh, 14px); letter-spacing: .3em; text-transform: uppercase; color: var(--ochre-2); font-weight: 700; margin-bottom: 2.6vh; }
+  .title-slide h1 { font-family: var(--serif); font-weight: 500; font-variation-settings: "opsz" 144; font-size: clamp(36px, 9vh, 96px); line-height: .98; margin: 0; letter-spacing: -.02em; }
+  .title-slide .rule { width: 12vh; height: .35vh; background: var(--ochre-2); margin: 3.2vh 0; }
+  .title-slide .sub { font-family: var(--serif); font-style: italic; color: var(--chenin); font-size: clamp(16px, 3.6vh, 34px); margin: 0; }
+  .title-slide .meta { color: #E9D9B0; font-size: clamp(10px, 1.9vh, 15px); margin: 6vh 0 0; opacity: .8; letter-spacing: .02em; }
+
+  /* ---------- lists ---------- */
+  .split { display: grid; grid-template-columns: 1fr; gap: 3.5%; align-items: start; }
+  .split.has-img { grid-template-columns: 1.6fr 1fr; }
+  ul.list { list-style: none; padding: 0; margin: 0; }
+  ul.list li { display: flex; gap: 1.6vh; align-items: flex-start; font-size: clamp(14px, 2.5vh, 21px); line-height: 1.45; margin: 0 0 1.9vh; }
+  .split.has-img ul.list li { font-size: clamp(13px, 2.2vh, 18px); }
+  .dia { flex: none; width: .9vh; height: .9vh; margin-top: .9em; background: var(--ochre); transform: rotate(45deg); }
+  .n { flex: none; font-family: var(--serif); font-weight: 600; font-size: 1.15em; color: var(--ochre); min-width: 1.4em; line-height: 1.2; }
+  .numbered strong { color: var(--merlot); font-weight: 700; }
+  ul.questions li.q { display: block; position: relative; font-family: var(--serif); font-style: italic; font-size: clamp(14px, 2.5vh, 20px); color: var(--merlot); padding: 1.6vh 2.6vh 1.6vh 0; border-bottom: 1px dotted var(--line); margin-bottom: 0; }
+  ul.questions li.q .qm { font-size: 2.2em; line-height: 0; vertical-align: -.4em; color: var(--ochre); margin-right: .1em; }
+
+  /* ---------- photos ---------- */
+  .photo { margin: 0; overflow: hidden; background: var(--paper-2); box-shadow: 0 16px 36px rgba(42,29,24,.2); }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .photo.arch { border-radius: 999px 999px 10px 10px / 220px 220px 10px 10px; height: 60vh; border: .9vh solid var(--card); }
+  .photo.arch.side { height: 58vh; }
+  .photo.strip { height: 24vh; margin-top: 3.2vh; border-radius: 10px; }
+  .photo.flow-photo { width: 40%; height: 22vh; border-radius: 10px; }
+  .photo.flat { height: 56vh; border-radius: 10px; }
+  .photo.flat img { object-fit: contain; background: var(--card); }
+  .side-col { display: flex; flex-direction: column; }
+  .side-col .note { margin-top: 1.4vh; }
+  .band { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 1.6%; margin-top: 2.6vh; }
+  .band-item { background: var(--merlot); color: #F3E7C9; padding: 1.8vh 2.2%; border-radius: 3px; border-top: .35vh solid var(--ochre); }
+  .band-item h4 { margin: 0 0 .8vh; font-family: var(--sans); font-size: clamp(10px, 1.7vh, 13px); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ochre-2); }
+  .band-item p { margin: 0; font-size: clamp(10.5px, 1.75vh, 14px); line-height: 1.45; }
+  .cols.dense .col li { font-size: clamp(10.5px, 1.8vh, 14.5px); margin-bottom: .6vh; }
+  .cols.dense .col ul { padding: 1.2vh 2.4% .8vh 4.6%; }
+  .cols.dense .col h3 { padding: 1.1vh 2.4%; }
+  .cols.dense { gap: 1.8%; }
+  .band-item { padding: 1.3vh 2%; }
+  .photo.contain { object-fit: contain; }
+  .photo.contain img { object-fit: contain; background: var(--card); }
+  .flow-foot { display: flex; gap: 3%; align-items: center; margin-top: 3.6vh; }
+  .flow-foot .note { margin: 0; flex: 1; }
+
+  /* ---------- label cards (wine-label styling: double keyline) ---------- */
+  .label-card { position: relative; background: var(--card); border-radius: 3px; box-shadow: inset 0 0 0 1px var(--line), inset 0 0 0 .6vh var(--card), inset 0 0 0 calc(.6vh + 1px) rgba(90,20,38,.22), 0 10px 26px rgba(42,29,24,.08); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.4%; margin-top: 1vh; }
+  .stat { padding: 3.6vh 2% 3vh; text-align: center; animation: rise .7s var(--d) both cubic-bezier(.2,.7,.2,1); }
+  .stat::before { content: ""; position: absolute; left: 50%; top: -1.3vh; width: 2.4vh; height: 2.4vh; transform: translateX(-50%) rotate(45deg); background: var(--ochre); }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .stat .v { font-family: var(--serif); font-weight: 600; font-variation-settings: "opsz" 72; color: var(--merlot); font-size: clamp(20px, 4.6vh, 46px); line-height: 1.05; }
+  .stat .l { font-size: clamp(10.5px, 1.9vh, 15px); margin-top: 1.2vh; color: var(--ink); line-height: 1.35; }
+
+  .cols { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2.4%; }
+  .split.has-img .cols { grid-auto-flow: row; grid-template-columns: 1fr; gap: 1.3vh; }
+  .col { overflow: hidden; }
+  .col h3 { margin: 0; background: var(--merlot); color: var(--chenin); padding: 1.5vh 2.4%; font-family: var(--sans); font-size: clamp(10.5px, 1.9vh, 15px); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .col ul { margin: 0; padding: 1.8vh 2.4% 1.6vh 4.6%; list-style: none; }
+  .col li { position: relative; font-size: clamp(11px, 2vh, 16.5px); line-height: 1.5; margin-bottom: 1.1vh; padding-left: 1.4vh; }
+  .col li::before { content: ""; position: absolute; left: 0; top: .72em; width: .6vh; height: .6vh; background: var(--ochre); border-radius: 50%; }
+  .split.has-img .col li { font-size: clamp(10.5px, 1.85vh, 15px); margin-bottom: .7vh; }
+  .split.has-img .col ul { padding: 1.2vh 2.4% 1vh 4.6%; }
+  .split.has-img .col h3 { padding: 1.1vh 2.4%; }
+  .split.has-img .cols { gap: .9vh; }
+  .split.has-img .col ul { padding-bottom: .6vh; }
+  .split.has-img .note { margin-top: 1.6vh; }
+
+  /* ---------- flow: a vine with nodes ---------- */
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2%; position: relative; padding-top: 3vh; }
+  .flow::before { content: ""; position: absolute; left: 4%; right: 4%; top: 5.6vh; height: 0; border-top: .25vh dashed var(--vine); opacity: .6; }
+  .step { position: relative; padding-top: 8.4vh; }
+  .node { position: absolute; left: 0; top: 0; width: 5.2vh; height: 5.2vh; border-radius: 50%; background: var(--paper); border: .3vh solid var(--ochre); color: var(--merlot); font-family: var(--serif); font-weight: 600; font-size: clamp(14px, 2.5vh, 22px); display: grid; place-items: center; box-shadow: 0 0 0 .8vh var(--paper); }
+  .step.last .node { background: var(--ochre); color: #FFF8EC; }
+  .step h3 { margin: 0 0 1.1vh; font-family: var(--serif); font-weight: 600; color: var(--merlot); font-size: clamp(14px, 2.5vh, 20px); line-height: 1.2; }
+  .step p { margin: 0; font-size: clamp(11px, 1.95vh, 15px); line-height: 1.5; }
+  .step.last p { color: var(--ink); }
+
+  /* ---------- chart ---------- */
+  .chart-wrap { display: grid; grid-template-columns: 1.9fr 1fr; gap: 4%; height: 52vh; }
+  .chart-block { background: var(--card); padding: 3vh 3% 0; box-shadow: inset 0 0 0 1px var(--line), 0 10px 26px rgba(42,29,24,.08); }
+  .chart { height: 100%; display: flex; align-items: flex-end; gap: 5%; padding-bottom: 10vh; border-bottom: 1px solid var(--line); position: relative; }
+  .barcol { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+  .bar { width: 64%; height: var(--h); transform-origin: bottom; animation: grow 1s var(--d) both cubic-bezier(.2,.7,.2,1); }
+  @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .bar.wine { background: linear-gradient(180deg, var(--merlot-2), var(--merlot)); }
+  .bar.ochre { background: linear-gradient(180deg, var(--ochre-2), var(--ochre)); }
+  .val { font-family: var(--serif); font-weight: 600; font-size: clamp(13px, 2.6vh, 22px); color: var(--merlot); margin-bottom: .8vh; }
+  .cat { position: absolute; bottom: -7vh; width: 100%; text-align: center; font-size: clamp(10px, 1.85vh, 14px); line-height: 1.25; padding: 0 2%; }
+  .chart-side { display: flex; flex-direction: column; gap: 1.6vh; font-size: clamp(12px, 2.1vh, 17px); }
+  .chart-side p { margin: 0; line-height: 1.45; }
+  .chart-side .side-lead { font-family: var(--serif); font-size: clamp(16px, 2.9vh, 24px); color: var(--merlot); font-weight: 600; }
+  .packs { display: grid; grid-template-columns: 1fr 1fr; gap: 3%; margin-top: 1vh; }
+  .pack { margin: 0; text-align: center; }
+  .pack img { width: 100%; aspect-ratio: 1; object-fit: contain; background: var(--card); padding: 1vh; box-shadow: inset 0 0 0 1px var(--line); }
+  .pack figcaption { font-size: clamp(9px, 1.5vh, 12px); margin-top: .8vh; line-height: 1.3; }
+
+  /* ---------- table ---------- */
+  .table-wrap { background: var(--card); box-shadow: inset 0 0 0 1px var(--line), 0 10px 26px rgba(42,29,24,.08); }
+  table { width: 100%; border-collapse: collapse; font-size: clamp(11px, 2vh, 16px); }
+  th { background: var(--merlot); color: var(--chenin); text-align: left; padding: 1.4vh 1.3%; font-weight: 700; font-size: .82em; letter-spacing: .12em; text-transform: uppercase; }
+  td { padding: 1.3vh 1.3%; border-top: 1px dotted var(--line); vertical-align: middle; }
+  td.pri { font-weight: 700; color: var(--ochre); }
+  tbody tr:first-child td { background: #F3E7C9; }
+  tbody tr:hover td { background: #EFE1C0; }
+
+  /* ---------- nav ---------- */
+  #controls { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; align-items: center; color: var(--chenin); font-size: 12px; user-select: none; background: rgba(42,13,21,.7); backdrop-filter: blur(8px); padding: 7px 10px; border-radius: 999px; border: 1px solid rgba(233,217,168,.18); }
+  #controls button { background: transparent; color: var(--chenin); border: 1px solid rgba(233,217,168,.35); width: 30px; height: 28px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 16px; line-height: 1; transition: background .2s, border-color .2s; }
+  #controls button:hover { background: rgba(255,255,255,.08); border-color: var(--ochre-2); }
+  #dots { display: flex; gap: 6px; }
+  #dots button { width: 7px; height: 7px; padding: 0; border-radius: 50%; border: none; background: rgba(233,217,168,.3); }
+  #dots button.on { background: var(--ochre-2); transform: scale(1.3); }
+  #count { min-width: 52px; text-align: center; font-variant-numeric: tabular-nums; }
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--ochre), var(--ochre-2)); width: 0; transition: width .4s; z-index: 2; }
+
+  @media (max-width: 760px) {
+    .slide { width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; padding: 9vh 6% 9vh; }
+    .stats, .flow { grid-template-columns: 1fr 1fr; }
+    .split.has-img, .chart-wrap { grid-template-columns: 1fr; }
+    .chart-wrap { height: auto; }
+    .chart { height: 42vh; }
+    .title-wrap { width: 86%; }
+    .medallion { display: none; }
+    footer { display: none; }
+  }
+
+  @media print {
+    html, body { overflow: visible; background: none; height: auto; }
+    #controls, #progress { display: none; }
+    #deck { position: static; display: block; }
+    .slide { display: block !important; width: 100%; height: 100vh; aspect-ratio: auto; page-break-after: always; box-shadow: none; animation: none; border-radius: 0; }
+    .bar, .stat { animation: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<main id="deck">
+<section class="slide title-slide" data-n="1" aria-label="Slide 1"><div class="body"><div class="title-bg"><img src="/UCT/assets/township-tour.jpg" alt="Township Winery tour group in the township"><div class="title-shade"></div></div>
+        <div class="medallion"><div class="medallion-in"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><span>Group 10</span></div></div>
+        <div class="title-wrap"><div class="kicker">Business suggestion</div><h1>The Township Winery</h1><div class="rule"></div><p class="sub">A brand and a movement, built to last</p><p class="meta">Group 10 · 23 October 2026</p></div></div></section>
+<section class="slide" data-n="2" aria-label="Slide 2"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">02 / 12</span><h2>The business at a glance</h2></div></header><div class="body"><div class="stats"><div class="label-card stat" style="--d:0s"><div class="v">4</div><div class="l">Shareholders in the close corporation</div></div><div class="label-card stat" style="--d:0.08s"><div class="v">3</div><div class="l">School MoUs signed in 3 years of work</div></div><div class="label-card stat" style="--d:0.16s"><div class="v">2</div><div class="l">Wine ranges already on the market</div></div><div class="label-card stat" style="--d:0.24s"><div class="v">16</div><div class="l">Years run on unpaid owner effort</div></div></div><p class="lede">Socially driven wine business linking production with community development, agricultural education and employment. Has supported township-owned vineyards.</p><figure class="photo strip"><img src="/UCT/assets/township-street.jpg" alt="A township street in the Western Cape" loading="lazy"></figure></div><footer><span>Group 10</span><span>2 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="3" aria-label="Slide 3"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">03 / 12</span><h2>Challenge 1: leadership succession</h2></div><span class="tag">Priority 1</span></header><div class="body"><div class="split"><div class="cols"><div class="label-card col"><h3>What we heard</h3><ul><li>Production sits with one senior co-founder, with no named successor</li><li>No contingency plan if the production lead is unavailable</li><li>Four owners, split 38 / 26 / 26 / 10</li><li>Roles are informal; the business runs on unpaid owner effort</li><li>Leadership conversation set for next month</li></ul></div><div class="label-card col"><h3>The risk</h3><ul><li>Losing or sidelining the production lead halts the wine and the business</li><li>Decisions rest on the same few people</li><li>Customer and funder relationships live in people's heads, not in a system</li><li>No agreed buy-out or succession terms among owners</li></ul></div></div></div><p class="note">The gap on contingency planning came up in our group conversation with the client. It is not in the written thread.</p></div><footer><span>Group 10</span><span>3 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="4" aria-label="Slide 4"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">04 / 12</span><h2>Options for Challenge 1: leadership planning</h2></div></header><div class="body"><div class="table-wrap"><table><thead><tr><th>Option</th><th>Quality</th><th>Impact</th><th>Cash need</th><th>Speed</th><th>Verdict</th></tr></thead><tbody><tr><td>Keep operating as is</td><td>Stable</td><td>Limited</td><td>None</td><td>n/a</td><td>Not viable</td></tr><tr><td>Hire one paid role only</td><td>Stable</td><td>Limited</td><td>Medium</td><td>Fast</td><td>Necessary, not enough</td></tr><tr><td>Bring in an external advisor or mentor for succession</td><td>Stable</td><td>Up</td><td>Low</td><td>Medium</td><td>Useful alongside</td></tr><tr><td>Three-role leadership team with backups, CRM and fortnightly meeting</td><td>Stable</td><td>Stable</td><td>Low</td><td>Medium</td><td class="pri">Recommended</td></tr></tbody></table></div><p class="note">Scores are our qualitative judgement from the materials, not measured data.</p></div><footer><span>Group 10</span><span>4 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="5" aria-label="Slide 5"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">05 / 12</span><h2>The recommended leadership team</h2></div></header><div class="body"><div class="split"><div class="cols dense"><div class="label-card col"><h3>CEO</h3><ul><li>Goal: quality and impact balanced on one scorecard</li><li>Owns the shareholder agreement and succession plan</li><li>Overlaps with the CRO on funders and CSI</li><li>Overlaps with Operations on production sign-off</li></ul></div><div class="label-card col"><h3>Chief Relationship Officer</h3><ul><li>Goal: grow customers, funders, school partners and collaborations</li><li>Owns the CRM and the Founders' Club</li><li>Leads the school partnership relationship</li><li>Overlaps with Operations on order fulfilment</li></ul></div><div class="label-card col"><h3>Operations Officer</h3><ul><li>Goal: a documented, reliable production and supply chain</li><li>Owns vineyard, supply, production and e-commerce fulfilment</li><li>Tracks school permits and compliance steps</li><li>Overlaps with the CRO on e-commerce orders</li></ul></div></div></div><div class="band"><div class="band-item"><h4>CRM</h4><p>One shared record of customers, funders, school partners and orders. Nothing lives in one person's phone.</p></div><div class="band-item"><h4>Fortnightly meeting</h4><p>A 60-minute meeting every two weeks. Each member reports on goals and open actions.</p></div><div class="band-item"><h4>Cross-role proficiency</h4><p>Every role has a named backup, trained to cover its core tasks.</p></div></div></div><footer><span>Group 10</span><span>5 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="6" aria-label="Slide 6"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">06 / 12</span><h2>Shared contact register: continuity for clients and suppliers</h2></div></header><div class="body"><div class="table-wrap"><table><thead><tr><th>Contact</th><th>Organisation</th><th>Relationship and why it matters</th><th>Owner</th><th>Backup</th></tr></thead><tbody><tr><td>[Name]</td><td>[Organisation]</td><td>[Role and why they matter]</td><td>[Owner]</td><td>[Backup]</td></tr><tr><td>[Name]</td><td>[Organisation]</td><td>[Role and why they matter]</td><td>[Owner]</td><td>[Backup]</td></tr><tr><td>[Name]</td><td>[Organisation]</td><td>[Role and why they matter]</td><td>[Owner]</td><td>[Backup]</td></tr></tbody></table></div><p class="note">Every owner fills in the contacts they know. Each contact gets a named backup, so a holiday or a departure does not break the relationship. Contact details live in the shared CRM, not in this deck.</p></div><footer><span>Group 10</span><span>6 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="7" aria-label="Slide 7"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">07 / 12</span><h2>Challenge 2: the school vineyard approval path</h2></div></header><div class="body"><div class="flow"><div class="step"><span class="node">1</span><h3>SGB and principal</h3><p>Minute approval for use of land and water, and that learners maintain the vineyard. Without this, WCED will not engage.</p></div><div class="step"><span class="node">2</span><h3>WCED district office</h3><p>Schools are provincial land. Infrastructure and Facilities approve digging deeper than 500 mm, trellising, or changes to water use.</p></div><div class="step"><span class="node">3</span><h3>Other departments</h3><p>Client lists Basic Education, Agriculture and Public Works. Trade, Industry and Competition may also be needed.</p></div><div class="step last"><span class="node">4</span><h3>Outcome</h3><p>One application denied. The other two have progressed at an unequal rate, which points to gaps in the process.</p></div></div><div class="flow-foot"><figure class="photo flow-photo"><img src="/UCT/assets/chacs-school-vineyard.jpg" alt="School vineyard at a CHACS school" loading="lazy"></figure><p class="note">The denied application is the clearest sign of fragmented government process. The land was reserved for future school development.</p></div></div><footer><span>Group 10</span><span>7 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="8" aria-label="Slide 8"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">08 / 12</span><h2>Options for Challenge 2: the school vineyard path</h2></div></header><div class="body"><div class="table-wrap"><table><thead><tr><th>Option</th><th>Quality</th><th>Impact</th><th>Cash need</th><th>Speed</th><th>Verdict</th></tr></thead><tbody><tr><td>Keep pursuing all three schools in parallel</td><td>Stable</td><td>Limited</td><td>Low</td><td>Slow</td><td>Not viable</td></tr><tr><td>Concentrate on the furthest-along school</td><td>Stable</td><td>Up</td><td>Low</td><td>Medium</td><td class="pri">Recommended</td></tr><tr><td>Phased first step: non-dig demonstration plot, no trellising or water change</td><td>Stable</td><td>Up</td><td>Low</td><td>Fast</td><td>Test with WCED</td></tr><tr><td>Source fruit from existing township-owned vineyards meanwhile</td><td>Stable</td><td>Up</td><td>Low</td><td>Fast</td><td>Do now</td></tr><tr><td>Pause the school plan and focus on existing sourcing</td><td>Stable</td><td>Limited</td><td>Low</td><td>Fast</td><td>Fallback</td></tr></tbody></table></div><p class="note">Whether a phased first step is exempt from approval must be confirmed with the WCED district office.</p></div><footer><span>Group 10</span><span>8 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="9" aria-label="Slide 9"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">09 / 12</span><h2>Our recommendation</h2></div></header><div class="body"><div class="split"><div class="split-text"><p class="lead">Lead with leadership. A CEO, a Chief Relationship Officer and an Operations Officer, with overlapping goals and named backups, run from a shared CRM and a fortnightly meeting.</p><ul class="list"><li class="numbered"><span class="n">1</span><span><strong>Succession:</strong> name a successor for production and document the know-how</span></li><li class="numbered"><span class="n">2</span><span><strong>Roles:</strong> define the three roles, their goals, and the overlaps between them</span></li><li class="numbered"><span class="n">3</span><span><strong>CRM:</strong> one shared record of customers, funders, school partners and orders</span></li><li class="numbered"><span class="n">4</span><span><strong>Rhythm:</strong> a fortnightly leadership meeting so every member knows where things stand</span></li><li class="numbered"><span class="n">5</span><span><strong>School path:</strong> concentrate on the furthest-along school and start a phased first step</span></li></ul></div></div></div><footer><span>Group 10</span><span>9 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="10" aria-label="Slide 10"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">10 / 12</span><h2>Roadmap</h2></div></header><div class="body"><div class="split has-img"><div class="cols"><div class="label-card col"><h3>0–3 months</h3><ul><li>Agree the three roles and their goals</li><li>Start the fortnightly leadership meeting</li><li>Choose and set up the CRM</li><li>Start the production handover record</li></ul></div><div class="label-card col"><h3>3–6 months</h3><ul><li>Appoint the first paid role</li><li>Each role trains a named backup</li><li>CRM in daily use across all roles</li><li>Draft the shareholder agreement</li></ul></div><div class="label-card col"><h3>6–12 months</h3><ul><li>Shareholder agreement signed</li><li>Submit a complete application for the furthest school</li><li>Scorecard live and reported</li><li>Succession review</li></ul></div></div><div class="side-col"><figure class="photo arch side"><img src="/UCT/assets/team-photo.jpg" alt="Township Winery team member and partner in the vineyard" loading="lazy"></figure><p class="note">Steps in the first column need the owners' decision at next month's leadership meeting.</p></div></div></div><footer><span>Group 10</span><span>10 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="11" aria-label="Slide 11"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">11 / 12</span><h2>Measuring progress and managing risk</h2></div></header><div class="body"><div class="split"><div class="cols"><div class="label-card col"><h3>Scorecard</h3><ul><li>Quality: competition medals, sensory scores, repeat purchase</li><li>Impact: learners engaged, bursaries, jobs, township-sourced fruit</li><li>Business: revenue mix across channels and funders</li><li>Reviewed at each fortnightly meeting</li></ul></div><div class="label-card col"><h3>Risks and mitigations</h3><ul><li>Key-person dependence → succession plan, documented know-how, named backups</li><li>School approvals delayed or denied → triage schools, phased first step</li><li>Quality slips under impact pressure → one scorecard covering both</li><li>Reliance on one donor or channel → diversify funding and sales</li></ul></div></div></div></div><footer><span>Group 10</span><span>11 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+<section class="slide" data-n="12" aria-label="Slide 12"><header class="slide-head"><svg class="gable" viewBox="0 0 100 100" aria-hidden="true"><path d="M8 96V56c0-10 9-14 17-14 10 0 16-8 25-34 9 26 15 34 25 34 8 0 17 4 17 14v40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M40 96V70h20v26" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="52" r="5" fill="currentColor"/></svg><div><span class="sec">12 / 12</span><h2>Next steps</h2></div></header><div class="body"><div class="split"><div class="split-text"><ul class="list"><li><span class="dia"></span><span>From the client, at the next leadership meeting: school choice and site, benefits offered, channel split, staff and roles</span></li><li><span class="dia"></span><span>From us: revisit this deck once answers arrive, and build a one-page scorecard template</span></li></ul></div></div></div><footer><span>Group 10</span><span>12 / 12</span></footer><svg class="vine" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C100 6 180 36 280 20 S460 6 560 22 S740 36 840 20 S1020 6 1120 22 S1180 30 1200 24" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M280 20 q10 -14 22 -8 q-10 10 -22 8z M840 20 q-8 14 6 18 q4 -10 -6 -18z" fill="currentColor"/></svg></section>
+</main>
+<nav id="controls" aria-label="Slide navigation">
+  <button id="prev" aria-label="Previous slide">‹</button>
+  <div id="dots"></div>
+  <span id="count"></span>
+  <button id="next" aria-label="Next slide">›</button>
+</nav>
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl = document.getElementById('dots');
+  slides.forEach((_, k) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (k + 1));
+    b.onclick = () => show(k);
+    dotsEl.appendChild(b);
+  });
+  const dots = Array.from(dotsEl.children);
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width = ((i + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+  let tx = null;
+  document.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+    tx = null;
+  });
+  const start = parseInt(location.hash.slice(1), 10);
+  show(isNaN(start) ? 0 : start - 1);
+</script>
+</body>
+</html>

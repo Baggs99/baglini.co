@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Palettes · Dan Baglini</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #d5e2ea; color: #142028; font-family: "Schibsted Grotesk", sans-serif; padding: 3rem 6vw 4rem; }
+  h1 { font-size: clamp(3rem, 7vw, 5.5rem); letter-spacing: -0.05em; line-height: 0.9; margin: 0 0 1rem; }
+  .intro { max-width: 52ch; font-size: 1.1rem; line-height: 1.4; margin: 0 0 2.5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.6rem; }
+  .card { border: 2px solid #142028; overflow: hidden; }
+  .sample { padding: 1.4rem; background: var(--bg); color: var(--ink); }
+  .sample h2 { margin: 0; font-size: 2.6rem; letter-spacing: -0.05em; line-height: 0.92; }
+  .sample p { color: var(--muted); margin: 0.6rem 0 1rem; font-size: 1rem; }
+  .sample .panel { background: var(--paper); padding: 0.8rem; color: var(--ink); font-weight: 700; }
+  .sample .btn { display: inline-block; margin-top: 0.9rem; background: var(--accent); color: var(--on-accent); padding: 0.6rem 1rem; font-weight: 700; }
+  .meta { padding: 1rem 1.2rem 1.2rem; background: #fff; }
+  .meta h3 { margin: 0 0 0.6rem; font-size: 1.1rem; }
+  .swatches { display: flex; height: 2.6rem; }
+  .swatches span { flex: 1; }
+  .ratios { display: grid; gap: 0.25rem; margin-top: 0.8rem; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+  .ratios .ok { color: #0f5132; font-weight: 700; }
+  .ratios .bad { color: #9b1c1c; font-weight: 700; }
+  .open { display: inline-block; margin-top: 0.8rem; font-weight: 700; color: #142028; }
+</style>
+</head>
+<body>
+<h1>Seven palettes.</h1>
+<p class="intro">Each card is the same layout with a different palette. The ratios are WCAG contrast for the text pairs on each card; anything under 4.5 is marked. The first card is the current palette.</p>
+<div class="grid" id="grid"></div>
+<script src="palettes.js"></script>
+<script>
+const grid = document.getElementById("grid");
+const pairs = [["ink on bg", "ink", "bg"], ["muted on bg", "muted", "bg"], ["ink on paper", "ink", "paper"], ["on-accent on accent", "onAccent", "accent"]];
+Object.entries(PALETTES).forEach(([key, p]) => {
+  const card = document.createElement("div");
+  card.className = "card";
+  const rows = pairs.map(([label, a, b]) => {
+    const ratio = contrast(p[a], p[b]);
+    return `<div class="${ratio >= 4.5 ? "ok" : "bad"}">${label}: ${ratio.toFixed(2)}${ratio >= 4.5 ? "" : " (below 4.5)"}</div>`;
+  }).join("");
+  card.innerHTML = `
+    <div class="sample" style="--bg:${p.bg};--paper:${p.paper};--ink:${p.ink};--muted:${p.muted};--accent:${p.accent};--on-accent:${p.onAccent}">
+      <h2>Shipped, not just sketched.</h2>
+      <p>Former Army intelligence officer. Building tools, games, and research sites.</p>
+      <div class="panel">Final Dayz · Hold the box. Survive the waves.</div>
+      <span class="btn">Play</span>
+    </div>
+    <div class="meta">
+      <h3>${p.name}</h3>
+      <div class="swatches"><span style="background:${p.bg}"></span><span style="background:${p.paper}"></span><span style="background:${p.ink}"></span><span style="background:${p.muted}"></span><span style="background:${p.accent}"></span></div>
+      <div class="ratios">${rows}</div>
+    </div>`;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

@@ -9,6 +9,9 @@
     { "source": "/west-african-produce/", "destination": "/west-african-produce/index.html" },
     { "source": "/west-african-produce/admin", "destination": "/west-african-produce/admin/index.html" },
     { "source": "/west-african-produce/admin/", "destination": "/west-african-produce/admin/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/UCT", "destination": "/UCT/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
