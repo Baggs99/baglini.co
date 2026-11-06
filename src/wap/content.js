@@ -70,6 +70,84 @@ export const productFamilies = [
   },
 ]
 
+// Retail palm oil sizes shown in the hero and shop. Live API prices overlay these when present.
+export const palmVolumes = [
+  {
+    id: '16oz',
+    label: '16 oz',
+    unit: '16 ounce jar',
+    bottleLabel: '16 OZ',
+    sku: 'palm-oil-16oz',
+    price_cents: 800,
+    caseSku: 'palm-oil-16oz-case',
+    caseCount: 12,
+    casePriceCents: 8000,
+    caseUnit: 'case of 12 · 16 oz',
+  },
+  {
+    id: '32oz',
+    label: '32 oz',
+    unit: '32 ounce jar',
+    bottleLabel: '32 OZ',
+    sku: 'palm-oil-32oz',
+    price_cents: 1400,
+    caseSku: 'palm-oil-32oz-case',
+    caseCount: 12,
+    casePriceCents: 14000,
+    caseUnit: 'case of 12 · 32 oz',
+  },
+  {
+    id: 'half',
+    label: '1/2 gal',
+    unit: '1/2 gallon',
+    bottleLabel: '1/2 GALLON',
+    sku: 'palm-oil-half',
+    price_cents: 1800,
+    caseSku: 'palm-oil-half-case',
+    caseCount: 6,
+    casePriceCents: 9000,
+    caseUnit: 'case of 6 · 1/2 gal',
+  },
+  {
+    id: '1gal',
+    label: '1 gal',
+    unit: '1 gallon',
+    bottleLabel: '1 GALLON',
+    sku: 'palm-oil-1gal',
+    price_cents: 3000,
+    caseSku: 'palm-oil-case',
+    caseCount: 4,
+    casePriceCents: 10000,
+    caseUnit: 'case of 4 gallons',
+  },
+]
+
+const PALM_DESCRIPTION =
+  'Sustainably sourced from small farm holders in Sierra Leone. High smoke point for frying, stews, soups, and sauces.'
+
+export const palmCatalogProducts = palmVolumes.flatMap((volume, index) => [
+  {
+    sku: volume.sku,
+    name: 'Organic Red Palm Oil',
+    category: 'palm-oil',
+    description: PALM_DESCRIPTION,
+    unit: volume.unit,
+    price_cents: volume.price_cents,
+    availability: 'in_stock',
+    sort_order: index * 2 + 1,
+  },
+  {
+    sku: volume.caseSku,
+    name: `Organic Red Palm Oil, Case of ${volume.caseCount}`,
+    category: 'palm-oil',
+    description: `One case: ${volume.caseCount} ${volume.unit} containers for kitchens, caterers, and small retailers.`,
+    unit: volume.caseUnit,
+    price_cents: volume.casePriceCents,
+    availability: 'in_stock',
+    sort_order: index * 2 + 2,
+  },
+])
+
 export const priceGuides = [
   {
     title: 'Natural Red Palm Oil',

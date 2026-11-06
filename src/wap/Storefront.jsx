@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { brand, categories, pillars, priceGuides, productFamilies, recipes, wholesale } from './content.js'
+import { brand, categories, palmCatalogProducts, palmVolumes, pillars, priceGuides, productFamilies, recipes, wholesale } from './content.js'
 import { MAX_QTY, cartLines, cartTotalCents, money, useCart } from './cart.js'
 import { PALM_FAMILY_SHOTS, packShotFor, packShotForSizeLabel } from './media.js'
 
@@ -12,28 +12,19 @@ const AVAILABILITY = {
 const HERO_IMAGE =
   'https://images.pexels.com/photos/34220615/pexels-photo-34220615.jpeg?auto=compress&cs=tinysrgb&w=1800'
 
-const PREVIEW_PALM_PRODUCTS = [
-  {
-    sku: 'palm-oil-1gal',
-    name: 'Organic Red Palm Oil',
+function mergeCommerceProducts(apiProducts) {
+  const bySku = liveProductMap(apiProducts)
+  const palm = palmCatalogProducts.map((catalog) => ({
+    ...catalog,
+    ...(bySku[catalog.sku] ?? {}),
+    sku: catalog.sku,
     category: 'palm-oil',
-    description: 'Sustainably sourced from small farm holders in Sierra Leone. High smoke point for frying, stews, soups, and sauces.',
-    unit: '1 gallon',
-    price_cents: 3000,
-    availability: 'in_stock',
-    sort_order: 1,
-  },
-  {
-    sku: 'palm-oil-case',
-    name: 'Organic Red Palm Oil, Case of 4',
-    category: 'palm-oil',
-    description: 'One case: four 1-gallon containers for busy kitchens, caterers, and small retailers.',
-    unit: 'case of 4 gallons',
-    price_cents: 10000,
-    availability: 'low',
-    sort_order: 2,
-  },
-]
+    sort_order: catalog.sort_order,
+    availability: bySku[catalog.sku]?.availability ?? catalog.availability,
+  }))
+  const rest = (apiProducts ?? []).filter((product) => product.category !== 'palm-oil')
+  return [...palm, ...rest]
+}
 
 const HERO_PROOF = [
   'Sourced from small farm holders',
@@ -77,9 +68,9 @@ async function readJson(res) {
 }
 
 // The one memorable object on the page: a gallon of palm oil, drawn to match the label on the shelf.
-function PalmBottle({ className = '' }) {
+function PalmBottle({ className = '', sizeLabel = '1 GALLON' }) {
   return (
-    <svg viewBox="0 0 300 420" className={className} role="img" aria-label="A gallon jug of organic red palm oil">
+    <svg viewBox="0 0 300 420" className={className} role="img" aria-label={`Organic red palm oil, ${sizeLabel.toLowerCase()}`}>
       <defs>
         <linearGradient id="palmOilFill" x1="75" x2="230" y1="96" y2="410" gradientUnits="userSpaceOnUse">
           <stop stopColor="#E45B23" />
@@ -103,7 +94,7 @@ function PalmBottle({ className = '' }) {
       <text x="150" y="268" textAnchor="middle" fontFamily="Figtree, sans-serif" fontWeight="600" fontSize="12" fill="#1F1610" letterSpacing="2">ORGANIC RED</text>
       <text x="150" y="286" textAnchor="middle" fontFamily="Figtree, sans-serif" fontWeight="600" fontSize="12" fill="#1F1610" letterSpacing="2">PALM OIL</text>
       <path d="M92 304 Q 150 288 208 304" stroke="#C08A2A" strokeWidth="5" fill="none" strokeLinecap="round" />
-      <text x="150" y="326" textAnchor="middle" fontFamily="Figtree, sans-serif" fontWeight="700" fontSize="12" fill="#1F1610">1 GALLON</text>
+      <text x="150" y="326" textAnchor="middle" fontFamily="Figtree, sans-serif" fontWeight="700" fontSize="12" fill="#1F1610">{sizeLabel}</text>
     </svg>
   )
 }
@@ -165,28 +156,52 @@ function HeroOption({ product, selected, onSelect }) {
       <PackShot product={product} size="sm" />
       <span>
         <span className="block text-xs font-extrabold uppercase tracking-[0.18em]">{product.unit}</span>
-        <span className="mt-1 block font-display text-2xl font-extrabold">{money(product.price_cents)}</span>
+        <span className="mt-1 block font-display text-2xl font-extrabold tabular-nums">{money(product.price_cents)}</span>
         <span className={`mt-1 block text-xs font-bold ${selected ? 'text-wap-ink/70' : badge.className}`}>{badge.label}</span>
       </span>
     </button>
   )
 }
 
+function liveProductMap(products) {
+  return Object.fromEntries((products ?? []).map((product) => [product.sku, product]))
+}
+
+function packOption(volume, pack, liveBySku) {
+  const sku = pack === 'case' ? volume.caseSku : volume.sku
+  const catalog = palmCatalogProducts.find((product) => product.sku === sku)
+  const live = liveBySku[sku]
+  return {
+    ...catalog,
+    ...live,
+    sku,
+    pack,
+    volumeId: volume.id,
+    availability: live?.availability ?? catalog?.availability ?? 'in_stock',
+  }
+}
+
 function Hero({ products, cart, setQuantity, onReview, loadError }) {
-  const palmProducts = useMemo(
-    () => (products ?? []).filter((p) => p.category === 'palm-oil').sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)),
-    [products],
-  )
-  const options = palmProducts.length ? palmProducts : PREVIEW_PALM_PRODUCTS
-  const [selectedSku, setSelectedSku] = useState(options[0]?.sku ?? '')
+  const liveBySku = useMemo(() => liveProductMap(products), [products])
+  const [volumeId, setVolumeId] = useState('1gal')
+  const [pack, setPack] = useState('single')
   const [draftQty, setDraftQty] = useState(1)
 
-  const selectedProduct = options.find((product) => product.sku === selectedSku) ?? options[0]
-  const inCart = selectedProduct ? (cart[selectedProduct.sku] ?? 0) : 0
-  const soldOut = selectedProduct?.availability === 'sold_out'
+  const volume = palmVolumes.find((item) => item.id === volumeId) ?? palmVolumes[3]
+  const packs = useMemo(
+    () => [
+      packOption(volume, 'single', liveBySku),
+      packOption(volume, 'case', liveBySku),
+    ],
+    [volume, liveBySku],
+  )
+  const selectedProduct = packs.find((item) => item.pack === pack) ?? packs[0]
+  const canBuy = Boolean(selectedProduct?.sku && selectedProduct.availability !== 'sold_out')
+  const inCart = selectedProduct?.sku && canBuy ? (cart[selectedProduct.sku] ?? 0) : 0
+  const lineTotal = selectedProduct ? selectedProduct.price_cents * draftQty : 0
 
   function addSelected() {
-    if (!selectedProduct || soldOut) return
+    if (!canBuy) return
     setQuantity(selectedProduct.sku, Math.min(MAX_QTY, inCart + Math.max(1, draftQty)))
   }
 
@@ -203,7 +218,7 @@ function Hero({ products, cart, setQuantity, onReview, loadError }) {
         <div className="wap-hero-veil" />
         <div className="wap-hero-content">
           <div className="wap-hero-product wap-rise">
-            <PalmBottle className="wap-gallon" />
+            <PalmBottle className="wap-gallon" sizeLabel={volume.bottleLabel} />
           </div>
 
           <div className="wap-buy wap-rise-delay">
@@ -220,13 +235,35 @@ function Hero({ products, cart, setQuantity, onReview, loadError }) {
               )}
             </div>
 
-            <div className="mt-5 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Palm oil size">
-              {options.map((product) => (
-                <HeroOption key={product.sku} product={product} selected={product.sku === selectedProduct?.sku} onSelect={() => setSelectedSku(product.sku)} />
+            <div className="wap-volume mt-5" role="radiogroup" aria-label="Volume size">
+              {palmVolumes.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={item.id === volume.id}
+                  className={item.id === volume.id ? 'is-selected' : ''}
+                  onClick={() => setVolumeId(item.id)}
+                >
+                  {item.label}
+                </button>
               ))}
             </div>
 
-            {loadError && palmProducts.length === 0 && (
+            <p className="mt-3 font-display text-3xl font-bold tabular-nums" aria-live="polite">
+              {money(selectedProduct?.price_cents ?? 0)}
+              <span className="ml-2 align-middle text-sm font-sans font-semibold text-wap-muted">
+                {pack === 'case' ? selectedProduct?.unit : `each · ${volume.unit}`}
+              </span>
+            </p>
+
+            <div className="mt-4 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Bottle or case">
+              {packs.map((product) => (
+                <HeroOption key={`${product.volumeId}-${product.pack}`} product={product} selected={product.pack === pack} onSelect={() => setPack(product.pack)} />
+              ))}
+            </div>
+
+            {loadError && (
               <p className="mt-3 border-l-2 border-wap-gold bg-wap-gold/15 p-3 text-sm font-medium text-wap-ink">
                 Preview inventory shown. Live prices come from our inventory when the API is available.
               </p>
@@ -238,12 +275,15 @@ function Hero({ products, cart, setQuantity, onReview, loadError }) {
                 <span className="w-8 text-center font-semibold tabular-nums" aria-live="polite">{draftQty}</span>
                 <button type="button" onClick={() => setDraftQty((q) => Math.min(MAX_QTY, q + 1))} disabled={draftQty >= MAX_QTY} aria-label="Increase quantity">+</button>
               </div>
-              <button type="button" onClick={addSelected} disabled={!selectedProduct || soldOut} className="wap-btn">
-                {soldOut ? 'Sold out' : `Add ${selectedProduct ? money(selectedProduct.price_cents * draftQty) : ''}`}
+              <button type="button" onClick={addSelected} disabled={!canBuy} className="wap-btn">
+                {!canBuy ? 'Sold out' : `Add ${money(lineTotal)}`}
               </button>
             </div>
 
             <p className="mt-4 text-sm font-medium text-wap-ink/80">Use it for {PALM_USE_CASES.join(', ')}.</p>
+            <button type="button" onClick={() => scrollToId('catalog')} className="mt-3 text-sm font-semibold text-wap-ink underline underline-offset-4 hover:text-wap-palm">
+              View our full catalog
+            </button>
           </div>
         </div>
       </div>
@@ -824,7 +864,7 @@ export function Storefront() {
       )}
     </div>
   )
-  const commerceProducts = products.length ? products : loadError ? PREVIEW_PALM_PRODUCTS : products
+  const commerceProducts = mergeCommerceProducts(products)
 
   return (
     <>
