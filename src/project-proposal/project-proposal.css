@@ -1,88 +1,110 @@
-body {
-  background: #f4f1e8;
-  color: #182033;
+﻿body {
+  background: #0f1b4d;
+  color: #f4f1e8;
 }
 
 .proposal-page {
+  --bg: #0f1b4d;
+  --paper: #1f2f7a;
+  --ink: #f4f1e8;
+  --muted: #b9c3ea;
+  --accent: #ffb020;
+  --accent-hover: #ffc454;
+  --on-accent: #0f1b4d;
   min-height: 100vh;
-  padding: clamp(1rem, 3vw, 2.5rem);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  padding: 1.2rem 6vw 3.2rem;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.proposal-page a {
+  color: inherit;
 }
 
 .proposal-hero,
 .proposal-card {
-  width: min(1040px, 100%);
+  width: min(980px, 100%);
   margin: 0 auto;
 }
 
 .proposal-hero {
-  padding: clamp(1.25rem, 3vw, 2.25rem);
-  border: 1px solid rgba(24, 32, 51, 0.16);
-  border-radius: 28px;
-  background: #fffaf0;
-  box-shadow: 0 24px 70px rgba(24, 32, 51, 0.12);
+  position: relative;
+  min-height: 58vh;
+  padding: 0;
+  border-top: 2px solid var(--ink);
+  border-radius: 0;
+  background: linear-gradient(90deg, rgba(15, 27, 77, 0.96) 0%, rgba(15, 27, 77, 0.82) 48%, rgba(15, 27, 77, 0.58) 100%), url('/images/eads-bridge-1875.jpg') center / cover no-repeat;
+  box-shadow: none;
 }
 
 .proposal-home-link {
   display: inline-flex;
-  margin-bottom: 2rem;
-  color: #5b6476;
-  font-size: 0.9rem;
+  margin: 1.2rem 0 3.2rem;
+  color: var(--ink);
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
   text-decoration: none;
 }
 
 .proposal-home-link:hover {
-  color: #182033;
+  color: var(--accent);
 }
 
 .proposal-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+  gap: 2rem;
   align-items: end;
+  padding-bottom: clamp(2rem, 6vw, 4.8rem);
 }
 
 .proposal-hero h1 {
+  max-width: 7ch;
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(3rem, 8vw, 6.6rem);
-  font-weight: 650;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  font-size: clamp(3.8rem, 10vw, 8.8rem);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.07em;
 }
 
 .proposal-lede {
-  max-width: 62ch;
-  margin: 1.2rem 0 0;
-  color: #4b5568;
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  line-height: 1.5;
+  max-width: 35ch;
+  margin: 1.3rem 0 0;
+  color: var(--ink);
+  font-size: clamp(1.08rem, 2vw, 1.28rem);
+  line-height: 1.38;
 }
 
 .proposal-meta-card {
-  padding: 1rem;
-  border: 1px solid rgba(24, 32, 51, 0.14);
-  border-radius: 20px;
-  background: #f4f1e8;
+  padding: 1.1rem;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3);
 }
 
 .proposal-meta-card p {
   margin: 0;
+  color: var(--ink);
   line-height: 1.35;
 }
 
 .proposal-meta-card p + p {
-  margin-top: 0.8rem;
+  margin-top: 0.9rem;
 }
 
 .proposal-meta-card span,
 .proposal-field span {
   display: block;
-  margin-bottom: 0.28rem;
-  color: #6b7280;
-  font-size: 0.72rem;
-  font-weight: 800;
+  margin-bottom: 0.35rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -90,106 +112,125 @@ body {
 .proposal-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.8rem;
   align-items: center;
-  margin-top: 1.6rem;
+  margin-top: 0;
+  padding-bottom: 1.4rem;
 }
 
 .proposal-actions button {
-  border: 0;
-  border-radius: 999px;
-  background: #182033;
-  color: #fffaf0;
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  background: var(--accent);
+  color: var(--on-accent);
   cursor: pointer;
   font: inherit;
-  font-weight: 800;
-  padding: 0.78rem 1rem;
+  font-weight: 700;
+  padding: 0.78rem 1.1rem;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
 }
 
 .proposal-actions button:hover {
-  transform: translateY(-1px);
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-3px);
 }
 
 .proposal-actions .secondary {
-  border: 1px solid rgba(24, 32, 51, 0.18);
+  border-color: var(--ink);
   background: transparent;
-  color: #182033;
+  color: var(--ink);
+}
+
+.proposal-actions .secondary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-accent);
 }
 
 .proposal-actions span {
-  color: #6b7280;
+  color: var(--muted);
   font-size: 0.92rem;
 }
 
 .proposal-list {
   display: grid;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.2rem;
+  margin-top: 3.2rem;
 }
 
 .proposal-card {
   position: relative;
-  padding: clamp(1.2rem, 3vw, 2rem);
-  border: 1px solid rgba(24, 32, 51, 0.14);
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 16px 42px rgba(24, 32, 51, 0.08);
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.3);
 }
 
 .proposal-rank {
   display: inline-flex;
-  margin-bottom: 0.9rem;
-  border-radius: 999px;
-  background: #edf2ff;
-  color: #30446f;
-  font-size: 0.76rem;
-  font-weight: 900;
+  margin-bottom: 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
-  padding: 0.35rem 0.58rem;
+  padding: 0.18rem 0.48rem;
   text-transform: uppercase;
 }
 
 .proposal-card h2 {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+  font-size: clamp(2rem, 4.8vw, 3.8rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
 }
 
 .proposal-tagline {
-  margin: 0.55rem 0 1.25rem;
-  color: #374151;
-  font-size: 1.12rem;
+  max-width: 58ch;
+  margin: 0.7rem 0 1.2rem;
+  color: var(--muted);
+  font-size: 1.08rem;
   font-weight: 700;
+  line-height: 1.35;
 }
 
 .proposal-card h3 {
-  margin: 1.15rem 0 0.5rem;
-  color: #111827;
-  font-size: 0.84rem;
-  font-weight: 900;
+  margin: 1.25rem 0 0.55rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .proposal-card ul {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.52rem;
   margin: 0;
-  padding-left: 1.2rem;
+  padding-left: 1.1rem;
 }
 
 .proposal-card li,
 .proposal-ai p {
-  color: #334155;
-  line-height: 1.55;
+  color: var(--ink);
+  line-height: 1.48;
+}
+
+.proposal-card li::marker {
+  color: var(--accent);
 }
 
 .proposal-ai {
-  border-top: 1px solid rgba(24, 32, 51, 0.12);
-  margin-top: 1.1rem;
-  padding-top: 0.15rem;
+  border-top: 2px solid var(--ink);
+  margin-top: 1.25rem;
+  padding-top: 0.1rem;
 }
 
 .proposal-edit-stack {
@@ -207,13 +248,19 @@ body {
 .proposal-field textarea {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(24, 32, 51, 0.18);
-  border-radius: 14px;
-  background: #fffaf0;
-  color: #182033;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #142363;
+  color: var(--ink);
   font: inherit;
   line-height: 1.45;
   padding: 0.78rem 0.9rem;
+}
+
+.proposal-field input:focus,
+.proposal-field textarea:focus {
+  border-color: var(--accent);
+  outline: none;
 }
 
 .proposal-field textarea {
@@ -221,18 +268,28 @@ body {
 }
 
 .proposal-field small {
-  color: #6b7280;
+  color: var(--muted);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 860px) {
+  .proposal-hero {
+    min-height: auto;
+  }
+
   .proposal-hero-grid {
     grid-template-columns: 1fr;
+  }
+
+  .proposal-hero h1 {
+    max-width: none;
   }
 }
 
 @media print {
-  body {
+  body,
+  .proposal-page {
     background: #fff;
+    color: #111;
   }
 
   .proposal-page {
@@ -241,9 +298,18 @@ body {
 
   .proposal-hero,
   .proposal-card {
-    border-radius: 0;
+    background: #fff;
+    color: #111;
     box-shadow: none;
     page-break-inside: avoid;
+  }
+
+  .proposal-card li,
+  .proposal-ai p,
+  .proposal-lede,
+  .proposal-tagline,
+  .proposal-meta-card p {
+    color: #111;
   }
 
   .proposal-actions,
