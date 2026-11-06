@@ -149,6 +149,12 @@ $$;
 insert into public.wap_products (sku, name, category, description, unit, price_cents, stock_on_hand, sort_order) values
   ('palm-oil-1gal', 'Organic Red Palm Oil', 'palm-oil', 'Sustainably sourced from smallholder farms in Sierra Leone. High smoke point for frying and sautéing.', '1 gallon', 3000, 24, 1),
   ('palm-oil-case', 'Organic Red Palm Oil, Case of 4', 'palm-oil', 'One case: four 1-gallon containers.', 'case of 4 gallons', 10000, 12, 2),
+  ('palm-oil-16oz', 'Organic Red Palm Oil', 'palm-oil', 'Sustainably sourced from smallholder farms in Sierra Leone. High smoke point for frying and sautéing.', '16 ounce jar', 800, 40, 3),
+  ('palm-oil-16oz-case', 'Organic Red Palm Oil, Case of 12', 'palm-oil', 'One case: twelve 16-ounce jars.', 'case of 12 · 16 oz', 8000, 10, 4),
+  ('palm-oil-32oz', 'Organic Red Palm Oil', 'palm-oil', 'Sustainably sourced from smallholder farms in Sierra Leone. High smoke point for frying and sautéing.', '32 ounce jar', 1400, 40, 5),
+  ('palm-oil-32oz-case', 'Organic Red Palm Oil, Case of 12', 'palm-oil', 'One case: twelve 32-ounce jars.', 'case of 12 · 32 oz', 14000, 10, 6),
+  ('palm-oil-half', 'Organic Red Palm Oil', 'palm-oil', 'Sustainably sourced from smallholder farms in Sierra Leone. High smoke point for frying and sautéing.', '1/2 gallon', 1800, 24, 7),
+  ('palm-oil-half-case', 'Organic Red Palm Oil, Case of 6', 'palm-oil', 'One case: six 1/2-gallon containers.', 'case of 6 · 1/2 gal', 9000, 10, 8),
   ('smoked-kuta', 'Smoked Kuta (Barracuda)', 'smoked-fish', 'Smoked barracuda.', 'each', 1500, 20, 10),
   ('smoked-kinnie', 'Smoked Kinnie (Baby Barracuda)', 'smoked-fish', 'Smoked round fish.', 'each', 1500, 20, 11),
   ('smoked-catfish', 'Smoked Catfish', 'smoked-fish', 'Smoked catfish.', 'each', 1500, 20, 12),
