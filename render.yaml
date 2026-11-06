@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: baglini-co
+    runtime: node
+    plan: starter
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: node wap-server/production.js
+    healthCheckPath: /api/wap/products
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production

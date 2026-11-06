@@ -4,6 +4,7 @@
 //   PATCH  { type: 'order', id, action: 'advance' | 'cancel', staffNote? }
 //          { type: 'product', sku, price_cents?, stock_on_hand?, active? }
 //          { type: 'wholesale', id, status }
+import { catalogProducts } from '../../wap-server/catalog.js'
 import {
   CANCELLABLE,
   HttpError,
@@ -11,16 +12,33 @@ import {
   STATUSES,
   adminCookieHeader,
   clearAdminCookieHeader,
+  hasSupabase,
   isAdmin,
   passwordMatches,
   sendError,
   stripe,
   supabase,
 } from '../../wap-server/lib.js'
+import { advanceStripeOrder, listStripeOrders, refundStripeOrder, patchStripeOrder } from '../../wap-server/stripe-orders.js'
 
 const WHOLESALE_STATUSES = ['new', 'contacted', 'closed']
 
+function isStripeOrderId(id) {
+  return String(id).startsWith('cs_')
+}
+
 async function loadQueue(res) {
+  if (!hasSupabase()) {
+    const orders = await listStripeOrders()
+    res.setHeader('Cache-Control', 'no-store')
+    return res.status(200).json({
+      orders,
+      products: catalogProducts(),
+      wholesale: [],
+      statuses: STATUSES,
+    })
+  }
+
   const db = supabase()
   const [orders, products, wholesale] = await Promise.all([
     db.from('wap_orders').select('*, wap_order_items(*)').order('created_at', { ascending: false }).limit(300),
@@ -38,6 +56,7 @@ async function loadQueue(res) {
 }
 
 async function advanceOrder(id, staffNote) {
+  if (isStripeOrderId(id) || !hasSupabase()) return advanceStripeOrder(id, staffNote)
   const db = supabase()
   const { data: order, error } = await db.from('wap_orders').select('status').eq('id', id).single()
   if (error || !order) throw new HttpError(404, 'Order not found.')
@@ -57,6 +76,7 @@ async function advanceOrder(id, staffNote) {
 }
 
 async function cancelOrder(id, staffNote) {
+  if (isStripeOrderId(id) || !hasSupabase()) return refundStripeOrder(id, staffNote)
   const db = supabase()
   const { data: order, error } = await db
     .from('wap_orders')
@@ -102,19 +122,21 @@ export default async function handler(req, res) {
 
     if (req.method === 'PATCH') {
       const body = req.body ?? {}
-      const db = supabase()
+      const db = hasSupabase() ? supabase() : null
 
       if (body.type === 'order') {
         const id = String(body.id ?? '')
         if (body.action === 'advance') await advanceOrder(id, body.staffNote)
         else if (body.action === 'cancel') await cancelOrder(id, body.staffNote)
         else if (typeof body.staffNote === 'string') {
-          await db.from('wap_orders').update({ staff_note: body.staffNote.slice(0, 1000) }).eq('id', id)
+          if (isStripeOrderId(id) || !hasSupabase()) await patchStripeOrder(id, { staff_note: body.staffNote.slice(0, 500) })
+          else await db.from('wap_orders').update({ staff_note: body.staffNote.slice(0, 1000) }).eq('id', id)
         } else throw new HttpError(400, 'Unknown order action.')
         return res.status(200).json({ ok: true })
       }
 
       if (body.type === 'product') {
+        if (!hasSupabase()) throw new HttpError(409, 'Inventory edits need the product database. Orders still track in Stripe.')
         const patch = { updated_at: new Date().toISOString() }
         if (body.price_cents !== undefined) {
           const price = Number(body.price_cents)
@@ -133,6 +155,7 @@ export default async function handler(req, res) {
       }
 
       if (body.type === 'wholesale') {
+        if (!hasSupabase()) throw new HttpError(409, 'Wholesale tracking needs the database.')
         if (!WHOLESALE_STATUSES.includes(body.status)) throw new HttpError(400, 'Unknown status.')
         const { error } = await db.from('wap_wholesale_inquiries').update({ status: body.status }).eq('id', String(body.id ?? ''))
         if (error) throw error

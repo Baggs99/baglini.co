@@ -2,10 +2,11 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { wapApiPlugin } from './wap-server/vite-api.js'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), wapApiPlugin()],
   build: {
     rollupOptions: {
       // The portfolio is the root entry. West African Produce is a subpage with its own storefront and staff queue.

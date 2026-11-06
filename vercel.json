@@ -12,6 +12,6 @@
     { "source": "/privacy", "destination": "/privacy/index.html" },
     { "source": "/support", "destination": "/support/index.html" },
     { "source": "/UCT", "destination": "/UCT/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

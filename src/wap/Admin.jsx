@@ -66,7 +66,7 @@ function Login({ onLogin }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-wap-navy p-6">
       <form onSubmit={submit} className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-2xl">
-        <p className="font-display text-2xl text-wap-navy">WAP order queue</p>
+        <p className="font-display text-2xl text-wap-navy">Order queue</p>
         <p className="mt-1 text-sm text-wap-muted">Staff only.</p>
         <label className="mt-6 block text-sm font-medium">
           Password
@@ -287,7 +287,7 @@ function Inventory({ products, onChanged, onError }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-wap-navy/10 bg-white p-6">
       <p className="mb-4 text-sm text-wap-muted">
-        Stock drops when an order is placed and returns to inventory if the order expires or is cancelled. Set price in dollars.
+        Catalog prices come from the storefront until a product database is connected. Purchase orders still track in Stripe; inventory edits need that database.
       </p>
       <table className="w-full text-left text-sm">
         <thead className="text-xs uppercase tracking-wider text-wap-muted">
@@ -382,7 +382,7 @@ export function Admin() {
     <div className="min-h-screen bg-wap-cream">
       <header className="bg-wap-navy text-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
-          <p className="font-display text-lg">WAP order queue</p>
+          <p className="font-display text-lg">Purchase orders</p>
           <button
             type="button"
             className="text-sm text-white/70 hover:text-white"

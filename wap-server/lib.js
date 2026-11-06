@@ -23,6 +23,10 @@ export function requireEnv(...names) {
 }
 
 let supabaseClient
+export function hasSupabase() {
+  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+}
+
 export function supabase() {
   requireEnv('SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY')
   supabaseClient ??= createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -39,10 +43,14 @@ export function stripe() {
 }
 
 export function publicOrigin(req) {
+  const host = String(req.headers['x-forwarded-host'] ?? req.headers.host ?? '')
+  if (host) {
+    const local = host.includes('localhost') || host.startsWith('127.0.0.1')
+    const proto = req.headers['x-forwarded-proto'] ?? (local ? 'http' : 'https')
+    return `${proto}://${host}`.replace(/\/$/, '')
+  }
   if (process.env.APP_URL) return process.env.APP_URL.replace(/\/$/, '')
-  const host = req.headers['x-forwarded-host'] ?? req.headers.host ?? 'localhost:3000'
-  const proto = req.headers['x-forwarded-proto'] ?? (host.startsWith('localhost') ? 'http' : 'https')
-  return `${proto}://${host}`
+  return 'http://localhost:5173'
 }
 
 // Customer-facing confirmation number. No 0/O/1/I so it can be read aloud over the phone.
@@ -95,14 +103,20 @@ export function passwordMatches(candidate) {
   return a.length === b.length && crypto.timingSafeEqual(a, b)
 }
 
+function cookieSecurity() {
+  return process.env.VERCEL || process.env.NODE_ENV === 'production' || process.env.APP_URL?.startsWith('https')
+    ? 'Secure; '
+    : ''
+}
+
 export function adminCookieHeader() {
   const expires = Date.now() + ADMIN_TTL_MS
   const token = `${expires}.${adminSignature(expires)}`
-  return `${ADMIN_COOKIE}=${token}; HttpOnly; Secure; SameSite=Strict; Path=/api/wap; Max-Age=${ADMIN_TTL_MS / 1000}`
+  return `${ADMIN_COOKIE}=${token}; HttpOnly; ${cookieSecurity()}SameSite=Lax; Path=/api/wap; Max-Age=${ADMIN_TTL_MS / 1000}`
 }
 
 export function clearAdminCookieHeader() {
-  return `${ADMIN_COOKIE}=; HttpOnly; Secure; SameSite=Strict; Path=/api/wap; Max-Age=0`
+  return `${ADMIN_COOKIE}=; HttpOnly; ${cookieSecurity()}SameSite=Lax; Path=/api/wap; Max-Age=0`
 }
 
 export function isAdmin(req) {
