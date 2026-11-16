@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import '../styles/home.css'
 import {
   about,
@@ -17,35 +17,46 @@ const ledeCopy =
 
 const email = contactLinks.find((link) => link.id === 'email')
 const resume = contactLinks.find((link) => link.id === 'resume')
-const footerLinks = contactLinks.filter((link) => link.id !== 'email' && link.id !== 'resume')
+const reachLinks = ['email', 'linkedin', 'github']
+  .map((id) => contactLinks.find((link) => link.id === id))
+  .filter(Boolean)
 
-function shortName(title) {
-  return title.split(' ').slice(0, 2).join(' ')
+function ReachIcon({ id }) {
+  if (id === 'email') {
+    return (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="5" y="10" width="38" height="28" fill="none" stroke="currentColor" strokeWidth="2.4" />
+        <path d="M7 14l17 13L41 14" fill="none" stroke="currentColor" strokeWidth="2.4" />
+      </svg>
+    )
+  }
+  if (id === 'linkedin') {
+    return (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="6" y="6" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="2.4" />
+        <path
+          d="M16 21.5V33M16 15.5h.02M23 33v-6.8a4 4 0 018 0V33M23 21.5V33"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+        />
+      </svg>
+    )
+  }
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.4 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2A11.5 11.5 0 0 0 12 .5Z"
+      />
+    </svg>
+  )
 }
 
 export function Home() {
-  const [current, setCurrent] = useState(0)
-  const stripRef = useRef(null)
   const stageRef = useRef(null)
   const tileRef = useRef(null)
-  const project = projects[current]
-
-  // Keep the selected thumbnail centred in the strip
-  useEffect(() => {
-    const strip = stripRef.current
-    const button = strip?.children[current]
-    if (!strip || !button) return
-    strip.scrollTo({ left: button.offsetLeft - (strip.clientWidth - button.offsetWidth) / 2, behavior: 'smooth' })
-  }, [current])
-
-  useEffect(() => {
-    function onKey(event) {
-      if (event.key === 'ArrowRight') setCurrent((n) => Math.min(projects.length - 1, n + 1))
-      if (event.key === 'ArrowLeft') setCurrent((n) => Math.max(0, n - 1))
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
 
   function onPointerMove(event) {
     const rect = stageRef.current.getBoundingClientRect()
@@ -118,63 +129,41 @@ export function Home() {
       </section>
 
       <section className="home-section home-rise" id="work" style={{ animationDelay: '0.5s' }}>
-        <h2 className="home-section-head">
-          Selected work
-          <span>
-            {String(current + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-          </span>
-        </h2>
-        <div className="home-screen">
-          <div className="home-shot">
-            {projects.map((item, index) => (
-              <img
-                key={item.id}
-                src={item.previewSrc}
-                alt={item.previewAlt}
-                className={index === current ? 'on' : undefined}
-              />
-            ))}
-          </div>
-          <div className="home-cap">
-            <div>
-              <p className="home-category">{project.category}</p>
-              <h3>{project.title}</h3>
-              <p className="home-desc">{project.description}</p>
-              <div className="home-tags">
-                {project.techTags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-            </div>
-            <div className="home-actions">
-              <a className="home-go" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                {project.ctaPrimary}
-              </a>
-              {project.paperUrl ? (
-                <a className="home-sublink" href={project.paperUrl} target="_blank" rel="noopener noreferrer">
-                  {project.ctaSecondary}
+        <h2 className="home-section-head">Selected work</h2>
+        <div className="home-shelf">
+          {projects.map((item) => {
+            const extraHref = item.paperUrl || item.githubUrl
+            const extraLabel = item.paperUrl ? item.ctaSecondary : item.ctaGithub
+            return (
+              <article className="home-video" key={item.id}>
+                <a className="home-video-thumb" href={item.liveUrl} target="_blank" rel="noopener noreferrer">
+                  {item.previewSrc ? (
+                    <img src={item.previewSrc} alt={item.previewAlt || ''} />
+                  ) : (
+                    <span className="home-video-fallback" aria-hidden="true" />
+                  )}
+                  <span className="home-video-badge">{item.ctaPrimary}</span>
                 </a>
-              ) : project.githubUrl ? (
-                <a className="home-sublink" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                  {project.ctaGithub}
-                </a>
-              ) : null}
-            </div>
-          </div>
-        </div>
-        <div className="home-strip" ref={stripRef} role="group" aria-label="Projects">
-          {projects.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`home-thumb${index === current ? ' on' : ''}`}
-              onClick={() => setCurrent(index)}
-              aria-pressed={index === current}
-            >
-              <img src={item.previewSrc} alt="" />
-              <span>{shortName(item.title)}</span>
-            </button>
-          ))}
+                <div className="home-video-body">
+                  <span className="home-video-mark" aria-hidden="true">DB</span>
+                  <div>
+                    <h3>
+                      <a href={item.liveUrl} target="_blank" rel="noopener noreferrer">
+                        {item.title}
+                      </a>
+                    </h3>
+                    <p className="home-video-by">Dan Baglini · {item.category}</p>
+                    <p className="home-video-desc">{item.description}</p>
+                    {extraHref ? (
+                      <a className="home-sublink" href={extraHref} target="_blank" rel="noopener noreferrer">
+                        {extraLabel}
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              </article>
+            )
+          })}
         </div>
       </section>
 
@@ -221,16 +210,36 @@ export function Home() {
         </article>
       </section>
 
-      <footer className="home-footer" id="contact">
-        <div className="home-contact">
-          <a href={email.href}>{email.href.replace('mailto:', '')}</a>
-          <a href={resume.href}>Resume</a>
-          {footerLinks.map((link) => (
-            <a key={link.id} href={link.href} target="_blank" rel="noopener noreferrer">
-              {link.label}
-            </a>
-          ))}
+      <section className="home-section home-contact-section" id="contact" aria-labelledby="contact-heading">
+        <h2 className="home-section-head" id="contact-heading">
+          Contact
+        </h2>
+        <div className="home-contact-grid">
+          <a className="home-resume" href={resume.href} target="_blank" rel="noopener noreferrer">
+            <img src="/images/resume-preview.png" alt="Preview of Dan Baglini's one-page resume" />
+            <span>Open resume</span>
+          </a>
+          <div className="home-reach">
+            {reachLinks.map((link) => (
+              <a
+                key={link.id}
+                className="home-reach-link"
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                <ReachIcon id={link.id} />
+                <span>
+                  <span className="home-reach-label">{link.label}</span>
+                  <span className="home-reach-hint">{link.id === 'email' ? email.href.replace('mailto:', '') : link.hint}</span>
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
+      </section>
+
+      <footer className="home-footer">
         <div className="home-foot-row">
           <p>© {new Date().getFullYear()} Dan Baglini</p>
           <a href={tip.href} target="_blank" rel="noopener noreferrer">
