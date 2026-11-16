@@ -250,7 +250,7 @@ export const contactLinks = [
   {
     id: 'resume',
     label: 'Resume',
-    href: '/Baglini Resume Yale Format.pdf',
+    href: '/Baglini Resume.pdf',
     hint: 'PDF download',
   },
   {
