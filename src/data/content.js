@@ -52,17 +52,17 @@ export const portfolioFeatured = [
   },
   {
     id: 'case-repo',
-    title: 'Case Repo',
+    title: 'MyCase.Study',
     category: 'MBA Recruiting Tool',
     description:
-      'A searchable case interview repository for MBA students, built to help consulting candidates find, preview, rate, and practice real cases.',
+      'A case interview library where students search the bank, queue a case, and practice it. More than 150 Yale students use it each week.',
     techTags: ['Search', 'Case Prep', 'Cloud Storage', 'MBA Recruiting'],
-    liveUrl: 'https://cases.baglini.co/',
-    ctaPrimary: 'Browse Cases',
+    liveUrl: 'https://mycase.study/',
+    ctaPrimary: 'Open library',
     visualVariant: 'indigo',
     previewSrc: '/previews/case-repo.png',
     previewAlt:
-      'Case Repo browse experience: case library hero, metrics, search and filters, and results grid for MBA consulting interviews',
+      'MyCase.Study library: search, filters, the case list, and a selected case open beside it',
   },
   {
     id: 'ri-calculator',
@@ -99,6 +99,22 @@ export const portfolioOther = [
     visualVariant: 'slate',
   },
   {
+    id: 'west-african-produce',
+    title: 'West African Produce',
+    category: 'Client storefront',
+    description:
+      'Paid work for a Sierra Leone palm oil importer. Shoppers choose a size and check out, and the order lands in a staff queue.',
+    techTags: ['Storefront', 'Checkout', 'Palm oil', 'Client work'],
+    liveUrl: 'https://westafricanproduce.baglini.co/',
+    ctaPrimary: 'Visit shop',
+    githubUrl: 'https://github.com/Baggs99/west-african-produce',
+    ctaGithub: 'GitHub',
+    visualVariant: 'amber',
+    previewSrc: '/previews/west-african-produce.png',
+    previewAlt:
+      'West African Produce shop: a gallon of red palm oil from Sierra Leone beside size choices, price, and add to cart',
+  },
+  {
     id: '4-connect',
     title: '4 Connect',
     category: 'Web Game',
@@ -111,6 +127,20 @@ export const portfolioOther = [
     previewSrc: '/previews/4-connect.png',
     previewAlt:
       '4 Connect mobile game interface on a framed canvas: modes, players, filled board mid-game, and controls',
+  },
+  {
+    id: 'yale-elc',
+    title: 'Yale Education Leadership Conference',
+    category: 'Conference website',
+    description:
+      'The public site for Yale SOM’s education conference: tickets, the April 16, 2027 program at Evans Hall, speakers, and sponsorship.',
+    techTags: ['Yale SOM', 'Events', 'Web Design', 'Education'],
+    liveUrl: 'https://yaleeducationconference.com/',
+    ctaPrimary: 'Visit site',
+    visualVariant: 'slate',
+    previewSrc: '/previews/yale-elc.png',
+    previewAlt:
+      'Yale Education Leadership Conference homepage, with a Zhang Auditorium keynote and the April 16, 2027 date at Evans Hall',
   },
   {
     id: 'elc-outreach',
